@@ -1,6 +1,7 @@
 # getgroovy
 
-A new Flutter project.
+A social media app aimed for people who enjoy finding new music and 
+wondering what their friends are listening to.
 
 ## Getting Started
 
