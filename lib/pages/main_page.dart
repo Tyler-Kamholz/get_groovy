@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/home_page.dart';
-import 'package:getgroovy/pages/notifications_page.dart';
 import 'package:getgroovy/pages/post_page.dart';
 import 'package:getgroovy/pages/profile_page.dart';
 import 'package:getgroovy/pages/search_page.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -13,10 +14,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int pageIndex = 1;
+  final controller = ScrollController();
 
+  int pageIndex = 0;
   List pages = [
-    const NotificationsPage(),
     const HomePage(),
     const PostPage(),
     const SearchPage(),
@@ -32,30 +33,48 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
-      body: pages[pageIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white.withOpacity(0),
-        iconSize: 30,
-        unselectedFontSize: 0, //only icons can be pressed
-        selectedFontSize: 0, //this makes the icons the only ones being pressed
-        onTap: onTap, //this changes the index
-        currentIndex: pageIndex, //this moves the icons to show being pressed
-        selectedItemColor: Colors.black, //icons are black
-        unselectedItemColor:
-            Colors.grey.withOpacity(.5), //icons not pressed are grey
-        showSelectedLabels: false, //no labels
-        showUnselectedLabels: false, //no labels
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.notifications), label: 'Notifications'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Post'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ], //these are all the pages above this comment.
-      ),
-    );
+        appBar: ScrollAppBar(
+          controller: controller,
+          backgroundColor: Colors.black,
+          leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.menu),
+            color: Colors.white,
+          ),
+        ),
+        body: pages[pageIndex],
+        bottomNavigationBar: Container(
+          color: Colors.black,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+            child: GNav(
+              tabs: const [
+                GButton(
+                  icon: Icons.home,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: Icons.add_circle,
+                  text: 'Post',
+                ),
+                GButton(
+                  icon: Icons.search_rounded,
+                  text: 'Search',
+                ),
+                GButton(
+                  icon: Icons.person,
+                  text: 'Profile',
+                ),
+              ],
+              gap: 10,
+              backgroundColor: Colors.black,
+              color: Colors.white,
+              activeColor: Colors.white,
+              tabBackgroundColor: Colors.grey.shade800,
+              padding: const EdgeInsets.all(20),
+              onTabChange: onTap,
+            ),
+          ),
+        ));
   }
 }
