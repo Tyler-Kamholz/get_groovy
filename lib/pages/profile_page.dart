@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:getgroovy/main.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,9 +9,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  @override
   final controller = ScrollController();
 
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -24,11 +21,11 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
             width: 200,
             height: 200,
-            margin: EdgeInsets.all(20),
+            margin: const EdgeInsets.all(20),
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+          padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
           child: Container(
             color: Colors.green,
             width: 200,
