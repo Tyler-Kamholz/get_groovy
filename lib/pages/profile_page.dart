@@ -19,7 +19,6 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           Center(
             child: Container(
-              color: Colors.black,
               width: 200,
               height: 200,
               margin: const EdgeInsets.all(20),
@@ -28,7 +27,6 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
             child: Container(
-              color: Colors.green,
               width: 200,
               height: 20,
               child: const Text(
@@ -40,7 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: SizedBox(
-              //color: Colors.blue,
               width: 400,
               height: 400,
               child: Snap(
@@ -58,7 +55,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Text('add to playlist goes here  with preview'),
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 15, horizontal: 30),
-                        tileColor: Colors.white,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                       ),

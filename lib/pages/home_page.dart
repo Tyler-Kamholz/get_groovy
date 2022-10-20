@@ -14,7 +14,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 101, 101, 101).withOpacity(.1),
       body: Snap(
         controller: controller.appBar,
         child: ListView.builder(
@@ -28,7 +27,6 @@ class _HomePageState extends State<HomePage> {
                 subtitle: const Text('add to playlist goes here  with preview'),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                tileColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
               ),
