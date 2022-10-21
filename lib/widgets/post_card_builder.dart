@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../pages/helpers/helpers.dart';
+import '../helpers/helpers.dart';
 
 class PostCardBuilder {
   static Card buildPostCard() {
