@@ -26,10 +26,10 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-enum _profileTabs { following, posts, followers }
+enum _ProfileTabs { following, posts, followers }
 
 class _ProfilePageState extends State<ProfilePage> {
-  _profileTabs _currentTab = _profileTabs.posts;
+  _ProfileTabs _currentTab = _ProfileTabs.posts;
   final controller = ScrollController();
 
   @override
@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(widget.userID,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
                     )),
@@ -133,19 +133,19 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         createStackedbutton(512, 'Following', () {
           setState(() {
-            _currentTab = _profileTabs.followers;
+            _currentTab = _ProfileTabs.followers;
           });
         }),
         const VerticalDivider(),
         createStackedbutton(1024, 'Posts', () {
           setState(() {
-            _currentTab = _profileTabs.posts;
+            _currentTab = _ProfileTabs.posts;
           });
         }),
         const VerticalDivider(),
         createStackedbutton(128, 'Followers', () {
           setState(() {
-            _currentTab = _profileTabs.following;
+            _currentTab = _ProfileTabs.following;
           });
         }),
       ],
@@ -173,11 +173,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   SliverList buildSliverList() {
     switch (_currentTab) {
-      case _profileTabs.followers:
+      case _ProfileTabs.followers:
         return buildUserList();
-      case _profileTabs.following:
+      case _ProfileTabs.following:
         return buildUserList();
-      case _profileTabs.posts:
+      case _ProfileTabs.posts:
         return buildPostList();
     }
   }
@@ -225,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget returnThing() {
-    return Container(
+    return SizedBox(
       width: 300,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -234,17 +234,15 @@ class _ProfilePageState extends State<ProfilePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(widget.userID, style: TextStyle(fontSize: 32)),
+              Text(widget.userID, style: const TextStyle(fontSize: 32)),
             ],
           ),
           Expanded(
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(onPressed: () {}, icon: Icon(Icons.qr_code)),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code)),
+              ],
             ),
           ),
         ],
