@@ -5,7 +5,9 @@ import 'package:getgroovy/pages/post_page.dart';
 import 'package:getgroovy/pages/profile_page.dart';
 import 'package:getgroovy/pages/search_page.dart';
 import 'package:getgroovy/pages/settings_page.dart';
+import 'package:getgroovy/themes/themeprovider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -50,7 +52,6 @@ class _MainPageState extends State<MainPage> {
                 )),
           ],
           controller: controller,
-          backgroundColor: Colors.black,
           leading: Padding(
             padding: const EdgeInsets.only(left: 10),
             child: IconButton(
@@ -58,13 +59,11 @@ class _MainPageState extends State<MainPage> {
                 settings(context);
               },
               icon: const Icon(Icons.menu),
-              color: Colors.white,
             ),
           ),
         ),
         body: pages[pageIndex],
         bottomNavigationBar: Container(
-          color: Colors.black,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
             child: GNav(
@@ -87,10 +86,6 @@ class _MainPageState extends State<MainPage> {
                 ),
               ],
               gap: 10,
-              backgroundColor: Colors.black,
-              color: Colors.white,
-              activeColor: Colors.white,
-              tabBackgroundColor: Colors.grey.shade800,
               padding: const EdgeInsets.all(20),
               onTabChange: onTap,
             ),

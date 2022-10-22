@@ -22,7 +22,6 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: ScrollAppBar(
         controller: controller,
-        backgroundColor: Colors.black,
         leading: IconButton(
           onPressed: () {
             backToPage(context);

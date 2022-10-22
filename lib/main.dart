@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:getgroovy/themes/mythemes.dart';
+import 'package:getgroovy/themes/themeprovider.dart';
+import 'package:provider/provider.dart';
 import 'pages/main_page.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    title: 'Get Groovy',
-    home: MyApp(),
-  ));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,6 +14,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: MainPage());
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      builder: (context, child) {
+        var themeProvider = Provider.of<ThemeProvider>(context);
+        return MaterialApp(
+          title: 'Get Groovy',
+          home: const MainPage(),
+          theme: MyThemes.lightTheme,
+          darkTheme: MyThemes.darkTheme,
+          themeMode: themeProvider.getThemeMode,
+        );
+      }
+    );
   }
 }
