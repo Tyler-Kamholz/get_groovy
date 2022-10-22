@@ -23,13 +23,11 @@ class _NotificationsPageState extends State<NotificationsPage> {
     return Scaffold(
       appBar: ScrollAppBar(
         controller: controller,
-        backgroundColor: Colors.black,
         leading: IconButton(
           onPressed: () {
             backToPage(context);
           },
           icon: const Icon(Icons.chevron_left),
-          color: Colors.white,
         ),
       ),
       body: const Text('noifications page'),
