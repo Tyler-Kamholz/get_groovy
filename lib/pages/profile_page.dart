@@ -2,11 +2,14 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:getgroovy/helpers/helpers.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import '../widgets/post_card_builder.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final String userID;
+
+  const ProfilePage({super.key, required this.userID});
 
   static const favStyle = TextStyle(
     fontWeight: FontWeight.bold,
@@ -28,19 +31,6 @@ enum _profileTabs { following, posts, followers }
 class _ProfilePageState extends State<ProfilePage> {
   _profileTabs _currentTab = _profileTabs.posts;
   final controller = ScrollController();
-  late final outerListChildren = <Widget>[
-    SliverToBoxAdapter(
-      child: Column(
-        children: [
-          buildAvatar(),
-          buildName(),
-          buildButtonBar(),
-          const Divider(),
-        ],
-      ),
-    ),
-    buildSliverList(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +68,61 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget buildName() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-      child: Text('Bob Robertson',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          )),
+      padding: const EdgeInsets.only(bottom: 10),
+      child: SizedBox(
+        width: 300,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(child: Container()),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(widget.userID,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    )),
+              ],
+            ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  IconButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: Text(widget.userID),
+                                  content: SizedBox(
+                                    height: 250,
+                                    width: 250,
+                                    child: QrImage(
+                                      data: widget.userID,
+                                      version: QrVersions.auto,
+                                    ),
+                                  ),
+                                  actions: [
+                                    Center(
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              'Done',
+                                              style: TextStyle(fontSize: 16),
+                                            )))
+                                  ],
+                                ));
+                      },
+                      icon: const Icon(Icons.qr_code)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -143,18 +182,33 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  String randomUsername(int seed) {
+    return 'Username@${Random(seed).nextInt(8000) + 1000}';
+  }
+
   SliverList buildUserList() {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => ListTile(
           leading: CircleAvatar(
-              backgroundColor: ColorHelper.random(), minRadius: 20, maxRadius: 20),
-          title: Text('Username@${Random().nextInt(8000) + 1000}'),
+              backgroundColor: ColorHelper.random(),
+              minRadius: 20,
+              maxRadius: 20),
+          title: Text(randomUsername(index)),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    title: Text(randomUsername(index)),
+                  ),
+                  body: ProfilePage(userID: randomUsername(index))),
+              fullscreenDialog: true,
+            ));
+          },
         ),
         childCount: 15,
       ),
@@ -170,7 +224,31 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  
-
-  
+  Widget returnThing() {
+    return Container(
+      width: 300,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Expanded(child: Container()),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(widget.userID, style: TextStyle(fontSize: 32)),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  IconButton(onPressed: () {}, icon: Icon(Icons.qr_code)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
