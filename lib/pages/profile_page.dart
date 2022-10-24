@@ -117,6 +117,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: QrImage(
                   data: widget.userID,
                   version: QrVersions.auto,
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                 ),
               ),
               actions: [
