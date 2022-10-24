@@ -63,7 +63,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   tiles: [
                     SettingsTile(
                       title: Text('Logout', style: _logoutTextStyle,),
-                      leading: const Icon(Icons.logout),
+                      leading: const Icon(Icons.logout, color: Colors.red,),
                       onPressed: (context) {},
                     ),
                   ],
