@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:getgroovy/pages/home_page.dart';
-import 'package:getgroovy/pages/post_page.dart';
-import 'package:getgroovy/pages/profile_page.dart';
-import 'package:getgroovy/pages/search_page.dart';
-import 'package:getgroovy/pages/settings_page.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:settings_ui/settings_ui.dart';
+
+import '../themes/themeprovider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -15,22 +12,67 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final controller = ScrollController();
+
+  final TextStyle _logoutTextStyle = const TextStyle(
+    color: Colors.red,
+    fontWeight: FontWeight.bold,
+  );
 
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: ScrollAppBar(
-        controller: controller,
-        leading: IconButton(
-          onPressed: () {
-            backToPage(context);
-          },
-          icon: const Icon(Icons.chevron_left),
-          color: Colors.white,
-        ),
+      appBar: AppBar(),
+      body: Column(
+        children: [
+          Expanded(
+            child: SettingsList(
+              sections: [
+                SettingsSection(
+                  title: const Text("Personalize"),
+                  tiles: [
+                    SettingsTile(
+                      title: const Text('Theme'),
+                      leading: const Icon(Icons.style),
+                      trailing: 
+                        DropdownButton(
+                          value: themeProvider.getThemeMode,
+                          items: const [
+                            DropdownMenuItem(
+                              value: ThemeMode.system,
+                              child: Text("System"),
+                            ),
+                            DropdownMenuItem(
+                              value: ThemeMode.light,
+                              child: Text("Light"),
+                            ),
+                            DropdownMenuItem(
+                              value: ThemeMode.dark,
+                              child: Text("Dark"),
+                            ),
+                          ],
+                          onChanged: (value) {
+                            themeProvider.setThemeMode(value!);
+                          },
+                      ),
+                    ),
+                  ],
+                ),
+                SettingsSection(
+                  title: const Text("Account"),
+                  tiles: [
+                    SettingsTile(
+                      title: Text('Logout', style: _logoutTextStyle,),
+                      leading: const Icon(Icons.logout),
+                      onPressed: (context) {},
+                    ),
+                  ],
+                )
+              ]
+            ),
+          ),
+        ],
       ),
-      body: Text('Settings'),
     );
   }
 
