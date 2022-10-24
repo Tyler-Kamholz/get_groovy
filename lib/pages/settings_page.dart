@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text("Settings"),),
       body: Column(
         children: [
           Expanded(
