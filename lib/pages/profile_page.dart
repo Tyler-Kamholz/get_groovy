@@ -1,12 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:getgroovy/dummy_data.dart';
 import 'package:getgroovy/helpers/helpers.dart';
-import 'package:getgroovy/themes/themeprovider.dart';
-import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../themes/mythemes.dart';
 import '../widgets/post_card_builder.dart';
 
 /// Widget to display user profiles
@@ -61,7 +59,8 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildAvatar() {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-        child: CircleAvatar(
+        child: CircleAvatar(              
+            foregroundImage: Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
             backgroundColor: ColorHelper.random(),
             minRadius: 100,
             maxRadius: 100));
@@ -192,40 +191,39 @@ class _ProfilePageState extends State<ProfilePage> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         childCount: 15,
-        (context, index) => ListTile(
-          // Profile is a random color right now
-          leading: CircleAvatar(
-              backgroundColor: ColorHelper.random(),
-              minRadius: 20,
-              maxRadius: 20),
-          // Text is a random username right now
-          title: Text(randomUsername(index)),
-          // Tapping on an entry navigates to their profile
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Scaffold(
-                  appBar: AppBar(
-                    title: Text(randomUsername(index)),
-                  ),
-                  body: ProfilePage(userID: randomUsername(index))),
-              fullscreenDialog: true,
-            ));
-          },
-        ),
+        (context, index) {
+          var name = DummyData.getRandomName();
+          return ListTile(
+            // Profile is a random color right now
+            leading: CircleAvatar(
+                foregroundImage: Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
+                backgroundColor: ColorHelper.random(),
+                minRadius: 20,
+                maxRadius: 20),
+            // Text is a random username right now
+            title: Text(name),
+            // Tapping on an entry navigates to their profile
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => Scaffold(
+                    appBar: AppBar(
+                      title: Text(name),
+                    ),
+                    body: ProfilePage(userID: name)),
+                fullscreenDialog: true,
+              ));
+            },
+          );
+        }
       ),
     );
-  }
-
-  /// Builds a random seeded username for dummy data
-  String randomUsername(int seed) {
-    return 'Username@${Random(seed).nextInt(8000) + 1000}';
   }
 
   /// Builds a list of posts using PostCardBuilder
   SliverList buildPostList() {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => PostCardBuilder.buildPostCard(),
+        (context, index) => PostCardBuilder.buildPostCard(context),
         childCount: 15,
       ),
     );

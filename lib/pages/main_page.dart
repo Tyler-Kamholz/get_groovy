@@ -5,9 +5,7 @@ import 'package:getgroovy/pages/post_page.dart';
 import 'package:getgroovy/pages/profile_page.dart';
 import 'package:getgroovy/pages/search_page.dart';
 import 'package:getgroovy/pages/settings_page.dart';
-import 'package:getgroovy/themes/themeprovider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -38,6 +36,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ScrollAppBar(
+          title: const Text("Get Groovy"),
           actions: [
             Padding(
                 padding: const EdgeInsets.only(right: 30),
@@ -63,32 +62,30 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         body: pages[pageIndex],
-        bottomNavigationBar: Container(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
-            child: GNav(
-              tabs: const [
-                GButton(
-                  icon: Icons.home,
-                  text: 'Home',
-                ),
-                GButton(
-                  icon: Icons.add_circle,
-                  text: 'Post',
-                ),
-                GButton(
-                  icon: Icons.search_rounded,
-                  text: 'Search',
-                ),
-                GButton(
-                  icon: Icons.person,
-                  text: 'Profile',
-                ),
-              ],
-              gap: 10,
-              padding: const EdgeInsets.all(20),
-              onTabChange: onTap,
-            ),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+          child: GNav(
+            tabs: const [
+              GButton(
+                icon: Icons.home_outlined,
+                text: 'Home',
+              ),
+              GButton(
+                icon: Icons.add_circle_outline,
+                text: 'Post',
+              ),
+              GButton(
+                icon: Icons.search_outlined,
+                text: 'Search',
+              ),
+              GButton(
+                icon: Icons.person_outline,
+                text: 'Profile',
+              ),
+            ],
+            gap: 10,
+            padding: const EdgeInsets.all(20),
+            onTabChange: onTap,
           ),
         ));
   }

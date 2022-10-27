@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:getgroovy/themes/mythemes.dart';
-import 'package:getgroovy/themes/themeprovider.dart';
+import 'package:getgroovy/themes/my_themes.dart';
+import 'package:getgroovy/themes/system_brightness_listener.dart';
+import 'package:getgroovy/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'pages/main_page.dart';
 
@@ -15,12 +16,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+      create: (context) => ThemeProvider(context: context),
       builder: (context, child) {
         var themeProvider = Provider.of<ThemeProvider>(context);
         return MaterialApp(
           title: 'Get Groovy',
-          home: const MainPage(),
+          home: Stack(
+            children: [
+              const MainPage(),
+              Consumer<ThemeProvider>(
+                builder: (context, value, child) => SystemBrightnessListener(provider: value)
+              ),
+            ],
+          ),
           theme: MyThemes.lightTheme,
           darkTheme: MyThemes.darkTheme,
           themeMode: themeProvider.getThemeMode,

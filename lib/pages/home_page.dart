@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView.builder(
           controller: controller,
           itemBuilder: (context, index) {
-            return PostCardBuilder.buildPostCard();
+            return PostCardBuilder.buildPostCard(context);
           },
         ),
       ),
