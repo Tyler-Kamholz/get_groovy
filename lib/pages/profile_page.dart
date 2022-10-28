@@ -2,8 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:getgroovy/helpers/helpers.dart';
+import 'package:getgroovy/themes/themeprovider.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../themes/mythemes.dart';
 import '../widgets/post_card_builder.dart';
 
 /// Widget to display user profiles
@@ -13,12 +16,6 @@ class ProfilePage extends StatefulWidget {
   final String userID;
 
   const ProfilePage({super.key, required this.userID});
-
-  /// Style for the button bar
-  static const buttonBarStyle = TextStyle(
-    fontWeight: FontWeight.bold,
-    color: Colors.black,
-  );
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -120,6 +117,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: QrImage(
                   data: widget.userID,
                   version: QrVersions.auto,
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                 ),
               ),
               actions: [
@@ -143,17 +142,18 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        createStackedbutton(512, 'Followers', _ProfileTabs.followers),
+        createStackedbutton(512, 'Followers', _ProfileTabs.followers, context),
         const VerticalDivider(),
-        createStackedbutton(1024, 'Posts', _ProfileTabs.posts),
+        createStackedbutton(1024, 'Posts', _ProfileTabs.posts, context),
         const VerticalDivider(),
-        createStackedbutton(128, 'Following', _ProfileTabs.following),
+        createStackedbutton(128, 'Following', _ProfileTabs.following, context),
       ],
     ));
   }
 
   /// Creates a button for the button bar
-  Widget createStackedbutton(int count, String context, _ProfileTabs tabToSet) {
+  Widget createStackedbutton(
+      int count, String text, _ProfileTabs tabToSet, BuildContext context) {
     return TextButton(
         onPressed: () {
           setState(() {
@@ -164,11 +164,11 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             Text(
               count.toString(),
-              style: ProfilePage.buttonBarStyle,
+              style: _getButtonBarStyle(context),
             ),
             Text(
-              context,
-              style: ProfilePage.buttonBarStyle,
+              text,
+              style: _getButtonBarStyle(context),
             ),
           ],
         ));
@@ -229,5 +229,20 @@ class _ProfilePageState extends State<ProfilePage> {
         childCount: 15,
       ),
     );
+  }
+
+  static TextStyle _getButtonBarStyle(BuildContext context) {
+    switch (Theme.of(context).brightness) {
+      case Brightness.dark:
+        return const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        );
+      case Brightness.light:
+        return const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        );
+    }
   }
 }
