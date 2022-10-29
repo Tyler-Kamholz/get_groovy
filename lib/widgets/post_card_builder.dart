@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:getgroovy/dummy_data.dart';
+import 'package:getgroovy/widgets/reaction_bar.dart';
 
 import '../helpers/helpers.dart';
 import '../pages/profile_page.dart';
@@ -16,9 +17,9 @@ class Song {
 
 class PostCardBuilder {
   static Card buildPostCard(BuildContext context) {
-  Song song = DummyData.getRandomSong();
-  String name = DummyData.getRandomName();
-  Image image = DummyData.getRandomImage();
+    Song song = DummyData.getRandomSong();
+    String name = DummyData.getRandomName();
+    Image image = DummyData.getRandomImage();
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
@@ -30,11 +31,9 @@ class PostCardBuilder {
           SizedBox(
             width: 100.0,
             height: 100.0,
-            child: 
-              ClipRRect(
+            child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(song.imageURL)
-              ),
+                child: Image.network(song.imageURL)),
           ),
           Expanded(
             child: SizedBox(
@@ -81,8 +80,11 @@ class PostCardBuilder {
                         )
                       ],
                     ),
-                    Expanded(child: Container(),),
+                    Expanded(
+                      child: Container(),
+                    ),
                     Text('${Random().nextInt(24)} hours ago'),
+                    const ReactionBar(),
                   ],
                 ),
               ),
