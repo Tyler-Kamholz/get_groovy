@@ -12,8 +12,9 @@ class ProfilePage extends StatefulWidget {
   /// user ID which will eventually be used to pull relavent other data
   // At the moment, userID is used for all GUI dummy data
   final String userID;
+  final bool showFollowButton;
 
-  const ProfilePage({super.key, required this.userID});
+  const ProfilePage({super.key, required this.userID, this.showFollowButton = true});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -78,7 +79,8 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(child: Container()),
+            Expanded(
+              child: widget.showFollowButton ? IconButton(icon: const Icon(Icons.person_add), onPressed: () {  },) : Container()),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

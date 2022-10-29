@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage> {
     const HomePage(),
     const PostPage(),
     const SearchPage(),
-    const ProfilePage(userID: 'Rob Bobertson'),
+    const ProfilePage(userID: 'Rob Bobertson', showFollowButton: false,),
   ];
 
   void onTap(int index) {
