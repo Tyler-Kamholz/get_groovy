@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getgroovy/pages/home_page.dart';
-import 'package:getgroovy/pages/notifications_page.dart';
-import 'package:getgroovy/pages/post_page.dart';
-import 'package:getgroovy/pages/profile_page.dart';
-import 'package:getgroovy/pages/search_page.dart';
-import 'package:getgroovy/pages/settings_page.dart';
 import 'package:getgroovy/widgets/notification_builder.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 class NotificationsPage extends StatefulWidget {
