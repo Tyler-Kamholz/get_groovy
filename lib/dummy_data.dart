@@ -64,11 +64,21 @@ class DummyData {
     'Myron Bell',
   ];
 
+  static List<String> notifications = [
+    "You've got a new hippie friend ${getRandomName()}",
+    '${getRandomName()} was vibing to ${getRandomSong().name}',
+    '${getRandomName()} added ${getRandomSong().name} to their playlist! Groovy Song!'
+  ];
+
   static String getRandomName() {
     return names[Random().nextInt(names.length)];
   }
 
   static Image getRandomImage() {
     return Image.asset('images/image${Random().nextInt(7) + 1}.jpg');
+  }
+
+  static String getRandomNotifications() {
+    return notifications[Random().nextInt(notifications.length)];
   }
 }

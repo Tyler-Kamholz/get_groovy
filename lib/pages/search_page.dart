@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:getgroovy/pages/profile_page.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
-
+import 'package:getgroovy/dummy_data.dart';
 import '../helpers/helpers.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,60 +13,56 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final controller = ScrollController();
-  final textBoxController = TextEditingController();
+  TextEditingController textBoxController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          controller: textBoxController,
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            child: TextField(
+              controller: textBoxController,
+              decoration: const InputDecoration(labelText: 'Search'),
+            )),
+        Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: 15,
+            controller: controller,
+            itemBuilder: (context, index) {
+              return _buildUserSearch(context);
+            },
+          ),
         ),
-      ),
-      body: Snap(
-        controller: controller.appBar,
-        child: ListView.builder(
-          controller: controller,
-          itemBuilder: (context, index) {
-            return _buildUserSearch(textBoxController);
-          },
-        ),
-      ),
+      ],
     );
   }
-}
 
-Widget _buildUserSearch(TextEditingController textBox) {
-  String userName = textBox.text;
+  Widget _buildUserSearch(BuildContext context) {
+    String name = DummyData.getRandomName();
+    Image image = DummyData.getRandomImage();
 
-  //this is trying to see if the textbox is empty and change it to whatever was typed
-  //it does not currently work right now. kinda. It works if you type something in and
-  //press save on the file so i assume it has to do something with set state or change
-  //notifiers
-  if (userName != "") {
     return Column(children: [
       ListTile(
         // Profile is a random color right now
         leading: CircleAvatar(
+            foregroundImage: image.image,
             backgroundColor: ColorHelper.random(),
-            minRadius: 20,
-            maxRadius: 20),
+            minRadius: 15,
+            maxRadius: 15),
         // Text is a random username right now
-        title: Text(userName),
-        // Tapping on an entry navigates to their profile
-      ),
-      const Divider()
-    ]);
-  } else {
-    return Column(children: [
-      ListTile(
-        // Profile is a random color right now
-        leading: CircleAvatar(
-            backgroundColor: ColorHelper.random(),
-            minRadius: 20,
-            maxRadius: 20),
-        // Text is a random username right now
-        title: const Text('User_Names'),
+        title: Text(name),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Scaffold(
+                appBar: AppBar(
+                  title: Text(name),
+                ),
+                body: ProfilePage(userID: name)),
+            fullscreenDialog: true,
+          ));
+        },
         // Tapping on an entry navigates to their profile
       ),
       const Divider()
