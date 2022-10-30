@@ -23,7 +23,10 @@ class _MainPageState extends State<MainPage> {
     const HomePage(),
     const PostPage(),
     const SearchPage(),
-    const ProfilePage(userID: 'Rob Bobertson', showFollowButton: false,),
+    const ProfilePage(
+      userID: 'Rob Bobertson',
+      showFollowButton: false,
+    ),
   ];
 
   void onTap(int index) {
@@ -39,16 +42,16 @@ class _MainPageState extends State<MainPage> {
           title: const Text("Get Groovy"),
           actions: [
             Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: GestureDetector(
-                  onTap: () {
-                    notifications(context);
-                  },
-                  child: const Icon(
-                    Icons.notifications,
-                    size: 26.0,
-                  ),
-                )),
+              padding: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                onPressed: () {
+                  notifications(context);
+                },
+                icon: const Icon(Icons.notifications),
+                tooltip: 'Notifications',
+                iconSize: 26,
+              ),
+            ),
           ],
           controller: controller,
           leading: Padding(
@@ -58,6 +61,7 @@ class _MainPageState extends State<MainPage> {
                 settings(context);
               },
               icon: const Icon(Icons.menu),
+              tooltip: 'Settings',
             ),
           ),
         ),
