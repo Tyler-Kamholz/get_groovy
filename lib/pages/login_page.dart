@@ -1,8 +1,10 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/pages/home_page.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:getgroovy/pages/login_page.dart';
 
-class LoginPage extends Stateful Widget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override 
@@ -13,16 +15,16 @@ class _LoginPageState extends State<LoginPage> {
 
    @override
   Widget build(BuildContext context) {
-    final _userController = TextEditingController();
-    final _passwordController = TextEditingController();
+    final userController = TextEditingController();
+    final passwordController = TextEditingController();
     return Scaffold(
       body: SafeArea(
-        child: Padding(padding:EdgeInsets.all(10.0),
+        child: Padding(padding: const EdgeInsets.all(10.0),
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+          decoration: const BoxDecoration(
                 border: Border(
                   top: BorderSide(width: 1.0, color: Colors.teal),
                   left: BorderSide(width: 1.0, color: Colors.teal),
@@ -34,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
+            const Text(
               "Welcome, Let's Get Groovy",
               style: TextStyle(
                 color: Colors.white,
@@ -42,10 +44,10 @@ class _LoginPageState extends State<LoginPage> {
                 fontSize: 45,
               ),
             ),
-            Padding(padding:EdgeInsets.all(200.0), 
-            child:Column(children: [
-              Padding(padding:EdgeInsets.all(10.0),
-              child:SizedBox(
+            Padding(padding: EdgeInsets.all(200.0), 
+            child: Column(children: [
+              Padding(padding: EdgeInsets.all(10.0),
+              child: SizedBox(
                 width: 75,
                 height: 75,
                 child: QrImage(
@@ -56,25 +58,29 @@ class _LoginPageState extends State<LoginPage> {
                 ),
             ),
             ),
-              Padding(padding:EdgeInsets.all(5.0),
+              Padding(padding: const EdgeInsets.all(5.0),
               child:SizedBox(
                 width: 500,
                 height: 50,
-                child:Container(
-                  decoration: BoxDecoration(
+                child: Container(
+                  decoration: const BoxDecoration(
                   border: Border(
-                    top: BorderSide(width: 1.0, color: Colors.teal),
-                    left: BorderSide(width: 1.0, color: Colors.teal),
-                    right: BorderSide(width: 1.0, color: Colors.teal),
-                    bottom: BorderSide(width: 1.0, color: Colors.teal),
+                    top: BorderSide(width: 3.0, color: Colors.black),
+                    left: BorderSide(width: 3.0, color: Colors.black),
+                    right: BorderSide(width: 3.0, color: Colors.black),
+                    bottom: BorderSide(width: 3.0, color: Colors.black),
                   ),
                   color: Colors.white,
                   ),
                   child: TextField(
-                    controller: _userController,
-                    decoration: InputDecoration(
+                    controller: userController,
+                    decoration: const InputDecoration(
                       contentPadding: EdgeInsets.all(20),
-                      labelText: 'Username: ',
+                        prefixIcon: Icon(
+                            Icons.person,
+                            color: Colors.black,
+                          ) ,
+                      hintText: 'Username: ',
                       labelStyle: TextStyle(
                         fontSize: 15,
                         color: Colors.black,
@@ -84,25 +90,29 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               ),
-            Padding(padding:EdgeInsets.all(5.0), 
+            Padding(padding: const EdgeInsets.all(5.0), 
             child: SizedBox(
               width: 500,
               height: 50,
               child:Container( 
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                 border: Border(
-                  top: BorderSide(width: 1.0, color: Colors.teal),
-                  left: BorderSide(width: 1.0, color: Colors.teal),
-                  right: BorderSide(width: 1.0, color: Colors.teal),
-                  bottom: BorderSide(width: 1.0, color: Colors.teal),
+                  top: BorderSide(width: 3.0, color: Colors.black),
+                  left: BorderSide(width: 3.0, color: Colors.black),
+                  right: BorderSide(width: 3.0, color: Colors.black),
+                  bottom: BorderSide(width: 3.0, color: Colors.black),
                 ),
                 color: Colors.white,
                 ),
                 child: TextField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(
+                  controller: passwordController,
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(20),
-                    labelText: 'Password: ',
+                      prefixIcon: Icon(
+                            Icons.lock,
+                            color: Colors.black,
+                          ) ,
+                    hintText: 'Password: ',
                     labelStyle: TextStyle(
                       fontSize: 15,
                       color: Colors.black,
@@ -115,12 +125,12 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [ 
-                Padding(padding:EdgeInsets.all(5.0),
+                Padding(padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 240.0,
                     height: 50.0,
                     child: ElevatedButton(
-                      child: Text(
+                      child: const Text(
                         'Login', 
                         style: TextStyle(
                           color: Colors.white,
@@ -134,12 +144,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                Padding(padding:EdgeInsets.all(5.0),
+                Padding(padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 240.0,
                     height: 50.0,
                     child: ElevatedButton(
-                      child: Text(
+                      child: const Text(
                         'New?',
                         style: TextStyle(
                           color: Colors.white,
