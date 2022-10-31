@@ -17,6 +17,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(padding: const EdgeInsets.all(10.0),
+        ///Green Background with Teal Outline 
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
@@ -33,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              //Screen Title: "Register Account"
               const Text(
                 "Register Account",
                 style: TextStyle(
@@ -46,6 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  ///Username Textfield Box: White Background with Black Outline
                   Padding(padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 500,
@@ -61,9 +64,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Colors.white,
                       ),
                       child: TextField(
+                        ///Username word count limit set to 25 (Can adjust later)
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(25),
                         ],
+                        ///Username Textfield decorations: text icon, text appearance, font size and color
                         controller: userController,
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(20),
@@ -81,6 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   ),
+                  ///Password Textfield Box: White Background with Black Outline
                   Padding(padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 500,
@@ -96,6 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Colors.white,
                       ),
                       child: TextField(
+                        ///Password word count limit set to 25 (Can adjust later)
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(25),
                         ],
