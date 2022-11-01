@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:getgroovy/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 
@@ -14,6 +15,10 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
 
   final TextStyle _logoutTextStyle = const TextStyle(
+    color: Colors.red,
+    fontWeight: FontWeight.bold,
+  );
+  final TextStyle _loginTextStyle = const TextStyle(
     color: Colors.red,
     fontWeight: FontWeight.bold,
   );
@@ -65,6 +70,14 @@ class _SettingsPageState extends State<SettingsPage> {
                       title: Text('Logout', style: _logoutTextStyle,),
                       leading: const Icon(Icons.logout, color: Colors.red,),
                       onPressed: (context) {},
+                    ),
+
+                      SettingsTile(
+                      title: Text('Login', style: _loginTextStyle,),
+                      leading: const Icon(Icons.login, color: Colors.red,),
+                      onPressed: (context) {Navigator.of(context).push(MaterialPageRoute(
+        fullscreenDialog: false,
+        builder: (context) => const LoginPage()));},
                     ),
                   ],
                 )
