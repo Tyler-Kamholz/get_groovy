@@ -1,34 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:getgroovy/pages/preview_page.dart';
-import 'package:getgroovy/pages/profile_page.dart';
+import 'package:flutter/widgets.dart';
 
-class PostPage extends StatefulWidget {
-  const PostPage({super.key});
+class PreviewPage extends StatefulWidget {
+  const PreviewPage({super.key});
 
   @override
-  State<PostPage> createState() => _PostPageState();
+  State<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PostPageState extends State<PostPage> with TickerProviderStateMixin  {
+class _PreviewPageState extends State<PreviewPage> with TickerProviderStateMixin {
   late AnimationController controller;
+  double imageSize = 250;
   @override
-
   Widget build(BuildContext context) {
-
     //scrub bar controller
     controller = controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
     );
 
-    //constant imageSize
-    const double imageSize = 250;
-
-    return Scaffold(body: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+    return Scaffold(
+      appBar: AppBar(title: Text('Confirm Post'), ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
         Image(width: imageSize, height: imageSize,image: Image.asset('images/AlbumCover.png').image),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -51,39 +48,22 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin  {
             ),
           ]
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(onPressed: _previewSong, child: Text("Preview Song")),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(onPressed: _addToPlaylist, child: Text("Add To Playlist")),
-            ),
-          ],
-        )
-      ],
-    ),);
+        ElevatedButton(onPressed: _post, child: Text("POST"))
+      ]),
+    );
   }
 
-  //Pushes preview in order to confirm the post
-  void _previewSong() {
-    Navigator.of(context).push(MaterialPageRoute(
-      fullscreenDialog: false,
-       builder: (context) => const PreviewPage()));
-  }
-
-  //Plays preview of song
+  //play preview of the song
   void _playSong() {
-  }
 
-  //add this song to a playlist
-  void _addToPlaylist() {
   }
 
   //pauses the preview of the song
   void _pauseSong() {
+  }
+
+  //confirm the post
+  void _post() {
+
   }
 }
