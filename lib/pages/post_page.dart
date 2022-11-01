@@ -36,23 +36,27 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
               style: TextStyle(fontSize: 32),
             ),
           ),
-          Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              //contains a play, pause, and scrub
-              children: [
-                IconButton(
-                    onPressed: _playSong, icon: const Icon(Icons.play_arrow)),
-                IconButton(
-                    onPressed: _pauseSong, icon: const Icon(Icons.pause)),
-                SizedBox(
-                    width: 300,
-                    height: 3,
-                    child: LinearProgressIndicator(
-                      value: controller.value,
-                      semanticsLabel: 'Linear progress indicator',
-                    )),
-              ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                //contains a play, pause, and scrub
+                children: [
+                  IconButton(
+                      onPressed: _playSong, icon: const Icon(Icons.play_arrow)),
+                  IconButton(
+                      onPressed: _pauseSong, icon: const Icon(Icons.pause)),
+                  Expanded(
+                    child: SizedBox(
+                        height: 3,
+                        child: LinearProgressIndicator(
+                          value: controller.value,
+                          semanticsLabel: 'Linear progress indicator',
+                        )),
+                  ),
+                ]),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
