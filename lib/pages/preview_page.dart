@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
 
 class PreviewPage extends StatefulWidget {
   const PreviewPage({super.key});
@@ -10,7 +7,8 @@ class PreviewPage extends StatefulWidget {
   State<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage> with TickerProviderStateMixin {
+class _PreviewPageState extends State<PreviewPage>
+    with TickerProviderStateMixin {
   late AnimationController controller;
   double imageSize = 250;
   @override
@@ -22,48 +20,48 @@ class _PreviewPageState extends State<PreviewPage> with TickerProviderStateMixin
     );
 
     return Scaffold(
-      appBar: AppBar(title: Text('Confirm Post'), ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        Image(width: imageSize, height: imageSize,image: Image.asset('images/AlbumCover.png').image),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Song Name",style: TextStyle(fontSize: 32),),
+      appBar: AppBar(
+        title: const Text('Confirm Post'),
+      ),
+      body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Image(
+            width: imageSize,
+            height: imageSize,
+            image: Image.asset('images/AlbumCover.png').image),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            "Song Name",
+            style: TextStyle(fontSize: 32),
+          ),
         ),
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          //contains a play, pause, and scrub
-          children: [
-            IconButton(onPressed: _playSong,icon: const Icon(Icons.play_arrow)),
-            IconButton(onPressed: _pauseSong,icon: const Icon(Icons.pause)),
-            SizedBox(
-              width: 300, 
-              height: 3 ,
-              child: LinearProgressIndicator(
-                value: controller.value,
-                semanticsLabel: 'Linear progress indicator',
-              )
-            ),
-          ]
-        ),
-        ElevatedButton(onPressed: _post, child: Text("POST"))
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            //contains a play, pause, and scrub
+            children: [
+              IconButton(
+                  onPressed: _playSong, icon: const Icon(Icons.play_arrow)),
+              IconButton(onPressed: _pauseSong, icon: const Icon(Icons.pause)),
+              SizedBox(
+                  width: 300,
+                  height: 3,
+                  child: LinearProgressIndicator(
+                    value: controller.value,
+                    semanticsLabel: 'Linear progress indicator',
+                  )),
+            ]),
+        ElevatedButton(onPressed: _post, child: const Text("POST"))
       ]),
     );
   }
 
   //play preview of the song
-  void _playSong() {
-
-  }
+  void _playSong() {}
 
   //pauses the preview of the song
-  void _pauseSong() {
-  }
+  void _pauseSong() {}
 
   //confirm the post
-  void _post() {
-
-  }
+  void _post() {}
 }

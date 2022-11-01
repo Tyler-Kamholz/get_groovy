@@ -26,9 +26,11 @@ class _SearchPageState extends State<SearchPage> {
                   decoration: const InputDecoration(labelText: 'Search'),
                 ),
                 Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.qr_code_scanner))),
+                    right: 0,
+                    bottom: 0,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.qr_code_scanner))),
               ],
             )),
         Expanded(
@@ -52,9 +54,7 @@ class _SearchPageState extends State<SearchPage> {
     return Column(children: [
       ListTile(
         leading: CircleAvatar(
-            foregroundImage: image.image,
-            minRadius: 15,
-            maxRadius: 15),
+            foregroundImage: image.image, minRadius: 15, maxRadius: 15),
         // Text is a random username right now
         title: Text(name),
         onTap: () {

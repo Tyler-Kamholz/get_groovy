@@ -4,9 +4,10 @@ import 'package:getgroovy/themes/theme_provider.dart';
 /// This is a very hacky workaround for my inability to figure out how
 /// to change the system navigation bar theme, especially when the user
 /// changes system theme on the fly.
-class SystemBrightnessListener extends StatelessWidget with WidgetsBindingObserver{
+class SystemBrightnessListener extends StatelessWidget
+    with WidgetsBindingObserver {
   final ThemeProvider provider;
-  
+
   SystemBrightnessListener({super.key, required this.provider}) {
     // Register this widget as an observer
     WidgetsBinding.instance.addObserver(this);

@@ -16,24 +16,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(context: context),
-      builder: (context, child) {
-        var themeProvider = Provider.of<ThemeProvider>(context);
-        return MaterialApp(
-          title: 'Get Groovy',
-          home: Stack(
-            children: [
-              const MainPage(),
-              Consumer<ThemeProvider>(
-                builder: (context, value, child) => SystemBrightnessListener(provider: value)
-              ),
-            ],
-          ),
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
-          themeMode: themeProvider.getThemeMode,
-        );
-      }
-    );
+        create: (context) => ThemeProvider(context: context),
+        builder: (context, child) {
+          var themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            title: 'Get Groovy',
+            home: Stack(
+              children: [
+                const MainPage(),
+                Consumer<ThemeProvider>(
+                    builder: (context, value, child) =>
+                        SystemBrightnessListener(provider: value)),
+              ],
+            ),
+            theme: MyThemes.lightTheme,
+            darkTheme: MyThemes.darkTheme,
+            themeMode: themeProvider.getThemeMode,
+          );
+        });
   }
 }
