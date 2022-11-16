@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
         ),
         body: pages[pageIndex],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
           child: GNav(
             tabs: const [
               GButton(
@@ -88,8 +88,9 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
             gap: 10,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             onTabChange: onTap,
+            hoverColor: Colors.grey.shade400,
           ),
         ));
   }
