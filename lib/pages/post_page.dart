@@ -36,7 +36,7 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
             padding: EdgeInsets.all(8.0),
             child: Text(
               "Song Name",
-              style: TextStyle(fontSize: 32),
+              style: TextStyle(fontSize: 32, fontFamily: 'BodyFont'),
             ),
           ),
           Padding(

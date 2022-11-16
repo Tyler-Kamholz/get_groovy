@@ -45,11 +45,10 @@ class _MainPageState extends State<MainPage> {
               padding: const EdgeInsets.only(right: 20),
               child: IconButton(
                 onPressed: () {
-                  notifications(context);
+                  settings(context);
                 },
-                icon: const Icon(Icons.notifications),
-                tooltip: 'Notifications',
-                iconSize: 26,
+                icon: const Icon(Icons.menu),
+                tooltip: 'Settings',
               ),
             ),
           ],
@@ -58,10 +57,11 @@ class _MainPageState extends State<MainPage> {
             padding: const EdgeInsets.only(left: 10),
             child: IconButton(
               onPressed: () {
-                settings(context);
+                notifications(context);
               },
-              icon: const Icon(Icons.menu),
-              tooltip: 'Settings',
+              icon: const Icon(Icons.notifications),
+              tooltip: 'Notifications',
+              iconSize: 26,
             ),
           ),
         ),
