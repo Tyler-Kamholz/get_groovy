@@ -25,15 +25,18 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image(
-              width: imageSize,
-              height: imageSize,
-              image: Image.asset('images/AlbumCover.png').image),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image(
+                width: imageSize,
+                height: imageSize,
+                image: Image.asset('images/AlbumCover.png').image),
+          ),
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
               "Song Name",
-              style: TextStyle(fontSize: 32),
+              style: TextStyle(fontSize: 32, fontFamily: 'BodyFont'),
             ),
           ),
           Padding(

@@ -45,11 +45,10 @@ class _MainPageState extends State<MainPage> {
               padding: const EdgeInsets.only(right: 20),
               child: IconButton(
                 onPressed: () {
-                  notifications(context);
+                  settings(context);
                 },
-                icon: const Icon(Icons.notifications),
-                tooltip: 'Notifications',
-                iconSize: 26,
+                icon: const Icon(Icons.menu),
+                tooltip: 'Settings',
               ),
             ),
           ],
@@ -58,16 +57,17 @@ class _MainPageState extends State<MainPage> {
             padding: const EdgeInsets.only(left: 10),
             child: IconButton(
               onPressed: () {
-                settings(context);
+                notifications(context);
               },
-              icon: const Icon(Icons.menu),
-              tooltip: 'Settings',
+              icon: const Icon(Icons.notifications),
+              tooltip: 'Notifications',
+              iconSize: 26,
             ),
           ),
         ),
         body: pages[pageIndex],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
           child: GNav(
             tabs: const [
               GButton(
@@ -88,8 +88,9 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
             gap: 10,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             onTabChange: onTap,
+            hoverColor: Colors.grey.shade400,
           ),
         ));
   }
