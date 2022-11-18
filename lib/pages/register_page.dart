@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:getgroovy/authentication.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -34,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              //Screen Title: "Register Account"
+              //Register Page Screen Title: "Register Account"
               const Text(
                 "Register Account",
                 style: TextStyle(
@@ -106,13 +106,15 @@ class _RegisterPageState extends State<RegisterPage> {
                         inputFormatters: [
                           LengthLimitingTextInputFormatter(25),
                         ],
+                        ///Password Textfield decorations: text icon, text appearance, font size and color
                         controller: passwordController,
+                        obscureText: true,
                         decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(20),
                             prefixIcon: Icon(
                             Icons.lock,
                             color: Colors.black,
-                          ) ,
+                          ),
                           hintText: 'Password: ',
                           labelStyle: TextStyle(
                             fontSize: 15,
@@ -123,6 +125,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   ),
+                  ///Email Textfield Box: White Background with Black Outline
                   Padding(padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 500,
@@ -137,6 +140,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         color: Colors.white,
                       ),
+                      ///Email Textfield decorations: text icon, text appearance, font size and color
                       child: TextField(
                         controller: emailController,
                         decoration: const InputDecoration(
@@ -155,6 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                   ),
+                  ///Register Button: Navigates to Login Page
                   Padding(padding: const EdgeInsets.all(5.0),
                   child: SizedBox(
                     width: 240.0,
@@ -168,8 +173,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           fontSize: 25,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        bool success = 
+                          await register(emailController.text, passwordController.text);
+                        if (success) {
+                          Navigator.of(context).pop();
+                        }
                       }
                     ),
                   ),
@@ -177,6 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      ///Login Button Prompt: "Are you already signed in?"
                       const Padding(padding: EdgeInsets.all(5.0),
                       child: Text(
                         'Are you already signed in?',
@@ -187,6 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       ),
+                      ///Login Button: Navigates to Login Page
                       Padding(padding: const EdgeInsets.all(5.0),
                       child: SizedBox(
                         width: 85.0,

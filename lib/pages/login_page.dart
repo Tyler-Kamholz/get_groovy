@@ -5,6 +5,7 @@ import 'package:getgroovy/pages/home_page.dart';
 import 'package:getgroovy/pages/register_page.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:getgroovy/pages/login_page.dart';
+import 'package:getgroovy/authentication.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -123,6 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                   ///Password Textfield decorations: text icon, text appearance, font size and color
                   controller: passwordController,
+                  obscureText: true, 
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(20),
                       prefixIcon: Icon(
@@ -156,8 +158,12 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 25,
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
+                      onPressed: () async {
+                        bool success = 
+                          await signIn(userController.text, passwordController.text); 
+                        if (success) {
+                          Navigator.of(context).pop();
+                        }
                       },
                     ),
                   ),

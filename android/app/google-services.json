@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1023081956705",
+    "project_id": "getgroovy-a42ac",
+    "storage_bucket": "getgroovy-a42ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023081956705:android:d7b0cec8b3ea6c390b7120",
+        "android_client_info": {
+          "package_name": "com.example.getgroovy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023081956705-u1s87nbuigsd31gan79p9t377ap6ridd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM1LGj-wD-1sxOu4g2Cf1ADvNFalXyX2A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023081956705-u1s87nbuigsd31gan79p9t377ap6ridd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

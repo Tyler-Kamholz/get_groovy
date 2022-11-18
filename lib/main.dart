@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/themes/my_themes.dart';
 import 'package:getgroovy/themes/system_brightness_listener.dart';
 import 'package:getgroovy/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 import 'pages/main_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  ); 
   runApp(const MyApp());
 }
 
