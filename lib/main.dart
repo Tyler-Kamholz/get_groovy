@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:getgroovy/themes/my_themes.dart';
 import 'package:getgroovy/themes/system_brightness_listener.dart';
 import 'package:getgroovy/themes/theme_provider.dart';
@@ -16,23 +17,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => ThemeProvider(context: context),
-        builder: (context, child) {
-          var themeProvider = Provider.of<ThemeProvider>(context);
-          return MaterialApp(
-            title: 'Get Groovy',
-            home: Stack(
-              children: [
-                const MainPage(),
-                Consumer<ThemeProvider>(
-                    builder: (context, value, child) =>
-                        SystemBrightnessListener(provider: value)),
-              ],
-            ),
-            theme: MyThemes.lightTheme,
-            darkTheme: MyThemes.darkTheme,
-            themeMode: themeProvider.getThemeMode,
-          );
-        });
+        create: (context) => SpotifyProvider(),
+        builder: (context, child) => ChangeNotifierProvider(
+            create: (context) => ThemeProvider(context: context),
+            builder: (context, child) {
+              var themeProvider = Provider.of<ThemeProvider>(context);
+              return MaterialApp(
+                title: 'Get Groovy',
+                home: Stack(
+                  children: [
+                    const MainPage(),
+                    Consumer<ThemeProvider>(
+                        builder: (context, value, child) =>
+                            SystemBrightnessListener(provider: value)),
+                  ],
+                ),
+                theme: MyThemes.lightTheme,
+                darkTheme: MyThemes.darkTheme,
+                themeMode: themeProvider.getThemeMode,
+              );
+            }));
   }
 }
