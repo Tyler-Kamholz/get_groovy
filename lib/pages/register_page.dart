@@ -173,6 +173,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           fontSize: 25,
                         ),
                       ),
+                      /// Registers new user into Firebase Authentication (only while app is open userids have not yet been stored)
                       onPressed: () async {
                         bool success = 
                           await register(emailController.text, passwordController.text);
