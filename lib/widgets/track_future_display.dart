@@ -54,7 +54,7 @@ class _TrackFutureDisplayState extends State<TrackFutureDisplay> {
             if (snapshot.hasError) {
               return const Text('Error');
             } else if (snapshot.hasData) {
-              if (snapshot.data != null) {
+              if (snapshot.data != null && snapshot.data!.image != null) {
                 return SizedBox(
                   width: 150,
                   child: Column(

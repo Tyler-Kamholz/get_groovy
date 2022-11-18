@@ -50,16 +50,21 @@ class SpotifyProvider extends ChangeNotifier {
     bool returnValue = true;
     if (!_connected) {
       // Get an access token, and connect to remote
-      var accessTokenResult = await _getAccessToken();
-      var connectedToRemote = await SpotifySdk.connectToSpotifyRemote(
-          clientId: clientID, redirectUrl: redirectUrl);
-      if (!connectedToRemote || accessTokenResult == null) {
-        _connected = false;
-        returnValue = false;
-      } else {
-        _accessToken = accessTokenResult;
-        _connected = true;
-        returnValue = true;
+      try {
+        var accessTokenResult = await _getAccessToken();
+        var connectedToRemote = await SpotifySdk.connectToSpotifyRemote(
+            clientId: clientID, redirectUrl: redirectUrl);
+        if (!connectedToRemote || accessTokenResult == null) {
+          _connected = false;
+          returnValue = false;
+        } else {
+          _accessToken = accessTokenResult;
+          _connected = true;
+          returnValue = true;
+        }
+      } catch(e) {
+        _tryingToConnect = false;
+        return false;
       }
     }
     // Release the connect flag
@@ -182,6 +187,7 @@ class SpotifyProvider extends ChangeNotifier {
 
   Future<Track?> getCurrentSong() async {
     bool connected = await _ensureConnected();
+    print('CONNECTED: $connected');
     if (!connected) {
       return null;
     }
@@ -190,6 +196,7 @@ class SpotifyProvider extends ChangeNotifier {
 
   Future<Track?> getLastSong() async {
     bool connected = await _ensureConnected();
+    print('CONNECTED: $connected');
     if (!connected) {
       return null;
     }
