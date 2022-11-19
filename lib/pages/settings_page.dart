@@ -23,58 +23,56 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Settings"),
-      ),
-      body: Column(
-        children: [
+        appBar: AppBar(
+          title: const Text("Settings"),
+        ),
+        body: Column(children: [
           Expanded(
-            child: SettingsList(sections: [
-              SettingsSection(
-                title: const Text("Personalize"),
-                tiles: [
-                  SettingsTile(
-                    title: const Text('Theme'),
-                    leading: const Icon(Icons.style),
-                    trailing: DropdownButton(
-                      value: themeProvider.getThemeMode,
-                      items: const [
-                        DropdownMenuItem(
-                          value: ThemeMode.system,
-                          child: Text("System"),
-                        ),
-                        DropdownMenuItem(
-                          value: ThemeMode.light,
-                          child: Text("Light"),
-                        ),
-                        DropdownMenuItem(
-                          value: ThemeMode.dark,
-                          child: Text("Dark"),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        themeProvider.setThemeMode(value!);
-                      },
-                    ),
-                  ],
-                ),
-                SettingsSection(
-                  title: const Text("Account"),
-                  tiles: [
-                    SettingsTile(
-                      title: Text('Logout', style: _logoutTextStyle,),
-                      leading: const Icon(Icons.logout, color: Colors.red,),
-                      onPressed: _logoutButton,
-                    ),
-                    onPressed: (context) {},
+              child: SettingsList(sections: [
+            SettingsSection(
+              title: const Text("Personalize"),
+              tiles: [
+                SettingsTile(
+                  title: const Text('Theme'),
+                  leading: const Icon(Icons.style),
+                  trailing: DropdownButton(
+                    value: themeProvider.getThemeMode,
+                    items: const [
+                      DropdownMenuItem(
+                        value: ThemeMode.system,
+                        child: Text("System"),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.light,
+                        child: Text("Light"),
+                      ),
+                      DropdownMenuItem(
+                        value: ThemeMode.dark,
+                        child: Text("Dark"),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      themeProvider.setThemeMode(value!);
+                    },
                   ),
-                ],
-              )
+                ),
+              ],
+            ),
+            SettingsSection(title: const Text("Account"), tiles: [
+              SettingsTile(
+                title: Text(
+                  'Logout',
+                  style: _logoutTextStyle,
+                ),
+                leading: const Icon(
+                  Icons.logout,
+                  color: Colors.red,
+                ),
+                onPressed: _logoutButton,
+              ),
             ]),
-          ),
-        ],
-      ),
-    );
+          ]))
+        ]));
   }
 
   void backToPage(BuildContext context) {
