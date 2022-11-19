@@ -23,7 +23,10 @@ class _MainPageState extends State<MainPage> {
     const HomePage(),
     const PostPage(),
     const SearchPage(),
-    const ProfilePage(userID: 'Rob Bobertson', showFollowButton: false,),
+    const ProfilePage(
+      userID: 'Rob Bobertson',
+      showFollowButton: false,
+    ),
   ];
 
   void onTap(int index) {
@@ -39,31 +42,32 @@ class _MainPageState extends State<MainPage> {
           title: const Text("Get Groovy"),
           actions: [
             Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: GestureDetector(
-                  onTap: () {
-                    notifications(context);
-                  },
-                  child: const Icon(
-                    Icons.notifications,
-                    size: 26.0,
-                  ),
-                )),
+              padding: const EdgeInsets.only(right: 20),
+              child: IconButton(
+                onPressed: () {
+                  settings(context);
+                },
+                icon: const Icon(Icons.menu),
+                tooltip: 'Settings',
+              ),
+            ),
           ],
           controller: controller,
           leading: Padding(
             padding: const EdgeInsets.only(left: 10),
             child: IconButton(
               onPressed: () {
-                settings(context);
+                notifications(context);
               },
-              icon: const Icon(Icons.menu),
+              icon: const Icon(Icons.notifications),
+              tooltip: 'Notifications',
+              iconSize: 26,
             ),
           ),
         ),
         body: pages[pageIndex],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+          padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
           child: GNav(
             tabs: const [
               GButton(
@@ -84,8 +88,9 @@ class _MainPageState extends State<MainPage> {
               ),
             ],
             gap: 10,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
             onTabChange: onTap,
+            hoverColor: Colors.grey.shade400,
           ),
         ));
   }

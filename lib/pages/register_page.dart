@@ -183,7 +183,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
   void _registerButton() async {
     bool success =
         await register(emailController.text, passwordController.text);

@@ -25,25 +25,19 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   void _setSystemNavBar(Brightness brightness) {
-    switch(brightness) {
+    switch (brightness) {
       case Brightness.light:
         Future(() {
-          SystemChrome.setSystemUIOverlayStyle(
-            const SystemUiOverlayStyle(
+          SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
               systemNavigationBarIconBrightness: Brightness.dark,
-              systemNavigationBarColor: Colors.white
-            )
-          );
+              systemNavigationBarColor: Colors.white));
         });
         return;
       case Brightness.dark:
         Future(() {
-          SystemChrome.setSystemUIOverlayStyle(
-            const SystemUiOverlayStyle(
+          SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
               systemNavigationBarIconBrightness: Brightness.light,
-              systemNavigationBarColor: Colors.black
-            )
-          );
+              systemNavigationBarColor: Colors.black));
         });
         return;
     }
@@ -51,12 +45,13 @@ class ThemeProvider extends ChangeNotifier {
 
   void updateSystemNavBar() {
     // These futures are a hacky fix
-    if(_themeMode == ThemeMode.light) {
+    if (_themeMode == ThemeMode.light) {
       _setSystemNavBar(Brightness.light);
-    } else if(_themeMode == ThemeMode.dark) {
+    } else if (_themeMode == ThemeMode.dark) {
       _setSystemNavBar(Brightness.dark);
     } else {
-      _setSystemNavBar(SystemTheme.isDarkMode ? Brightness.dark : Brightness.light);
+      _setSystemNavBar(
+          SystemTheme.isDarkMode ? Brightness.dark : Brightness.light);
     }
   }
 }

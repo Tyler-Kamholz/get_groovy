@@ -40,53 +40,56 @@ class PostCardBuilder {
               height: 100,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                child: Row(children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                song.name,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Text(song.artist),
-                            ],
+                        Text(
+                          song.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Scaffold(
-                                  appBar: AppBar(
-                                    title: Text(name),
-                                  ),
-                                  body: ProfilePage(userID: name)),
-                              fullscreenDialog: true,
-                            ));
-                          },
-                          child: CircleAvatar(
-                              foregroundImage: image.image,
-                              backgroundColor: ColorHelper.random(),
-                              minRadius: 15,
-                              maxRadius: 15),
-                        )
+                        Text(song.artist),
+                        Text('${Random().nextInt(24)} hours ago'),
+                        Expanded(child: Container()),
+                        const ReactionBar(),
                       ],
                     ),
-                    Expanded(
-                      child: Container(),
-                    ),
-                    Text('${Random().nextInt(24)} hours ago'),
-                    const ReactionBar(),
-                  ],
-                ),
+                  ),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Scaffold(
+                                appBar: AppBar(
+                                  title: Text(name),
+                                ),
+                                body: ProfilePage(userID: name)),
+                            fullscreenDialog: true,
+                          ));
+                        },
+                        child: CircleAvatar(
+                            foregroundImage: image.image,
+                            backgroundColor: ColorHelper.random(),
+                            minRadius: 15,
+                            maxRadius: 15),
+                      ),
+                      Expanded(child: Container()),
+                      IconButton(
+                        padding: const EdgeInsets.all(0.0),
+                        constraints: const BoxConstraints(),
+                        iconSize: 28,
+                        onPressed: () {},
+                        icon: const Icon(Icons.playlist_add),
+                        tooltip: 'Add to playlist',
+                      ),
+                    ],
+                  ),
+                ]),
               ),
             ),
           )

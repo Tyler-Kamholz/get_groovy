@@ -14,7 +14,8 @@ class ProfilePage extends StatefulWidget {
   final String userID;
   final bool showFollowButton;
 
-  const ProfilePage({super.key, required this.userID, this.showFollowButton = true});
+  const ProfilePage(
+      {super.key, required this.userID, this.showFollowButton = true});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -60,8 +61,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildAvatar() {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-        child: CircleAvatar(              
-            foregroundImage: Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
+        child: CircleAvatar(
+            foregroundImage:
+                Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
             backgroundColor: ColorHelper.random(),
             minRadius: 100,
             maxRadius: 100));
@@ -80,7 +82,12 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: widget.showFollowButton ? IconButton(icon: const Icon(Icons.person_add), onPressed: () {  },) : Container()),
+                child: widget.showFollowButton
+                    ? IconButton(
+                        icon: const Icon(Icons.person_add),
+                        onPressed: () {},
+                      )
+                    : Container()),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -191,33 +198,32 @@ class _ProfilePageState extends State<ProfilePage> {
   /// Clicking on a list entry will navigate to their profile
   SliverList buildUserList() {
     return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        childCount: 15,
-        (context, index) {
-          var name = DummyData.getRandomName();
-          return ListTile(
-            // Profile is a random color right now
-            leading: CircleAvatar(
-                foregroundImage: Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
-                backgroundColor: ColorHelper.random(),
-                minRadius: 20,
-                maxRadius: 20),
-            // Text is a random username right now
-            title: Text(name),
-            // Tapping on an entry navigates to their profile
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Scaffold(
-                    appBar: AppBar(
-                      title: Text(name),
-                    ),
-                    body: ProfilePage(userID: name)),
-                fullscreenDialog: true,
-              ));
-            },
-          );
-        }
-      ),
+      delegate: SliverChildBuilderDelegate(childCount: 15, (context, index) {
+        var name = DummyData.getRandomName();
+        return ListTile(
+          // Profile is a random color right now
+          leading: CircleAvatar(
+              foregroundImage:
+                  Image.asset('images/image${Random().nextInt(7) + 1}.jpg')
+                      .image,
+              backgroundColor: ColorHelper.random(),
+              minRadius: 20,
+              maxRadius: 20),
+          // Text is a random username right now
+          title: Text(name),
+          // Tapping on an entry navigates to their profile
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Scaffold(
+                  appBar: AppBar(
+                    title: Text(name),
+                  ),
+                  body: ProfilePage(userID: name)),
+              fullscreenDialog: true,
+            ));
+          },
+        );
+      }),
     );
   }
 

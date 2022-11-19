@@ -14,12 +14,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-
   final TextStyle _logoutTextStyle = const TextStyle(
-    color: Colors.red,
-    fontWeight: FontWeight.bold,
-  );
-  final TextStyle _loginTextStyle = const TextStyle(
     color: Colors.red,
     fontWeight: FontWeight.bold,
   );
@@ -28,39 +23,38 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings"),),
+      appBar: AppBar(
+        title: const Text("Settings"),
+      ),
       body: Column(
         children: [
           Expanded(
-            child: SettingsList(
-              sections: [
-                SettingsSection(
-                  title: const Text("Personalize"),
-                  tiles: [
-                    SettingsTile(
-                      title: const Text('Theme'),
-                      leading: const Icon(Icons.style),
-                      trailing: 
-                        DropdownButton(
-                          value: themeProvider.getThemeMode,
-                          items: const [
-                            DropdownMenuItem(
-                              value: ThemeMode.system,
-                              child: Text("System"),
-                            ),
-                            DropdownMenuItem(
-                              value: ThemeMode.light,
-                              child: Text("Light"),
-                            ),
-                            DropdownMenuItem(
-                              value: ThemeMode.dark,
-                              child: Text("Dark"),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            themeProvider.setThemeMode(value!);
-                          },
-                      ),
+            child: SettingsList(sections: [
+              SettingsSection(
+                title: const Text("Personalize"),
+                tiles: [
+                  SettingsTile(
+                    title: const Text('Theme'),
+                    leading: const Icon(Icons.style),
+                    trailing: DropdownButton(
+                      value: themeProvider.getThemeMode,
+                      items: const [
+                        DropdownMenuItem(
+                          value: ThemeMode.system,
+                          child: Text("System"),
+                        ),
+                        DropdownMenuItem(
+                          value: ThemeMode.light,
+                          child: Text("Light"),
+                        ),
+                        DropdownMenuItem(
+                          value: ThemeMode.dark,
+                          child: Text("Dark"),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        themeProvider.setThemeMode(value!);
+                      },
                     ),
                   ],
                 ),
@@ -72,10 +66,11 @@ class _SettingsPageState extends State<SettingsPage> {
                       leading: const Icon(Icons.logout, color: Colors.red,),
                       onPressed: _logoutButton,
                     ),
-                  ],
-                )
-              ]
-            ),
+                    onPressed: (context) {},
+                  ),
+                ],
+              )
+            ]),
           ),
         ],
       ),

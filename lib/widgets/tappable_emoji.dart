@@ -6,7 +6,13 @@ class TappableEmoji extends StatefulWidget {
   final bool highlightOnTap;
   final bool initialHighlighted;
 
-  const TappableEmoji({Key? key, required this.emoji, this.onTap, this.initialHighlighted = false, this.highlightOnTap = false}) : super(key: key);
+  const TappableEmoji(
+      {Key? key,
+      required this.emoji,
+      this.onTap,
+      this.initialHighlighted = false,
+      this.highlightOnTap = false})
+      : super(key: key);
 
   @override
   State<TappableEmoji> createState() => _TappableEmojiState();
@@ -14,7 +20,6 @@ class TappableEmoji extends StatefulWidget {
 
 class _TappableEmojiState extends State<TappableEmoji> {
   late bool _highlighted;
-
 
   @override
   void initState() {
@@ -32,23 +37,22 @@ class _TappableEmojiState extends State<TappableEmoji> {
         color: _highlighted ? Colors.lightBlue.withAlpha(128) : null,
       ),
       child: InkWell(
-        customBorder: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(32)),
+        customBorder:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
         onTap: () {
-          if(widget.onTap != null) {
+          if (widget.onTap != null) {
             widget.onTap!(widget.emoji);
           }
-          if(widget.highlightOnTap) {
+          if (widget.highlightOnTap) {
             setState(() {
               _highlighted ^= true;
             });
           }
-
         },
         child: Center(
-          child: Text(
-            widget.emoji,
-            style: const TextStyle(fontSize: 20),
+            child: Text(
+          widget.emoji,
+          style: const TextStyle(fontSize: 20),
         )),
       ),
     );

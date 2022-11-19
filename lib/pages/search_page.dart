@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/profile_page.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:getgroovy/dummy_data.dart';
-import '../helpers/helpers.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -21,9 +19,19 @@ class _SearchPageState extends State<SearchPage> {
       children: [
         Padding(
             padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: TextField(
-              controller: textBoxController,
-              decoration: const InputDecoration(labelText: 'Search'),
+            child: Stack(
+              children: [
+                TextField(
+                  controller: textBoxController,
+                  decoration: const InputDecoration(labelText: 'Search'),
+                ),
+                Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.qr_code_scanner))),
+              ],
             )),
         Expanded(
           child: ListView.builder(
@@ -45,12 +53,8 @@ class _SearchPageState extends State<SearchPage> {
 
     return Column(children: [
       ListTile(
-        // Profile is a random color right now
         leading: CircleAvatar(
-            foregroundImage: image.image,
-            backgroundColor: ColorHelper.random(),
-            minRadius: 15,
-            maxRadius: 15),
+            foregroundImage: image.image, minRadius: 15, maxRadius: 15),
         // Text is a random username right now
         title: Text(name),
         onTap: () {
