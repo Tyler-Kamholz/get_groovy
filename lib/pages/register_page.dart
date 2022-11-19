@@ -128,6 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: ElevatedButton(
+                        onPressed: _registerButton,
                         child: const Text(
                           'Register',
                           style: TextStyle(
@@ -136,9 +137,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             fontSize: 25,
                           ),
                         ),
-
-                        /// Registers new user into Firebase Authentication (only while app is open userids have not yet been stored)
-                        onPressed: _registerButton,
                       ),
                     ),
                     Row(
@@ -187,6 +185,8 @@ class _RegisterPageState extends State<RegisterPage> {
     bool success =
         await register(emailController.text, passwordController.text);
     if (success) {
+      // Need to break this out somewhere
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
     }
   }

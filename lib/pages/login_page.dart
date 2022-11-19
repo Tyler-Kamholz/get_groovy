@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:getgroovy/pages/home_page.dart';
 import 'package:getgroovy/pages/main_page.dart';
 import 'package:getgroovy/pages/register_page.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:getgroovy/pages/login_page.dart';
 import 'package:getgroovy/authentication.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,9 +16,11 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   @override
   void initState() {
+    super.initState();
     emailController.text = 'qweqwe@gmail.com';
     passwordController.text = 'qweqwe';
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextField(
                         ///Username word count limit set to 25 (Can adjust later)
                         inputFormatters: [LengthLimitingTextInputFormatter(25)],
+
                         ///Username Textfield decorations: text icon, text appearance, font size and color
                         controller: emailController,
                         style: const TextStyle(
@@ -102,6 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextField(
                         ///Password word count limit set to 25 (Can adjust later)
                         inputFormatters: [LengthLimitingTextInputFormatter(25)],
+
                         ///Password Textfield decorations: text icon, text appearance, font size and color
                         controller: passwordController,
                         obscureText: true,
@@ -132,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.all(5.0),
                         child: SizedBox(
                           child: ElevatedButton(
+                            onPressed: _loginButton,
                             child: const Text(
                               'Login',
                               style: TextStyle(
@@ -140,7 +142,6 @@ class _LoginPageState extends State<LoginPage> {
                                 fontSize: 25,
                               ),
                             ),
-                            onPressed: _loginButton,
                           ),
                         ),
                       ),
@@ -150,15 +151,16 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.all(5.0),
                         child: SizedBox(
                           child: ElevatedButton(
-                              child: const Text(
-                                'New?',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ),
+                            onPressed: _registerButton,
+                            child: const Text(
+                              'New?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
                               ),
-                              onPressed: _registerButton),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -175,8 +177,10 @@ class _LoginPageState extends State<LoginPage> {
   void _loginButton() async {
     bool success = await signIn(emailController.text, passwordController.text);
     if (success) {
+      // todo This should hook into a streamController to detect logged in state
+      // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(
-        fullscreenDialog: false, builder: (context) => const MainPage()));
+          fullscreenDialog: false, builder: (context) => const MainPage()));
       //Navigator.of(context).pop();
     }
   }

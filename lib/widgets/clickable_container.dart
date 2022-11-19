@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class ClickableContainer extends StatelessWidget {
   final Widget child;
   final bool selected;
-  Function()? onTap;
-  ClickableContainer({required this.child, required this.selected, this.onTap, super.key});
+  final Function()? onTap;
+  const ClickableContainer({required this.child, required this.selected, this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {

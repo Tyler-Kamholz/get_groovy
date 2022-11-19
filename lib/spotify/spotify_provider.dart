@@ -187,7 +187,6 @@ class SpotifyProvider extends ChangeNotifier {
 
   Future<Track?> getCurrentSong() async {
     bool connected = await _ensureConnected();
-    print('CONNECTED: $connected');
     if (!connected) {
       return null;
     }
@@ -196,7 +195,6 @@ class SpotifyProvider extends ChangeNotifier {
 
   Future<Track?> getLastSong() async {
     bool connected = await _ensureConnected();
-    print('CONNECTED: $connected');
     if (!connected) {
       return null;
     }

@@ -1,19 +1,18 @@
 import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/preview_page.dart';
-import 'package:provider/provider.dart';
 import 'package:spotify_sdk/models/track.dart';
 
 import '../widgets/clickable_container.dart';
 import '../widgets/track_future_display.dart';
 
 class PostPage extends StatefulWidget {
-  SpotifyProvider provider;
+  final SpotifyProvider provider;
 
-  PostPage({required this.provider, super.key});
+  const PostPage({required this.provider, super.key});
 
   @override
-  State<PostPage> createState() => _PostPageState(provider);
+  State<PostPage> createState() => _PostPageState();
 }
 
 class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
@@ -25,14 +24,16 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   Track? track1;
   Track? track2;
 
-  _PostPageState(SpotifyProvider provider) {
-    lastSongFuture = provider.getLastSong().then((value) {
+  @override
+  void initState() {
+    super.initState();
+    lastSongFuture = widget.provider.getLastSong().then((value) {
       setState(() {
         track1 = value;
       });
       return value;
     });
-    currentSongFuture = provider.getCurrentSong().then((value) {
+    currentSongFuture = widget.provider.getCurrentSong().then((value) {
       setState(() {
         track2 = value;
       });
@@ -104,15 +105,10 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
             fullscreenDialog: false, builder: (context) => PreviewPage(track: track,)));
       }
     }
-
   }
 
-  //Plays preview of song
-  void _playSong() {}
-
   //add this song to a playlist
-  void _addToPlaylist() {}
+  void _addToPlaylist() {
 
-  //pauses the preview of the song
-  void _pauseSong() {}
+  }
 }

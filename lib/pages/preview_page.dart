@@ -50,10 +50,10 @@ class _PreviewPageState extends State<PreviewPage>
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.track.name,
-              style: TextStyle(fontSize: 32),
+              style: const TextStyle(fontSize: 32),
             ),
           ),
           ElevatedButton(onPressed: _post, child: const Text("POST"))
@@ -61,12 +61,6 @@ class _PreviewPageState extends State<PreviewPage>
       ),
     );
   }
-
-  //play preview of the song
-  void _playSong() {}
-
-  //pauses the preview of the song
-  void _pauseSong() {}
 
   //confirm the post
   void _post() {}

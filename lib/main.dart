@@ -7,7 +7,6 @@ import 'package:getgroovy/themes/system_brightness_listener.dart';
 import 'package:getgroovy/themes/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'pages/main_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); 
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => ThemeProvider(context: context),
       builder: (context, child) {
-        var themeProvider = Provider.of<ThemeProvider>(context);
         return ChangeNotifierProvider(
           create: (context) => SpotifyProvider(),
           builder: (context, child) {
