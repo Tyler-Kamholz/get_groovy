@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/login_page.dart';
 import 'package:provider/provider.dart';
@@ -55,33 +56,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         themeProvider.setThemeMode(value!);
                       },
                     ),
-                  ),
-                ],
-              ),
-              SettingsSection(
-                title: const Text("Account"),
-                tiles: [
-                  SettingsTile(
-                    title: const Text(
-                      'Login',
-                    ),
-                    leading: const Icon(
-                      Icons.login,
-                    ),
-                    onPressed: (context) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          fullscreenDialog: false,
-                          builder: (context) => const LoginPage()));
-                    },
-                  ),
-                  SettingsTile(
-                    title: Text(
-                      'Logout',
-                      style: _logoutTextStyle,
-                    ),
-                    leading: const Icon(
-                      Icons.logout,
-                      color: Colors.red,
+                  ],
+                ),
+                SettingsSection(
+                  title: const Text("Account"),
+                  tiles: [
+                    SettingsTile(
+                      title: Text('Logout', style: _logoutTextStyle,),
+                      leading: const Icon(Icons.logout, color: Colors.red,),
+                      onPressed: _logoutButton,
                     ),
                     onPressed: (context) {},
                   ),
@@ -95,6 +78,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void backToPage(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  void _logoutButton(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
