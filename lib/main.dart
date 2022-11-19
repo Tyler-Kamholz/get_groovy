@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/pages/login_page.dart';
 import 'package:getgroovy/themes/my_themes.dart';
 import 'package:getgroovy/themes/system_brightness_listener.dart';
 import 'package:getgroovy/themes/theme_provider.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           title: 'Get Groovy',
           home: Stack(
             children: [
-              const MainPage(),
+              const LoginPage(),
               Consumer<ThemeProvider>(
                 builder: (context, value, child) => SystemBrightnessListener(provider: value)
               ),

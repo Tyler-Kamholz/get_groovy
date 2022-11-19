@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/login_page.dart';
 import 'package:provider/provider.dart';
@@ -69,15 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     SettingsTile(
                       title: Text('Logout', style: _logoutTextStyle,),
                       leading: const Icon(Icons.logout, color: Colors.red,),
-                      onPressed: (context) {},
-                    ),
-
-                      SettingsTile(
-                      title: Text('Login', style: _loginTextStyle,),
-                      leading: const Icon(Icons.login, color: Colors.red,),
-                      onPressed: (context) {Navigator.of(context).push(MaterialPageRoute(
-        fullscreenDialog: false,
-        builder: (context) => const LoginPage()));},
+                      onPressed: _logoutButton,
                     ),
                   ],
                 )
@@ -90,6 +83,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void backToPage(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  void _logoutButton(BuildContext context) {
+    FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
     Navigator.pop(context);
   }
 }
