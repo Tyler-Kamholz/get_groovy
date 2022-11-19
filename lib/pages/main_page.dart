@@ -6,7 +6,10 @@ import 'package:getgroovy/pages/profile_page.dart';
 import 'package:getgroovy/pages/search_page.dart';
 import 'package:getgroovy/pages/settings_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
+
+import '../spotify/spotify_provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -21,7 +24,9 @@ class _MainPageState extends State<MainPage> {
   int pageIndex = 0;
   List pages = [
     const HomePage(),
-    const PostPage(),
+    Consumer<SpotifyProvider>(builder: (context, value, child) {
+      return PostPage(provider: value,);
+    },),
     const SearchPage(),
     const ProfilePage(
       userID: 'Rob Bobertson',
