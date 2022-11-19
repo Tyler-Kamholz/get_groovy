@@ -26,15 +26,20 @@ class _HomePageState extends State<HomePage> {
       body: FutureBuilder(
         future: _future,
         builder: (context, snapshot) {
-          if(snapshot.hasData && snapshot.data != null) {
+          if (snapshot.hasData && snapshot.data != null) {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                 return PostCardBuilder.buildPostCard(snapshot.data!.docs[index].data(), context);
+                return PostCardBuilder.buildPostCard(
+                    snapshot.data!.docs[index].data(), context);
               },
             );
           }
-          return Container(width: 100, height: 100, color: Colors.transparent,);
+          return Container(
+            width: 100,
+            height: 100,
+            color: Colors.transparent,
+          );
         },
       ),
     );

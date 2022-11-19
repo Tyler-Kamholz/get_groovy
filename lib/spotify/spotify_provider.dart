@@ -10,7 +10,7 @@ import 'package:spotify_sdk/models/track.dart';
 import 'package:spotify_sdk/spotify_sdk.dart';
 
 const clientID = '3e4212c9761b428e96786051a2668efe';
-const redirectUrl = 'http://localhost/';
+const redirectUrl = 'getGroovy://';
 
 class SpotifyProvider extends ChangeNotifier {
   String? _accessToken;
@@ -62,7 +62,7 @@ class SpotifyProvider extends ChangeNotifier {
           _connected = true;
           returnValue = true;
         }
-      } catch(e) {
+      } catch (e) {
         _tryingToConnect = false;
         return false;
       }
@@ -211,9 +211,7 @@ class SpotifyProvider extends ChangeNotifier {
       return null;
     }
     var recentSongsUri = Uri(
-        scheme: 'https',
-        host: 'api.spotify.com',
-        path: 'v1/tracks/$songID');
+        scheme: 'https', host: 'api.spotify.com', path: 'v1/tracks/$songID');
     Map<String, String> headers = {
       'Authorization': 'Bearer $_accessToken',
       'Content-Type': 'application/json',
@@ -221,6 +219,6 @@ class SpotifyProvider extends ChangeNotifier {
     var result = await get(recentSongsUri, headers: headers);
     var json = jsonDecode(result.body);
 
-    return _jsonToTrack({'track':json});
+    return _jsonToTrack({'track': json});
   }
 }

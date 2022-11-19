@@ -25,9 +25,13 @@ class _MainPageState extends State<MainPage> {
   int pageIndex = 0;
   List pages = [
     const HomePage(),
-    Consumer<SpotifyProvider>(builder: (context, value, child) {
-      return PostPage(provider: value,);
-    },),
+    Consumer<SpotifyProvider>(
+      builder: (context, value, child) {
+        return PostPage(
+          provider: value,
+        );
+      },
+    ),
     const SearchPage(),
     ProfilePage(
       userID: FirebaseAuth.instance.currentUser!.uid,
@@ -44,15 +48,19 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ScrollAppBar(
-          title: const Text("Get Groovy"),
+          title:
+              Image.asset('app_assets/Homepage-Trans.png', fit: BoxFit.cover),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(right: 10),
               child: IconButton(
                 onPressed: () {
                   settings(context);
                 },
-                icon: const Icon(Icons.menu),
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.black38,
+                ),
                 tooltip: 'Settings',
               ),
             ),
@@ -64,7 +72,10 @@ class _MainPageState extends State<MainPage> {
               onPressed: () {
                 notifications(context);
               },
-              icon: const Icon(Icons.notifications),
+              icon: const Icon(
+                Icons.notifications,
+                color: Colors.black38,
+              ),
               tooltip: 'Notifications',
               iconSize: 26,
             ),

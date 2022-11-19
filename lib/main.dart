@@ -9,10 +9,10 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  ); 
+  );
   runApp(const MyApp());
 }
 
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
       create: (context) => ThemeProvider(context: context),
       builder: (context, child) {
         return ChangeNotifierProvider(
-          create: (context) => SpotifyProvider(),
-          builder: (context, child) {
+            create: (context) => SpotifyProvider(),
+            builder: (context, child) {
               var themeProvider = Provider.of<ThemeProvider>(context);
               return MaterialApp(
                 title: 'Get Groovy',
@@ -43,10 +43,8 @@ class MyApp extends StatelessWidget {
                 darkTheme: MyThemes.darkTheme,
                 themeMode: themeProvider.getThemeMode,
               );
-          }
-        );
+            });
       },
     );
-
   }
 }
