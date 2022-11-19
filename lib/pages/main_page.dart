@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/home_page.dart';
 import 'package:getgroovy/pages/notifications_page.dart';
@@ -28,9 +29,8 @@ class _MainPageState extends State<MainPage> {
       return PostPage(provider: value,);
     },),
     const SearchPage(),
-    const ProfilePage(
-      userID: 'Rob Bobertson',
-      showFollowButton: false,
+    ProfilePage(
+      userID: FirebaseAuth.instance.currentUser!.uid,
     ),
   ];
 

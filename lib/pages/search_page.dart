@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/profile_page.dart';
 import 'package:getgroovy/dummy_data.dart';
@@ -12,6 +13,14 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final controller = ScrollController();
   TextEditingController textBoxController = TextEditingController();
+
+  Future<QuerySnapshot<Map<String, dynamic>>>? _usersListFuture;
+
+  @override
+  void initState() {
+    _usersListFuture = FirebaseFirestore.instance.collection('users').get();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +43,21 @@ class _SearchPageState extends State<SearchPage> {
               ],
             )),
         Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 15,
-            controller: controller,
-            itemBuilder: (context, index) {
-              return _buildUserSearch(context);
+          child: FutureBuilder(
+            future: _usersListFuture,
+            builder: (context, snapshot) {
+              if(snapshot.hasData && snapshot.data != null) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    return _buildUserSearchResult(
+                      snapshot.data!.docs[index]['display_name'],
+                      snapshot.data!.docs[index]['user_id']);
+                  }
+                );
+              }
+              return Container();
             },
           ),
         ),
@@ -47,8 +65,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _buildUserSearch(BuildContext context) {
-    String name = DummyData.getRandomName();
+  Widget _buildUserSearchResult(String name, String userID) {
     Image image = DummyData.getRandomImage();
 
     return Column(children: [
@@ -63,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
                 appBar: AppBar(
                   title: Text(name),
                 ),
-                body: ProfilePage(userID: name)),
+                body: ProfilePage(userID: userID)),
             fullscreenDialog: true,
           ));
         },

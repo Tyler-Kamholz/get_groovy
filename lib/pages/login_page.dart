@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getgroovy/pages/main_page.dart';
@@ -177,6 +179,34 @@ class _LoginPageState extends State<LoginPage> {
   void _loginButton() async {
     bool success = await signIn(emailController.text, passwordController.text);
     if (success) {
+      var user = FirebaseAuth.instance.currentUser;
+      if(user == null) {
+        return;
+      }
+
+      FirebaseFirestore.instance.collection('users').doc(user.uid).get().then((value) {
+        if(!value.exists) {
+          FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+            {
+              'display_name': user.email,
+              'email': user.email,
+              'user_id': user.uid,
+            },
+          );
+        }
+      });
+
+
+/*
+      var firestore = FirebaseFirestore.instance;
+      await firestore.collection('users').add(
+        {
+          'display_name': user.email,
+          'email': user.email,
+          'user_id': user.uid,
+        }
+      );
+*/
       // todo This should hook into a streamController to detect logged in state
       // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(

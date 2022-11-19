@@ -112,7 +112,7 @@ class SpotifyProvider extends ChangeNotifier {
       artists[0],
       artists,
       track['duration_ms'],
-      (await _getAlbumCoverImageUri(track['album']['id']))!,
+      (await getAlbumCoverImageUri(track['album']['id']))!,
       track['name'],
       track['uri'],
       null,
@@ -124,13 +124,13 @@ class SpotifyProvider extends ChangeNotifier {
 
   /// Asks the spotify API for an image of an album
   Future<ImageUri?> getAlbumCover(Album album) async {
-    return _getAlbumCoverImageUri(
+    return getAlbumCoverImageUri(
         // The albumID is after the last ':'
         album.uri.substring(album.uri.lastIndexOf(':') + 1));
   }
 
   /// Asks the spotify API for an image given the album ID
-  Future<ImageUri?> _getAlbumCoverImageUri(String albumID) async {
+  Future<ImageUri?> getAlbumCoverImageUri(String albumID) async {
     var uri = Uri(
       scheme: 'https',
       host: 'api.spotify.com',
@@ -203,5 +203,24 @@ class SpotifyProvider extends ChangeNotifier {
       return null;
     }
     return tracks[0];
+  }
+
+  Future<Track?> getTrackFromID(String songID) async {
+    var connected = await _ensureConnected();
+    if (!connected) {
+      return null;
+    }
+    var recentSongsUri = Uri(
+        scheme: 'https',
+        host: 'api.spotify.com',
+        path: 'v1/tracks/$songID');
+    Map<String, String> headers = {
+      'Authorization': 'Bearer $_accessToken',
+      'Content-Type': 'application/json',
+    };
+    var result = await get(recentSongsUri, headers: headers);
+    var json = jsonDecode(result.body);
+
+    return _jsonToTrack({'track':json});
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/dummy_data.dart';
 import 'package:getgroovy/helpers/helpers.dart';
@@ -9,13 +11,12 @@ import '../widgets/post_card_builder.dart';
 
 /// Widget to display user profiles
 class ProfilePage extends StatefulWidget {
-  /// user ID which will eventually be used to pull relavent other data
-  // At the moment, userID is used for all GUI dummy data
   final String userID;
-  final bool showFollowButton;
+  late final bool isMe;
 
-  const ProfilePage(
-      {super.key, required this.userID, this.showFollowButton = true});
+  ProfilePage({super.key, required this.userID}) {
+    isMe = FirebaseAuth.instance.currentUser!.uid == userID;
+  }
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -24,6 +25,18 @@ class ProfilePage extends StatefulWidget {
 enum _ProfileTabs { following, posts, followers }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late Future<DocumentSnapshot<Map<String, dynamic>>> _userDocument;
+  late Future<QuerySnapshot<Map<String, dynamic>>> _songListFuture;
+  @override
+  void initState() {
+    super.initState();
+    _updateUserDocument();
+    _songListFuture = FirebaseFirestore.instance
+        .collection('posts')
+        .where('user_id', isEqualTo: widget.userID)
+        .get();
+  }
+
   _ProfileTabs _currentTab = _ProfileTabs.posts;
   final controller = ScrollController();
 
@@ -31,23 +44,32 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        // The entire page is a single CustomScrollView
-        child: CustomScrollView(
-          slivers: buildSliverLister(),
-        ),
-      ),
+          // The entire page is a single CustomScrollView
+          child: FutureBuilder(
+        future: _userDocument,
+        builder: (context, snapshot) {
+          if (snapshot.hasData && snapshot.data != null) {
+            return CustomScrollView(
+              slivers: buildSliverLister(snapshot.data!),
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      )),
     );
   }
 
   /// Constructs all of the features of the profile page
-  List<Widget> buildSliverLister() {
+  List<Widget> buildSliverLister(
+      DocumentSnapshot<Map<String, dynamic>> userData) {
     return [
       // Allows us to use standard widgets in the view
       SliverToBoxAdapter(
         child: Column(
           children: [
             buildAvatar(),
-            buildName(),
+            buildName(userData),
             buildButtonBar(),
             const Divider(),
           ],
@@ -59,18 +81,33 @@ class _ProfilePageState extends State<ProfilePage> {
 
   /// Constructs the avatar, which currently is a random color
   Widget buildAvatar() {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+    return Stack(children: [
+      const Padding(
+        padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
         child: CircleAvatar(
-            foregroundImage:
-                Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
-            backgroundColor: ColorHelper.random(),
-            minRadius: 100,
-            maxRadius: 100));
+            backgroundColor: Colors.red, minRadius: 100, maxRadius: 100),
+      ),
+      Positioned(
+          bottom: 0,
+          right: 0,
+          child: () {
+            if (widget.isMe) {
+              return IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {},
+              );
+            } else {
+              return const SizedBox(
+                width: 10,
+                height: 10,
+              );
+            }
+          }())
+    ]);
   }
 
   /// Constructs the user's name and button to activate a QR code
-  Widget buildName() {
+  Widget buildName(DocumentSnapshot<Map<String, dynamic>> userData) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       // Everything below this is some weird hack to center a widget
@@ -82,16 +119,19 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-                child: widget.showFollowButton
+                child: widget.isMe
                     ? IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: _editDisplayName,
+                      )
+                    : IconButton(
                         icon: const Icon(Icons.person_add),
                         onPressed: () {},
-                      )
-                    : Container()),
+                      )),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(widget.userID,
+                Text(userData['display_name'],
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -103,7 +143,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
-                      onPressed: showQR, icon: const Icon(Icons.qr_code)),
+                      onPressed: () {
+                        showQR(userData['display_name'], userData['user_id']);
+                      },
+                      icon: const Icon(Icons.qr_code)),
                 ],
               ),
             ),
@@ -114,16 +157,16 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Displays a pop up dialog menu that displays the user's QR code
-  void showQR() {
+  void showQR(String displayName, String userId) {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text(widget.userID),
+              title: Text(displayName),
               content: SizedBox(
                 height: 250,
                 width: 250,
                 child: QrImage(
-                  data: widget.userID,
+                  data: userId,
                   version: QrVersions.auto,
                   foregroundColor: Colors.black,
                   backgroundColor: Colors.white,
@@ -183,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Builds the list for the profile according to the current tab
-  SliverList buildSliverList() {
+  Widget buildSliverList() {
     switch (_currentTab) {
       case _ProfileTabs.followers:
         return buildUserList();
@@ -218,7 +261,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   appBar: AppBar(
                     title: Text(name),
                   ),
-                  body: ProfilePage(userID: name)),
+                  body: Container()), //const ProfilePage(user: null,)),
               fullscreenDialog: true,
             ));
           },
@@ -228,13 +271,40 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Builds a list of posts using PostCardBuilder
-  SliverList buildPostList() {
+  Widget buildPostList() {
+    return FutureBuilder(
+      future: _songListFuture,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return PostCardBuilder.buildPostCard(
+                    snapshot.data!.docs[index].data(), context);
+              },
+              childCount: snapshot.data!.docs.length,
+            ),
+          );
+        }
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Container();
+            },
+            childCount: 0,
+          ),
+        );
+      },
+    );
+
+    /*
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (context, index) => PostCardBuilder.buildPostCard(context),
+        (context, index) => Container(), //PostCardBuilder.buildPostCard(context),
         childCount: 15,
       ),
     );
+    */
   }
 
   static TextStyle _getButtonBarStyle(BuildContext context) {
@@ -250,5 +320,49 @@ class _ProfilePageState extends State<ProfilePage> {
           color: Colors.black,
         );
     }
+  }
+
+  void _editDisplayName() {
+    TextEditingController updateNameController = TextEditingController();
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text("Edit display name"),
+              content: SizedBox(
+                height: 250,
+                width: 250,
+                child: TextField(
+                  controller: updateNameController,
+                ),
+              ),
+              actions: [
+                Center(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(widget.userID)
+                              .set({
+                            'display_name': updateNameController.text,
+                          }, SetOptions(merge: true)).then((value) {
+                            _updateUserDocument();
+                          });
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'Done',
+                          style: TextStyle(fontSize: 16),
+                        )))
+              ],
+            ));
+  }
+
+  void _updateUserDocument() {
+    setState(() {
+      _userDocument = FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userID)
+          .get();
+    });
   }
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:provider/provider.dart';
@@ -63,5 +65,14 @@ class _PreviewPageState extends State<PreviewPage>
   }
 
   //confirm the post
-  void _post() {}
+  void _post() {
+    var id = widget.track.uri.substring(widget.track.uri.lastIndexOf(':') + 1);
+    FirebaseFirestore.instance.collection('posts').add(
+      {
+        'user_id': FirebaseAuth.instance.currentUser!.uid,
+        'song_id': id,
+        'time': Timestamp(0, 0),
+      }
+    );
+  }
 }
