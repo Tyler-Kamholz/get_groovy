@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:getgroovy/pages/main_page.dart';
 import 'package:getgroovy/pages/register_page.dart';
 import 'package:getgroovy/authentication.dart';
+import 'package:getgroovy/themes/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -29,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-          decoration: const BoxDecoration(
-            color: Colors.green,
+          decoration: BoxDecoration(
+            color: Provider.of<ThemeProvider>(context).getCurrentTheme().loginBackgroundColor,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
