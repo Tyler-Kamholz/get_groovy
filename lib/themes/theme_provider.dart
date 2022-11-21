@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:getgroovy/themes/my_themes.dart';
 import 'package:system_theme/system_theme.dart';
 
 /// This class provides an interface to globally access
@@ -16,6 +17,16 @@ class ThemeProvider extends ChangeNotifier {
 
   /// Gets the current theme
   ThemeMode get getThemeMode => _themeMode;
+
+  GroovyTheme getCurrentTheme() {
+    if (_themeMode == ThemeMode.light) {
+      return MyThemes.lightTheme;
+    } else if (_themeMode == ThemeMode.dark) {
+      return MyThemes.darkTheme;
+    } else {
+      return SystemTheme.isDarkMode ? MyThemes.darkTheme : MyThemes.lightTheme;
+    }
+  }
 
   /// Sets the theme
   void setThemeMode(ThemeMode themeMode) {
@@ -53,5 +64,6 @@ class ThemeProvider extends ChangeNotifier {
       _setSystemNavBar(
           SystemTheme.isDarkMode ? Brightness.dark : Brightness.light);
     }
+    notifyListeners();
   }
 }

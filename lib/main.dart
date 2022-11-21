@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
                             SystemBrightnessListener(provider: value)),
                   ],
                 ),
-                theme: MyThemes.lightTheme,
-                darkTheme: MyThemes.darkTheme,
+                theme: MyThemes.lightTheme.global,
+                darkTheme: MyThemes.darkTheme.global,
                 themeMode: themeProvider.getThemeMode,
               );
           }
