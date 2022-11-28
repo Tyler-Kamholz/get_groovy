@@ -83,7 +83,16 @@ class _SearchPageState extends State<SearchPage> {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => Scaffold(
+                backgroundColor: Provider.of<ThemeProvider>(context)
+                    .getCurrentTheme()
+                    .backgroundColor,
                 appBar: AppBar(
+                  backgroundColor: Provider.of<ThemeProvider>(context)
+                      .getCurrentTheme()
+                      .navBarColor,
+                  foregroundColor: Provider.of<ThemeProvider>(context)
+                      .getCurrentTheme()
+                      .black,
                   title: Text(name),
                 ),
                 body: ProfilePage(userID: userID)),

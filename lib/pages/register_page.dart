@@ -94,11 +94,14 @@ class _RegisterPageState extends State<RegisterPage> {
   void _registerButton() async {
     bool success =
         await register(emailController.text, passwordController.text);
+
     if (success) {
       // Need to break this out somewhere
       // ignore: use_build_context_synchronously
       Navigator.of(context).push(MaterialPageRoute(
           fullscreenDialog: false, builder: (context) => const LoginPage()));
+    } else {
+      print('error');
     }
   }
 }

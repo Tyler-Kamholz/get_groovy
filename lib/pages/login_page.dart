@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../authentication.dart';
 import '../themes/theme_provider.dart';
 import 'main_page.dart';
@@ -124,13 +123,6 @@ class _LoginPageState extends State<LoginPage> {
             },
           );
         }
-      });
-
-      var firestore = FirebaseFirestore.instance;
-      await firestore.collection('users').add({
-        'display_name': user.email,
-        'email': user.email,
-        'user_id': user.uid,
       });
 
       // todo This should hook into a streamController to detect logged in state

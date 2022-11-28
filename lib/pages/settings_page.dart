@@ -27,7 +27,10 @@ class _SettingsPageState extends State<SettingsPage> {
               Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
           foregroundColor:
               Provider.of<ThemeProvider>(context).getCurrentTheme().black,
-          title: const Text("Settings"),
+          title: const Text(
+            "Settings",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           leading: IconButton(
             onPressed: () {
               backToPage(context);

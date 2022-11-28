@@ -54,8 +54,9 @@ class MyThemes {
     black: Colors.black,
     backgroundColor: lightThemeColors[0],
     cardColor: Colors.white,
-    settingsTheme:
-        SettingsThemeData(settingsListBackground: lightThemeColors[0]),
+    settingsTheme: SettingsThemeData(
+        settingsListBackground: lightThemeColors[0],
+        settingsSectionBackground: Colors.white),
     loginColor: lightThemeColors[5],
     signupColor: lightThemeColors[4],
   );
