@@ -5,8 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/dummy_data.dart';
 import 'package:getgroovy/helpers/helpers.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../themes/theme_provider.dart';
 import '../widgets/post_card_builder.dart';
 
 /// Widget to display user profiles
@@ -43,6 +45,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+          Provider.of<ThemeProvider>(context).getCurrentTheme().backgroundColor,
       body: SafeArea(
           // The entire page is a single CustomScrollView
           child: FutureBuilder(
@@ -93,6 +97,9 @@ class _ProfilePageState extends State<ProfilePage> {
           child: () {
             if (widget.isMe) {
               return IconButton(
+                color: Provider.of<ThemeProvider>(context)
+                    .getCurrentTheme()
+                    .iconColor,
                 icon: const Icon(Icons.edit),
                 onPressed: () {},
               );
@@ -121,6 +128,9 @@ class _ProfilePageState extends State<ProfilePage> {
             Expanded(
                 child: widget.isMe
                     ? IconButton(
+                        color: Provider.of<ThemeProvider>(context)
+                            .getCurrentTheme()
+                            .iconColor,
                         icon: const Icon(Icons.edit),
                         onPressed: _editDisplayName,
                       )
@@ -143,6 +153,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   IconButton(
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .iconColor,
                       onPressed: () {
                         showQR(userData['display_name'], userData['user_id']);
                       },

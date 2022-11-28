@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 import '../spotify/spotify_provider.dart';
+import '../themes/theme_provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -47,68 +48,75 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: ScrollAppBar(
-          title:
-              Image.asset('app_assets/Homepage-Trans.png', fit: BoxFit.cover),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: IconButton(
-                onPressed: () {
-                  settings(context);
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.black38,
-                ),
-                tooltip: 'Settings',
-              ),
-            ),
-          ],
-          controller: controller,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 10),
+      appBar: ScrollAppBar(
+        backgroundColor:
+            Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
+        title: Image.asset('app_assets/Homepage-Trans.png', fit: BoxFit.cover),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
             child: IconButton(
               onPressed: () {
-                notifications(context);
+                settings(context);
               },
-              icon: const Icon(
-                Icons.notifications,
-                color: Colors.black38,
+              icon: Icon(
+                Icons.menu,
+                color: Provider.of<ThemeProvider>(context)
+                    .getCurrentTheme()
+                    .iconColor,
               ),
-              tooltip: 'Notifications',
-              iconSize: 26,
+              tooltip: 'Settings',
             ),
           ),
-        ),
-        body: pages[pageIndex],
-        bottomNavigationBar: Padding(
-          padding: const EdgeInsets.fromLTRB(15, 15, 15, 30),
-          child: GNav(
-            tabs: const [
-              GButton(
-                icon: Icons.home_outlined,
-                text: 'Home',
-              ),
-              GButton(
-                icon: Icons.add_circle_outline,
-                text: 'Post',
-              ),
-              GButton(
-                icon: Icons.search_outlined,
-                text: 'Search',
-              ),
-              GButton(
-                icon: Icons.person_outline,
-                text: 'Profile',
-              ),
-            ],
-            gap: 10,
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-            onTabChange: onTap,
-            hoverColor: Colors.grey.shade400,
+        ],
+        controller: controller,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: IconButton(
+            onPressed: () {
+              notifications(context);
+            },
+            icon: Icon(
+              Icons.notifications,
+              color: Provider.of<ThemeProvider>(context)
+                  .getCurrentTheme()
+                  .iconColor,
+            ),
+            tooltip: 'Notifications',
+            iconSize: 26,
           ),
-        ));
+        ),
+      ),
+      body: pages[pageIndex],
+      bottomNavigationBar: GNav(
+        activeColor:
+            Provider.of<ThemeProvider>(context).getCurrentTheme().black,
+        color: Provider.of<ThemeProvider>(context).getCurrentTheme().iconColor,
+        backgroundColor:
+            Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
+        tabs: const [
+          GButton(
+            icon: Icons.home_outlined,
+            text: 'Home',
+          ),
+          GButton(
+            icon: Icons.add_circle_outline,
+            text: 'Post',
+          ),
+          GButton(
+            icon: Icons.search_outlined,
+            text: 'Search',
+          ),
+          GButton(
+            icon: Icons.person_outline,
+            text: 'Profile',
+          ),
+        ],
+        gap: 10,
+        padding: const EdgeInsets.fromLTRB(25, 20, 25, 40),
+        onTabChange: onTap,
+      ),
+    );
   }
 
   void settings(BuildContext context) {
