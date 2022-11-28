@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/widgets/post_card_builder.dart';
+import 'package:provider/provider.dart';
+
+import '../themes/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,6 +26,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:
+          Provider.of<ThemeProvider>(context).getCurrentTheme().backgroundColor,
       body: FutureBuilder(
         future: _future,
         builder: (context, snapshot) {

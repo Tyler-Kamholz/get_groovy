@@ -9,6 +9,7 @@ import 'package:spotify_sdk/models/track.dart';
 
 import '../helpers/helpers.dart';
 import '../pages/profile_page.dart';
+import '../themes/theme_provider.dart';
 
 class Song {
   String name;
@@ -34,6 +35,8 @@ class PostCardBuilder {
       future: trackFuture,
       builder: (context, snapshot) {
         return Card(
+          color:
+              Provider.of<ThemeProvider>(context).getCurrentTheme().cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
           ),
