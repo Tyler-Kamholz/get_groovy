@@ -76,7 +76,7 @@ class _PreviewPageState extends State<PreviewPage>
     FirebaseFirestore.instance.collection('posts').add({
       'user_id': FirebaseAuth.instance.currentUser!.uid,
       'song_id': id,
-      'time': Timestamp(0, 0),
+      'time': Timestamp.now()
     });
   }
 }

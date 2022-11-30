@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:getgroovy/widgets/reaction_bar.dart';
@@ -48,7 +49,6 @@ class _PostCardWidgetState extends State<PostCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    //print(widget.postData['song_id']);
     return FutureBuilder(
       future: trackFuture,
       builder: (context, snapshot) {
@@ -109,7 +109,8 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                             Text(snapshot.hasData
                                 ? snapshot.data!.artist.name!
                                 : '...'),
-                            Text('${Random().nextInt(24)} hours ago'),
+                            Text(getElapsedTimeString(widget.post.time)),
+                            //Text('${Random().nextInt(24)} hours ago'),
                             Expanded(child: Container()),
                             const ReactionBar(),
                           ],
@@ -156,5 +157,18 @@ class _PostCardWidgetState extends State<PostCardWidget> {
         );
       },
     );
+  }
+
+  String getElapsedTimeString(Timestamp oldTime) {
+    var duration = DateTime.now().difference(oldTime.toDate());
+    if(duration.inDays > 0) {
+      return '${duration.inDays} days ago';
+    } else if(duration.inHours > 0) {
+      return '${duration.inHours} hours ago';
+    } else if(duration.inMinutes > 0) {
+      return '${duration.inMinutes} minutes ago';
+    } else {
+      return '${duration.inSeconds} seconds ago';
+    }
   }
 }
