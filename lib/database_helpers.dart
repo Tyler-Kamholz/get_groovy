@@ -55,7 +55,7 @@ class DatabaseHelpers {
     var snapshot = await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
-        .collection('following')
+        .collection('followers')
         .get();
     return List.generate(
         snapshot.docs.length, (index) => snapshot.docs[index].id);
