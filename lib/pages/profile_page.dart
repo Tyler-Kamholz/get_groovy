@@ -1,15 +1,16 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:getgroovy/dummy_data.dart';
-import 'package:getgroovy/helpers/helpers.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../database_helpers.dart';
+import '../model/post.dart';
+import '../spotify/spotify_provider.dart';
 import '../themes/theme_provider.dart';
 import '../widgets/post_card_builder.dart';
+import '../widgets/user_list_tile.dart';
 
 /// Widget to display user profiles
 class ProfilePage extends StatefulWidget {
@@ -28,15 +29,40 @@ enum _ProfileTabs { following, posts, followers }
 
 class _ProfilePageState extends State<ProfilePage> {
   late Future<DocumentSnapshot<Map<String, dynamic>>> _userDocument;
-  late Future<QuerySnapshot<Map<String, dynamic>>> _songListFuture;
+  List<Post>? userPosts;
+  late Future<List<String>> _followingFuture;
+  late Future<List<String>> _followersFuture;
   @override
   void initState() {
     super.initState();
     _updateUserDocument();
-    _songListFuture = FirebaseFirestore.instance
+
+    DatabaseHelpers.getPosts(widget.userID).then((value) { userPosts = value; });
+    _followingFuture = DatabaseHelpers.getFollowing(widget.userID);
+    _followersFuture = DatabaseHelpers.getFollowers(widget.userID);
+    /*
+    FirebaseFirestore.instance
         .collection('posts')
+        .withConverter<Post>(
+            fromFirestore: Post.fromJson, toFirestore: Post.toJson)
         .where('user_id', isEqualTo: widget.userID)
+        .get()
+        .then((value) {
+      userPosts =
+          List.generate(value.docs.length, (index) => value.docs[index].data());
+    });
+
+    _followingFuture = FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userID)
+        .collection('following')
         .get();
+    _followersFuture = FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userID)
+        .collection('followers')
+        .get();
+        */
   }
 
   _ProfileTabs _currentTab = _ProfileTabs.posts;
@@ -83,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
     ];
   }
 
-  /// Constructs the avatar, which currently is a random color
+  /// Constructs the avatar , which currently is a random color
   Widget buildAvatar() {
     return Stack(children: [
       const Padding(
@@ -114,30 +140,64 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Constructs the user's name and button to activate a QR code
+  /// and follow/unfollow or edit username button
   Widget buildName(DocumentSnapshot<Map<String, dynamic>> userData) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
-      // Everything below this is some weird hack to center a widget
-      // but put an extra widget to the side of it
-      // https://stackoverflow.com/questions/58164799/flutter-align-widget-to-centre-and-another-to-the-right-impossible
       child: SizedBox(
         width: 300,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-                child: widget.isMe
-                    ? IconButton(
-                        color: Provider.of<ThemeProvider>(context)
-                            .getCurrentTheme()
-                            .iconColor,
-                        icon: const Icon(Icons.edit),
-                        onPressed: _editDisplayName,
-                      )
-                    : IconButton(
-                        icon: const Icon(Icons.person_add),
-                        onPressed: () {},
-                      )),
+            Expanded(child: () {
+              if (widget.isMe) {
+                return IconButton(
+                  color: Provider.of<ThemeProvider>(context)
+                      .getCurrentTheme()
+                      .iconColor,
+                  icon: const Icon(Icons.edit),
+                  onPressed: _editDisplayName,
+                );
+              } else {
+                return FutureBuilder(
+                  future: DatabaseHelpers.isXFollowingY(
+                      FirebaseAuth.instance.currentUser!.uid, widget.userID),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data!) {
+                        return IconButton(
+                          icon: const Icon(Icons.person_remove),
+                          onPressed: () {
+                            DatabaseHelpers.unfollow(
+                                    follower:
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                    following: widget.userID)
+                                .then((value) {
+                              _updateUserDocument();
+                            });
+                          },
+                        );
+                      } else {
+                        return IconButton(
+                          icon: const Icon(Icons.person_add),
+                          onPressed: () {
+                            DatabaseHelpers.follow(
+                                    follower:
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                    following: widget.userID)
+                                .then((value) {
+                              _updateUserDocument();
+                            });
+                          },
+                        );
+                      }
+                    } else {
+                      return Container();
+                    }
+                  },
+                );
+              }
+            }()),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -206,11 +266,31 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        createStackedbutton(512, 'Followers', _ProfileTabs.followers, context),
+        FutureBuilder(
+          future: _followersFuture,
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              return createStackedbutton(snapshot.data!.length, 'Followers', _ProfileTabs.followers, context);
+            } else {
+              return createStackedbutton(0, 'Followers', _ProfileTabs.followers, context);
+            }
+          },
+        ),
         const VerticalDivider(),
-        createStackedbutton(1024, 'Posts', _ProfileTabs.posts, context),
+        userPosts != null ?
+          createStackedbutton(userPosts!.length, 'Posts', _ProfileTabs.posts, context) :
+          createStackedbutton(0, 'Posts', _ProfileTabs.posts, context),
         const VerticalDivider(),
-        createStackedbutton(128, 'Following', _ProfileTabs.following, context),
+        FutureBuilder(
+          future: _followingFuture,
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              return createStackedbutton(snapshot.data!.length, 'Following', _ProfileTabs.following, context);
+            } else {
+              return createStackedbutton(0, 'Following', _ProfileTabs.following, context);
+            }
+          },
+        ),
       ],
     ));
   }
@@ -220,9 +300,11 @@ class _ProfilePageState extends State<ProfilePage> {
       int count, String text, _ProfileTabs tabToSet, BuildContext context) {
     return TextButton(
         onPressed: () {
-          setState(() {
-            _currentTab = tabToSet;
-          });
+          if (_currentTab != tabToSet) {
+            setState(() {
+              _currentTab = tabToSet;
+            });
+          }
         },
         child: Column(
           children: [
@@ -242,9 +324,9 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildSliverList() {
     switch (_currentTab) {
       case _ProfileTabs.followers:
-        return buildUserList();
+        return buildUserList(followers: true);
       case _ProfileTabs.following:
-        return buildUserList();
+        return buildUserList(followers: false);
       case _ProfileTabs.posts:
         return buildPostList();
     }
@@ -252,48 +334,74 @@ class _ProfilePageState extends State<ProfilePage> {
 
   /// Constructs a list of users with small avatar icons and name
   /// Clicking on a list entry will navigate to their profile
-  SliverList buildUserList() {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(childCount: 15, (context, index) {
-        var name = DummyData.getRandomName();
-        return ListTile(
-          // Profile is a random color right now
-          leading: CircleAvatar(
-              foregroundImage:
-                  Image.asset('images/image${Random().nextInt(7) + 1}.jpg')
-                      .image,
-              backgroundColor: ColorHelper.random(),
-              minRadius: 20,
-              maxRadius: 20),
-          // Text is a random username right now
-          title: Text(name),
-          // Tapping on an entry navigates to their profile
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Scaffold(
-                  appBar: AppBar(
-                    title: Text(name),
-                  ),
-                  body: Container()), //const ProfilePage(user: null,)),
-              fullscreenDialog: true,
-            ));
-          },
-        );
-      }),
-    );
-  }
-
-  /// Builds a list of posts using PostCardBuilder
-  Widget buildPostList() {
+  Widget buildUserList({required bool followers}) {
     return FutureBuilder(
-      future: _songListFuture,
+      future: followers ? _followersFuture : _followingFuture,
       builder: (context, snapshot) {
         if (snapshot.hasData && snapshot.data != null) {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                return PostCardBuilder.buildPostCard(
-                    snapshot.data!.docs[index].data(), context);
+                return UserListTile(
+                  userID: snapshot.data![index],
+                );
+              },
+              childCount: snapshot.data!.length,
+            ),
+          );
+        } else {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Container();
+              },
+              childCount: 0,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  /// Builds a list of posts using PostCardBuilder
+  Widget buildPostList() {
+    if (userPosts != null) {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            //print(snapshot.data?.docs);
+            return PostCardWidget(
+              post: userPosts![index],
+              provider: Provider.of<SpotifyProvider>(context),
+            );
+          },
+          childCount: userPosts!.length,
+        ),
+      );
+    } else {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return Container();
+          },
+          childCount: 0,
+        ),
+      );
+    }
+    /*
+    return FutureBuilder(
+      future: _songListFuture,
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          print(snapshot.data?.docs.length);
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                //print(snapshot.data?.docs);
+                return PostCardWidget(
+                  postData: snapshot.data!.docs[index].data(),
+                  provider: Provider.of<SpotifyProvider>(context),
+                );
               },
               childCount: snapshot.data!.docs.length,
             ),
@@ -308,14 +416,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         );
       },
-    );
-
-    /*
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => Container(), //PostCardBuilder.buildPostCard(context),
-        childCount: 15,
-      ),
     );
     */
   }
