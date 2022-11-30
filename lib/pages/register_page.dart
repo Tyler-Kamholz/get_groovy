@@ -101,7 +101,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.of(context).push(MaterialPageRoute(
           fullscreenDialog: false, builder: (context) => const LoginPage()));
     } else {
-      print('error');
+      
     }
   }
 }

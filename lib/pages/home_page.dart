@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/database_helpers.dart';
+import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:getgroovy/widgets/post_card_builder.dart';
 import 'package:provider/provider.dart';
 
+import '../model/post.dart';
 import '../themes/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,12 +19,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
 
-  late Future<QuerySnapshot<Map<String, dynamic>>> _future;
+  late Future<QuerySnapshot<Post>> _future;
 
   @override
   void initState() {
     super.initState();
-    _future = FirebaseFirestore.instance.collection('posts').get();
+
+    _future = DatabaseHelpers.getFollowing(FirebaseAuth.instance.currentUser!.uid).then((followingList) => 
+      FirebaseFirestore.instance
+      .collection('posts')
+      .where('user_id', whereIn: followingList)
+      .withConverter<Post>(
+        fromFirestore: Post.fromJson, 
+        toFirestore: Post.toJson)
+      .get()
+    );
   }
 
   @override
@@ -35,8 +48,10 @@ class _HomePageState extends State<HomePage> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return PostCardBuilder.buildPostCard(
-                    snapshot.data!.docs[index].data(), context);
+                return PostCardWidget(
+                  post: snapshot.data!.docs[index].data(),
+                  provider: Provider.of<SpotifyProvider>(context),
+                );
               },
             );
           }
