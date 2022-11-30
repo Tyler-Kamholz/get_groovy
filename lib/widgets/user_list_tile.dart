@@ -61,37 +61,5 @@ class _UserListTileState extends State<UserListTile> {
         }
       },
     );
-
-    return ListTile(
-      // Profile is a random color right now
-      leading: CircleAvatar(
-          foregroundImage:
-              Image.asset('images/image${Random().nextInt(7) + 1}.jpg').image,
-          backgroundColor: ColorHelper.random(),
-          minRadius: 20,
-          maxRadius: 20),
-      // Text is a random username right now
-      title: FutureBuilder(
-        future: widget._userDocument,
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != null) {
-            return Text(snapshot.data!.data()!['display_name']);
-          } else {
-            return Container();
-          }
-        },
-      ),
-      // Tapping on an entry navigates to their profile
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Scaffold(
-              appBar: AppBar(
-                title: Text('asd'),
-              ),
-              body: Container()), //const ProfilePage(user: null,)),
-          fullscreenDialog: true,
-        ));
-      },
-    );
   }
 }

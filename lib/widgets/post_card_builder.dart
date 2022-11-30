@@ -24,8 +24,7 @@ class PostCardWidget extends StatefulWidget {
   final Post post;
   final SpotifyProvider provider;
 
-  PostCardWidget(
-      {required this.post, required this.provider, super.key});
+  const PostCardWidget({required this.post, required this.provider, super.key});
   @override
   State<PostCardWidget> createState() => _PostCardWidgetState();
 }
@@ -34,22 +33,20 @@ class _PostCardWidgetState extends State<PostCardWidget> {
   Future<ImageUri?>? imageFuture;
   Future<Track?>? trackFuture;
 
+  @override
   void initState() {
-    //print(widget.postData['song_id']);
-    if (widget.post.songID != null) {
-      print(widget.post.songID);
-      trackFuture =
-          widget.provider.getTrackFromID(widget.post.songID).then(
-        (value) {
-          setState(() {
-            imageFuture = widget.provider.getAlbumCover(value!.album);
-          });
-          return value;
-        },
-      );
-    }
+    super.initState();
+    trackFuture = widget.provider.getTrackFromID(widget.post.songID).then(
+      (value) {
+        setState(() {
+          imageFuture = widget.provider.getAlbumCover(value!.album);
+        });
+        return value;
+      },
+    );
   }
 
+  @override
   Widget build(BuildContext context) {
     //print(widget.postData['song_id']);
     return FutureBuilder(
@@ -102,13 +99,16 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(snapshot.hasData ? snapshot.data!.name : '...',
+                            Text(
+                              snapshot.hasData ? snapshot.data!.name : '...',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
                             ),
-                            Text(snapshot.hasData ? snapshot.data!.artist.name! : '...'),
+                            Text(snapshot.hasData
+                                ? snapshot.data!.artist.name!
+                                : '...'),
                             Text('${Random().nextInt(24)} hours ago'),
                             Expanded(child: Container()),
                             const ReactionBar(),
