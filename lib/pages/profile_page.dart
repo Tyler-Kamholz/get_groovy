@@ -245,17 +245,29 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         FutureBuilder(
           future: _followersFuture,
-          builder: (context, snapshot) => createStackedbutton(snapshot.hasData ? snapshot.data!.length : 0, 'Followers', _ProfileTabs.followers, context);,
+          builder: (context, snapshot) => createStackedbutton(
+              snapshot.hasData ? snapshot.data!.length : 0,
+              'Followers',
+              _ProfileTabs.followers,
+              context),
         ),
         const VerticalDivider(),
         FutureBuilder(
           future: _postsFuture,
-          builder: (context, snapshot) => createStackedbutton(snapshot.hasData ? snapshot.data!.length : 0, 'Posts', _ProfileTabs.posts, context),
+          builder: (context, snapshot) => createStackedbutton(
+              snapshot.hasData ? snapshot.data!.length : 0,
+              'Posts',
+              _ProfileTabs.posts,
+              context),
         ),
         const VerticalDivider(),
         FutureBuilder(
           future: _followingFuture,
-          builder: (context, snapshot) => createStackedbutton(snapshot.hasData ? snapshot.data!.length : 0, 'Following', _ProfileTabs.following, context),
+          builder: (context, snapshot) => createStackedbutton(
+              snapshot.hasData ? snapshot.data!.length : 0,
+              'Following',
+              _ProfileTabs.following,
+              context),
         ),
       ],
     ));
@@ -331,59 +343,34 @@ class _ProfilePageState extends State<ProfilePage> {
 
   /// Builds a list of posts using PostCardBuilder
   Widget buildPostList() {
-    if (userPosts != null) {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            //print(snapshot.data?.docs);
-            return PostCardWidget(
-              post: userPosts![index],
-              provider: Provider.of<SpotifyProvider>(context),
-            );
-          },
-          childCount: userPosts!.length,
-        ),
-      );
-    } else {
-      return SliverList(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            return Container();
-          },
-          childCount: 0,
-        ),
-      );
-    }
-    /*
     return FutureBuilder(
-      future: _songListFuture,
+      future: _postsFuture,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          print(snapshot.data?.docs.length);
+        if (snapshot.hasData) {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 //print(snapshot.data?.docs);
                 return PostCardWidget(
-                  postData: snapshot.data!.docs[index].data(),
+                  post: snapshot.data![index],
                   provider: Provider.of<SpotifyProvider>(context),
                 );
               },
-              childCount: snapshot.data!.docs.length,
+              childCount: snapshot.data!.length,
+            ),
+          );
+        } else {
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                return Container();
+              },
+              childCount: 0,
             ),
           );
         }
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return Container();
-            },
-            childCount: 0,
-          ),
-        );
       },
     );
-    */
   }
 
   static TextStyle _getButtonBarStyle(BuildContext context) {
