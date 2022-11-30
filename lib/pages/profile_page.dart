@@ -29,7 +29,7 @@ enum _ProfileTabs { following, posts, followers }
 
 class _ProfilePageState extends State<ProfilePage> {
   late Future<DocumentSnapshot<Map<String, dynamic>>> _userDocument;
-  List<Post>? userPosts;
+  late Future<List<Post>> _postsFuture;
   late Future<List<String>> _followingFuture;
   late Future<List<String>> _followersFuture;
   @override
@@ -37,32 +37,9 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _updateUserDocument();
 
-    DatabaseHelpers.getPosts(widget.userID).then((value) { userPosts = value; });
+    _postsFuture = DatabaseHelpers.getPosts(widget.userID);
     _followingFuture = DatabaseHelpers.getFollowing(widget.userID);
     _followersFuture = DatabaseHelpers.getFollowers(widget.userID);
-    /*
-    FirebaseFirestore.instance
-        .collection('posts')
-        .withConverter<Post>(
-            fromFirestore: Post.fromJson, toFirestore: Post.toJson)
-        .where('user_id', isEqualTo: widget.userID)
-        .get()
-        .then((value) {
-      userPosts =
-          List.generate(value.docs.length, (index) => value.docs[index].data());
-    });
-
-    _followingFuture = FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.userID)
-        .collection('following')
-        .get();
-    _followersFuture = FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.userID)
-        .collection('followers')
-        .get();
-        */
   }
 
   _ProfileTabs _currentTab = _ProfileTabs.posts;
@@ -268,28 +245,17 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         FutureBuilder(
           future: _followersFuture,
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              return createStackedbutton(snapshot.data!.length, 'Followers', _ProfileTabs.followers, context);
-            } else {
-              return createStackedbutton(0, 'Followers', _ProfileTabs.followers, context);
-            }
-          },
+          builder: (context, snapshot) => createStackedbutton(snapshot.hasData ? snapshot.data!.length : 0, 'Followers', _ProfileTabs.followers, context);,
         ),
         const VerticalDivider(),
-        userPosts != null ?
-          createStackedbutton(userPosts!.length, 'Posts', _ProfileTabs.posts, context) :
-          createStackedbutton(0, 'Posts', _ProfileTabs.posts, context),
+        FutureBuilder(
+          future: _postsFuture,
+          builder: (context, snapshot) => createStackedbutton(snapshot.hasData ? snapshot.data!.length : 0, 'Posts', _ProfileTabs.posts, context),
+        ),
         const VerticalDivider(),
         FutureBuilder(
           future: _followingFuture,
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              return createStackedbutton(snapshot.data!.length, 'Following', _ProfileTabs.following, context);
-            } else {
-              return createStackedbutton(0, 'Following', _ProfileTabs.following, context);
-            }
-          },
+          builder: (context, snapshot) => createStackedbutton(snapshot.hasData ? snapshot.data!.length : 0, 'Following', _ProfileTabs.following, context),
         ),
       ],
     ));
