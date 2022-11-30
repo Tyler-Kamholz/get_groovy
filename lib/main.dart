@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               var themeProvider = Provider.of<ThemeProvider>(context);
               return MaterialApp(
+                debugShowCheckedModeBanner: false,
                 title: 'Get Groovy',
                 home: Stack(
                   children: [

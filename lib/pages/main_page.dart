@@ -47,11 +47,16 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: ScrollAppBar(
+        toolbarHeight: size.height * .05,
         backgroundColor:
             Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
-        title: Image.asset('app_assets/Homepage-Trans.png', fit: BoxFit.cover),
+        title: Image.asset(
+          'app_assets/Homepage-Trans.png',
+          width: size.height * .25,
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
