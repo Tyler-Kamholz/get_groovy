@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _future = DatabaseHelpers.getFollowers(FirebaseAuth.instance.currentUser!.uid).then((followingList) => 
+    _future = DatabaseHelpers.getFollowing(FirebaseAuth.instance.currentUser!.uid).then((followingList) => 
       FirebaseFirestore.instance
       .collection('posts')
       .where('user_id', whereIn: followingList)
