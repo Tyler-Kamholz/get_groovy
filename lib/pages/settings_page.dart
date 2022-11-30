@@ -98,8 +98,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _logoutButton(BuildContext context) {
     FirebaseAuth.instance.signOut();
-    Navigator.pop(context);
-    Navigator.pop(context);
-    Navigator.pop(context);
+    //Navigator.pop(context);
+    //Navigator.pop(context);
+    //Navigator.pop(context);
   }
 }

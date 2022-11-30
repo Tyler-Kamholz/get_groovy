@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/pages/main_page.dart';
 import 'package:getgroovy/pages/welcome_page.dart';
 import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:getgroovy/themes/my_themes.dart';
@@ -16,8 +20,28 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late Stream<User?> userStream;
+
+  @override
+  void initState() {
+    super.initState();
+    userStream = FirebaseAuth.instance.authStateChanges();
+    FirebaseAuth.instance.authStateChanges().listen((event) {
+      _navigatorKey.currentState!.pushNamedAndRemoveUntil(
+          (event != null) ? 'main' : 'welcome', 
+          (route) => false);
+    });
+  }
+
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   // This widget is the root of your application.
   @override
@@ -30,10 +54,12 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               var themeProvider = Provider.of<ThemeProvider>(context);
               return MaterialApp(
+                navigatorKey: _navigatorKey,
                 title: 'Get Groovy',
                 home: Stack(
                   children: [
-                    const WelcomePage(),
+                    // Future "Loading" widget or anything else can be placed here
+                    // Hacky listener required to detect system theme change
                     Consumer<ThemeProvider>(
                         builder: (context, value, child) =>
                             SystemBrightnessListener(provider: value)),
@@ -42,6 +68,10 @@ class MyApp extends StatelessWidget {
                 theme: MyThemes.lightTheme.global,
                 darkTheme: MyThemes.darkTheme.global,
                 themeMode: themeProvider.getThemeMode,
+                routes: {
+                  'welcome': (_) => const WelcomePage(),
+                  'main': (_) => const MainPage(),
+                },
               );
             });
       },

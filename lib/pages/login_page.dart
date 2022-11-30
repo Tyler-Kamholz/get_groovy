@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../authentication.dart';
 import '../themes/theme_provider.dart';
-import 'main_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -127,9 +126,8 @@ class _LoginPageState extends State<LoginPage> {
 
       // todo This should hook into a streamController to detect logged in state
       // ignore: use_build_context_synchronously
-      Navigator.of(context).push(MaterialPageRoute(
-          fullscreenDialog: false, builder: (context) => const MainPage()));
-      //Navigator.of(context).pop();
+      //Navigator.of(context).push(MaterialPageRoute(
+      //    fullscreenDialog: false, builder: (context) => const MainPage()));
     }
   }
 }
