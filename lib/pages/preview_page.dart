@@ -15,8 +15,7 @@ class PreviewPage extends StatefulWidget {
   State<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage>
-    with TickerProviderStateMixin {
+class _PreviewPageState extends State<PreviewPage> {
   double imageSize = 250;
   @override
   Widget build(BuildContext context) {
@@ -78,5 +77,6 @@ class _PreviewPageState extends State<PreviewPage>
       'song_id': id,
       'time': Timestamp.now()
     });
+    Navigator.of(context).pop();
   }
 }
