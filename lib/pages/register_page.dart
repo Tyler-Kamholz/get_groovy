@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/authentication.dart';
-import 'package:getgroovy/pages/login_page.dart';
 import 'package:provider/provider.dart';
 import '../themes/theme_provider.dart';
 
@@ -83,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       .loginColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0))),
-              child: const Text('Login'),
+              child: const Text('Register'),
             ),
           ),
         ],
@@ -94,14 +95,34 @@ class _RegisterPageState extends State<RegisterPage> {
   void _registerButton() async {
     bool success =
         await register(emailController.text, passwordController.text);
-
     if (success) {
-      // Need to break this out somewhere
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).push(MaterialPageRoute(
-          fullscreenDialog: false, builder: (context) => const LoginPage()));
-    } else {
-      print('error');
+      _loginButton();
+    }
+  }
+
+  void _loginButton() async {
+    bool success = await signIn(emailController.text, passwordController.text);
+    if (success) {
+      var user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return;
+      }
+
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get()
+          .then((value) {
+        if (!value.exists) {
+          FirebaseFirestore.instance.collection('users').doc(user.uid).set(
+            {
+              'display_name': user.email,
+              'email': user.email,
+              'user_id': user.uid,
+            },
+          );
+        }
+      });
     }
   }
 }

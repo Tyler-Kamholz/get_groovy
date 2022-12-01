@@ -17,30 +17,63 @@ class PostPage extends StatefulWidget {
   State<PostPage> createState() => _PostPageState();
 }
 
+enum SelectedSongType {
+  none,
+  current,
+  previous
+}
+
 class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   late AnimationController controller;
 
-  int? selectedSongIndex;
-  late Future<Track?> lastSongFuture;
-  late Future<Track?> currentSongFuture;
-  Track? track1;
-  Track? track2;
+  SelectedSongType _selectedSongType = SelectedSongType.none;
+  late Future<Track?> _lastSongFuture;
+  late Future<Track?> _currentSongFuture;
+  Track? selectedTrack;
 
   @override
   void initState() {
     super.initState();
-    lastSongFuture = widget.provider.getLastSong().then((value) {
-      setState(() {
-        track1 = value;
-      });
-      return value;
-    });
-    currentSongFuture = widget.provider.getCurrentSong().then((value) {
-      setState(() {
-        track2 = value;
-      });
-      return value;
-    });
+    _lastSongFuture = widget.provider.getLastSong();
+    _currentSongFuture = widget.provider.getCurrentSong();
+  }
+
+  Widget buildSelectableSong(Future<Track?> future, SelectedSongType highlightOn) {
+    return SizedBox(
+                  width: 175,
+                  child: FutureBuilder(
+                    future: future,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data != null) {
+                          return ClickableContainer(
+                              selected: _selectedSongType == highlightOn,
+                              onTap: () {
+                                setState(() {
+                                  _selectedSongType = highlightOn;
+                                  selectedTrack = snapshot.data;
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  TrackImage(
+                                      track: snapshot.data!,
+                                      provider: widget.provider),
+                                  Text(snapshot.data!.name,
+                                  overflow: TextOverflow.ellipsis,)
+                                ],
+                              ));
+                        } else {
+                          return Container();
+                        }
+                      } else {
+                        return const AspectRatio(
+                          aspectRatio: 1.0,
+                          child: CircularProgressIndicator());
+                      }
+                    },
+                  ),
+                );
   }
 
   @override
@@ -52,51 +85,51 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                ClickableContainer(
-                    selected: selectedSongIndex == null
-                        ? false
-                        : selectedSongIndex == 0,
-                    onTap: () {
-                      if (track1 != null) {
-                        setState(() {
-                          selectedSongIndex = 0;
-                        });
+            FutureBuilder(
+              future: Future.wait([_lastSongFuture, _currentSongFuture]),
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  if(snapshot.data != null) {
+                    var len = snapshot.data!.length;
+                    int numSongs = 0;
+                    for(int i = 0; i < len; i++) {
+                      if(snapshot.data![numSongs] != null) {
+                        numSongs++;
                       }
-                    },
-                    child: TrackFutureDisplay(
-                        baseFuture: lastSongFuture, provider: widget.provider)),
-                ClickableContainer(
-                    selected: selectedSongIndex == null
-                        ? false
-                        : selectedSongIndex == 1,
-                    onTap: () {
-                      if (track2 != null) {
-                        setState(() {
-                          selectedSongIndex = 1;
-                        });
-                      }
-                    },
-                    child: TrackFutureDisplay(
-                        baseFuture: currentSongFuture,
-                        provider: widget.provider)),
-              ],
-            ),
+                    }
+                    if(snapshot.data!.isEmpty || numSongs == 0) {
+                      return const Text("Couldn't find any songs.");
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          buildSelectableSong(_lastSongFuture, SelectedSongType.previous),
+                          buildSelectableSong(_currentSongFuture, SelectedSongType.current),
+                        ],
+                      );
+                    }
+                  } else {
+                    return const Text("Couldn't find any songs.");
+                  }
+                } else {
+                  return const SizedBox(width: 150, height: 150, child: CircularProgressIndicator());
+                }
+              },),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                      onPressed: _previewSong,
-                      child: const Text("Preview Song")),
+                      onPressed:
+                          _selectedSongType != SelectedSongType.none ? _previewPost : null,
+                      child: const Text("Preview Post")),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                      onPressed: _addToPlaylist,
+                      onPressed:
+                          _selectedSongType != SelectedSongType.none ? _addToPlaylist : null,
                       child: const Text("Add To Playlist")),
                 ),
               ],
@@ -106,14 +139,13 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   }
 
   //Pushes preview in order to confirm the post
-  void _previewSong() {
-    if (selectedSongIndex != null) {
-      Track? track = [track1, track2][selectedSongIndex!];
-      if (track != null) {
+  void _previewPost() {
+    if (_selectedSongType != SelectedSongType.none) {
+      if (selectedTrack != null) {
         Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: false,
             builder: (context) => PreviewPage(
-                  track: track,
+                  track: selectedTrack!,
                 )));
       }
     }
