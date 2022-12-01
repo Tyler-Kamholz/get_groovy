@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'model/post.dart';
+import 'model/user.dart';
 
 class DatabaseHelpers {
   static Future<bool> isXFollowingY(String userIdX, String userIdY) async {
@@ -77,6 +78,17 @@ class DatabaseHelpers {
             fromFirestore: Post.fromJson, toFirestore: Post.toJson)
         .where('user_id', isEqualTo: userID)
         .get();
-    return List.generate(result.docs.length, (index) => result.docs[index].data());
+    return List.generate(
+        result.docs.length, (index) => result.docs[index].data());
+  }
+
+  static Future<List<User>> getAllUsers() async {
+    var result = await FirebaseFirestore.instance
+        .collection('users')
+        .withConverter<User>(
+            fromFirestore: User.fromJson, toFirestore: User.toJson)
+        .get();
+    return List.generate(
+      result.docs.length, (index) => result.docs[index].data());
   }
 }
