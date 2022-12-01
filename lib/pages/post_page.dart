@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/preview_page.dart';
