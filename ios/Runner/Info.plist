@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Getgroovy</string>
+	<string>Get Groovy</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -46,12 +46,14 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>com.example.getgroovy</key>
+			<string>flutterbooksample.com</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>getGroovy://</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>com.example.getgroovy</string>
 		</dict>
 	</array>
 	<key>NSAppTransportSecurity</key>
@@ -64,19 +66,6 @@
 		<string>spotify</string>
 	</array>
 	<key>FlutterDeepLinkingEnabled</key>
-<true/>
-<key>CFBundleURLTypes</key>
-<array>
-    <dict>
-    <key>CFBundleTypeRole</key>
-    <string>Editor</string>
-    <key>com.example.getgroovy</key>
-    <string>flutterbooksample.com</string>
-    <key>CFBundleURLSchemes</key>
-    <array>
-    <string>getGroovy://</string>
-    </array>
-    </dict>
-</array>
+	<true/>
 </dict>
 </plist>
