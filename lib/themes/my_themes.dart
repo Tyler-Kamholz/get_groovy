@@ -31,17 +31,16 @@ class GroovyTheme {
   Color signupColor;
 
   // Constructor must include all fields, having defaults are preferred but not required
-  GroovyTheme({
-    required this.global,
-    this.iconColor = Colors.black38,
-    this.navBarColor = const Color(0xFFf7ead6),
-    this.black = Colors.black,
-    this.backgroundColor = const Color.fromARGB(255, 253, 246, 236),
-    this.cardColor = Colors.white,
-    required this.settingsTheme,
-    this.loginColor = const Color(0xFF434964),
-    this.signupColor = const Color(0xFFc1604c),
-  });
+  GroovyTheme(
+      {required this.global,
+      this.iconColor = Colors.black38,
+      this.navBarColor = const Color(0xFFf7ead6),
+      this.black = Colors.black,
+      this.backgroundColor = const Color.fromARGB(255, 253, 246, 236),
+      this.cardColor = Colors.white,
+      required this.settingsTheme,
+      this.loginColor = const Color(0xFF434964),
+      this.signupColor = const Color(0xFFc1604c)});
 }
 
 /// A class to bundle and configure themes
