@@ -23,6 +23,16 @@ class _WelcomePageState extends State<WelcomePage> {
         alignment: Alignment.center,
         children: [
           Positioned(
+              bottom: -size.height * .5,
+              left: -size.width * .8,
+              child: Transform.rotate(
+                angle: 0.2,
+                child: Image.asset(
+                  "app_assets/light_background_menu.png",
+                  width: size.width * 3,
+                ),
+              )),
+          Positioned(
               top: 175,
               left: size.width * .25,
               child: Image.asset(
