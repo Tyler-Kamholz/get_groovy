@@ -1,7 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:getgroovy/pages/profile_page.dart';
-import 'package:getgroovy/dummy_data.dart';
+import 'package:getgroovy/database_helpers.dart';
+import 'package:provider/provider.dart';
+
+import '../model/user.dart';
+import '../themes/theme_provider.dart';
+import '../widgets/user_list_tile.dart';
 import 'package:getgroovy/widgets/qr_reader.dart';
 
 class SearchPage extends StatefulWidget {
@@ -15,81 +18,72 @@ class _SearchPageState extends State<SearchPage> {
   final controller = ScrollController();
   TextEditingController textBoxController = TextEditingController();
 
-  Future<QuerySnapshot<Map<String, dynamic>>>? _usersListFuture;
+  Future<List<User>>? _usersListFuture;
 
   @override
   void initState() {
-    _usersListFuture = FirebaseFirestore.instance.collection('users').get();
+    _usersListFuture = DatabaseHelpers.getAllUsers();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Stack(
-              children: [
-                TextField(
-                  controller: textBoxController,
-                  decoration: const InputDecoration(labelText: 'Search'),
-                ),
-                Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const QRViewExample()));
-                        },
-                        icon: const Icon(Icons.qr_code_scanner))),
-              ],
-            )),
-        Expanded(
-          child: FutureBuilder(
-            future: _usersListFuture,
-            builder: (context, snapshot) {
-              if(snapshot.hasData && snapshot.data != null) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    return _buildUserSearchResult(
-                      snapshot.data!.docs[index]['display_name'],
-                      snapshot.data!.docs[index]['user_id']);
+    return Scaffold(
+        backgroundColor: Provider.of<ThemeProvider>(context)
+            .getCurrentTheme()
+            .backgroundColor,
+        body: Column(
+          children: [
+            Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Stack(
+                  children: [
+                    TextField(
+                      controller: textBoxController,
+                      decoration: const InputDecoration(labelText: 'Search'),
+                      onChanged: (value) {setState(() {
+                        
+                      });},
+                    ),
+                    Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.qr_code_scanner))),
+                  ],
+                )),
+            Expanded(
+              child: FutureBuilder(
+                future: _usersListFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    List<User> filtered = filter(snapshot.data!, textBoxController.text);
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: filtered.length,
+                        itemBuilder: (context, index) {
+                          return UserListTile(
+                            userID: filtered[index].userID,
+                          );
+                        }
+                    );
                   }
-                );
-              }
-              return Container();
-            },
-          ),
-        ),
-      ],
-    );
+                  return Container();
+                },
+              ),
+            ),
+          ],
+        ));
   }
 
-  Widget _buildUserSearchResult(String name, String userID) {
-    Image image = DummyData.getRandomImage();
-
-    return Column(children: [
-      ListTile(
-        leading: CircleAvatar(
-            foregroundImage: image.image, minRadius: 15, maxRadius: 15),
-        // Text is a random username right now
-        title: Text(name),
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => Scaffold(
-                appBar: AppBar(
-                  title: Text(name),
-                ),
-                body: ProfilePage(userID: userID)),
-            fullscreenDialog: true,
-          ));
-        },
-        // Tapping on an entry navigates to their profile
-      ),
-      const Divider()
-    ]);
+  List<User> filter(List<User> users, String filterString) {
+    List<User> outputList = [];
+    for(int i = 0; i < users.length; i++) {
+      if(users[i].displayName.toLowerCase().contains(filterString.toLowerCase())) {
+        outputList.add(users[i]);
+      }
+    }
+    return outputList;
   }
 }

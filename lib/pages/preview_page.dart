@@ -5,6 +5,8 @@ import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify_sdk/models/track.dart';
 
+import '../themes/theme_provider.dart';
+
 class PreviewPage extends StatefulWidget {
   final Track track;
   const PreviewPage({required this.track, super.key});
@@ -13,13 +15,16 @@ class PreviewPage extends StatefulWidget {
   State<PreviewPage> createState() => _PreviewPageState();
 }
 
-class _PreviewPageState extends State<PreviewPage>
-    with TickerProviderStateMixin {
+class _PreviewPageState extends State<PreviewPage> {
   double imageSize = 250;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:
+            Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
+        foregroundColor:
+            Provider.of<ThemeProvider>(context).getCurrentTheme().black,
         title: const Text('Confirm Post'),
       ),
       body: Center(
@@ -67,12 +72,11 @@ class _PreviewPageState extends State<PreviewPage>
   //confirm the post
   void _post() {
     var id = widget.track.uri.substring(widget.track.uri.lastIndexOf(':') + 1);
-    FirebaseFirestore.instance.collection('posts').add(
-      {
-        'user_id': FirebaseAuth.instance.currentUser!.uid,
-        'song_id': id,
-        'time': Timestamp(0, 0),
-      }
-    );
+    FirebaseFirestore.instance.collection('posts').add({
+      'user_id': FirebaseAuth.instance.currentUser!.uid,
+      'song_id': id,
+      'time': Timestamp.now()
+    });
+    Navigator.of(context).pop();
   }
 }

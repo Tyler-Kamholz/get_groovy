@@ -23,54 +23,72 @@ class _SettingsPageState extends State<SettingsPage> {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Settings"),
+          backgroundColor:
+              Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
+          foregroundColor:
+              Provider.of<ThemeProvider>(context).getCurrentTheme().black,
+          title: const Text(
+            "Settings",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              backToPage(context);
+            },
+            icon: const Icon(Icons.chevron_left),
+            color:
+                Provider.of<ThemeProvider>(context).getCurrentTheme().iconColor,
+          ),
         ),
         body: Column(children: [
           Expanded(
-              child: SettingsList(sections: [
-            SettingsSection(
-              title: const Text("Personalize"),
-              tiles: [
-                SettingsTile(
-                  title: const Text('Theme'),
-                  leading: const Icon(Icons.style),
-                  trailing: DropdownButton(
-                    value: themeProvider.getThemeMode,
-                    items: const [
-                      DropdownMenuItem(
-                        value: ThemeMode.system,
-                        child: Text("System"),
+              child: SettingsList(
+                  lightTheme: themeProvider.getCurrentTheme().settingsTheme,
+                  darkTheme: themeProvider.getCurrentTheme().settingsTheme,
+                  sections: [
+                SettingsSection(
+                  title: const Text("Personalize"),
+                  tiles: [
+                    SettingsTile(
+                      title: const Text('Theme'),
+                      leading: const Icon(Icons.style),
+                      trailing: DropdownButton(
+                        value: themeProvider.getThemeMode,
+                        items: const [
+                          DropdownMenuItem(
+                            value: ThemeMode.system,
+                            child: Text("System"),
+                          ),
+                          DropdownMenuItem(
+                            value: ThemeMode.light,
+                            child: Text("Light"),
+                          ),
+                          DropdownMenuItem(
+                            value: ThemeMode.dark,
+                            child: Text("Dark"),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          themeProvider.setThemeMode(value!);
+                        },
                       ),
-                      DropdownMenuItem(
-                        value: ThemeMode.light,
-                        child: Text("Light"),
-                      ),
-                      DropdownMenuItem(
-                        value: ThemeMode.dark,
-                        child: Text("Dark"),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      themeProvider.setThemeMode(value!);
-                    },
+                    ),
+                  ],
+                ),
+                SettingsSection(title: const Text("Account"), tiles: [
+                  SettingsTile(
+                    title: Text(
+                      'Logout',
+                      style: _logoutTextStyle,
+                    ),
+                    leading: const Icon(
+                      Icons.logout,
+                      color: Colors.red,
+                    ),
+                    onPressed: _logoutButton,
                   ),
-                ),
-              ],
-            ),
-            SettingsSection(title: const Text("Account"), tiles: [
-              SettingsTile(
-                title: Text(
-                  'Logout',
-                  style: _logoutTextStyle,
-                ),
-                leading: const Icon(
-                  Icons.logout,
-                  color: Colors.red,
-                ),
-                onPressed: _logoutButton,
-              ),
-            ]),
-          ]))
+                ]),
+              ]))
         ]));
   }
 
@@ -80,7 +98,8 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _logoutButton(BuildContext context) {
     FirebaseAuth.instance.signOut();
-    Navigator.pop(context);
-    Navigator.pop(context);
+    //Navigator.pop(context);
+    //Navigator.pop(context);
+    //Navigator.pop(context);
   }
 }
