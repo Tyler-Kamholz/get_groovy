@@ -128,7 +128,7 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                                       foregroundColor:
                                           Provider.of<ThemeProvider>(context)
                                               .getCurrentTheme()
-                                              .black,
+                                              .textBoxTextColor,
                                       title: const Text('name'),
                                     ),
                                     body: ProfilePage(

@@ -16,7 +16,16 @@ List<Color> lightThemeColors = [
   const Color(0xFF434964),
   Colors.black38
 ];
-List<Color> darkThemeColors = [];
+List<Color> darkThemeColors = [
+  const Color(0xFF97DB4F),
+  const Color(0xFF79C99E),
+  const Color(0xFF508484),
+  const Color(0xFF4D5359),
+  const Color(0xFF4A4238),
+  const Color(0xFF313131),
+  const Color.fromARGB(255, 112, 112, 112),
+  const Color.fromARGB(255, 84, 84, 84),
+];
 
 class GroovyTheme {
   // Data types
@@ -29,6 +38,12 @@ class GroovyTheme {
   Color cardColor;
   Color loginColor;
   Color signupColor;
+  String welcomeLogo;
+  String welcomeBackground;
+  String loginBackground;
+  String homeLogo;
+  Color textColor;
+  Color textBoxTextColor;
 
   // Constructor must include all fields, having defaults are preferred but not required
   GroovyTheme(
@@ -40,7 +55,13 @@ class GroovyTheme {
       this.cardColor = Colors.white,
       required this.settingsTheme,
       this.loginColor = const Color(0xFF434964),
-      this.signupColor = const Color(0xFFc1604c)});
+      this.signupColor = const Color(0xFFc1604c),
+      this.welcomeLogo = "app_assets/Login-Page-trans.png",
+      this.welcomeBackground = "app_assets/light_background_menu.png",
+      this.loginBackground = "app_assets/light_background_login.png",
+      this.homeLogo = "app_assets/Homepage-trans.png",
+      this.textColor = Colors.white,
+      this.textBoxTextColor = Colors.black});
 }
 
 /// A class to bundle and configure themes
@@ -58,6 +79,12 @@ class MyThemes {
         settingsSectionBackground: Colors.white),
     loginColor: lightThemeColors[5],
     signupColor: lightThemeColors[4],
+    welcomeLogo: "app_assets/Login-Page-trans.png",
+    welcomeBackground: "app_assets/light_background_menu.png",
+    loginBackground: "app_assets/light_background_login.png",
+    homeLogo: "app_assets/Homepage-trans.png",
+    textColor: Colors.white,
+    textBoxTextColor: Colors.black,
   );
 
   /// The customized dark theme
@@ -65,5 +92,17 @@ class MyThemes {
     global: ThemeData(brightness: Brightness.dark),
     settingsTheme:
         SettingsThemeData(settingsListBackground: lightThemeColors[0]),
+    welcomeLogo: "app_assets/login_page_dark_mode.png",
+    welcomeBackground: "app_assets/dark_background_menu.png",
+    loginBackground: "app_assets/dark_background_login.png",
+    homeLogo: "app_assets/homepage_dark_mode.png",
+    navBarColor: darkThemeColors[5],
+    loginColor: darkThemeColors[1],
+    signupColor: darkThemeColors[0],
+    textColor: darkThemeColors[5],
+    textBoxTextColor: Colors.white,
+    iconColor: darkThemeColors[6],
+    backgroundColor: darkThemeColors[7],
+    cardColor: darkThemeColors[5],
   );
 }

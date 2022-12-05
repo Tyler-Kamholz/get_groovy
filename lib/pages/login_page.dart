@@ -36,8 +36,10 @@ class _LoginPageState extends State<LoginPage> {
             child: RotatedBox(
               quarterTurns: 2,
               child: Image.asset(
-                "app_assets/light_background_login.png",
-                scale: .85,
+                Provider.of<ThemeProvider>(context)
+                    .getCurrentTheme()
+                    .loginBackground,
+                scale: .75,
               ),
             )),
         Column(
@@ -61,21 +63,27 @@ class _LoginPageState extends State<LoginPage> {
                         topRight: Radius.circular(20))),
                 child: TextField(
                   controller: emailController,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
-                    color: Colors.black,
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .textBoxTextColor,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(20),
+                    contentPadding: const EdgeInsets.all(20),
                     prefixIcon: Icon(
                       Icons.person,
-                      color: Colors.black,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
                     ),
                     hintText: 'Email',
                     labelStyle: TextStyle(
                       fontSize: 15,
-                      color: Colors.black,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
                     ),
                   ),
                 ),
@@ -100,21 +108,27 @@ class _LoginPageState extends State<LoginPage> {
                 child: TextField(
                   controller: passwordController,
                   obscureText: true,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
-                    color: Colors.black,
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .textBoxTextColor,
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.all(20),
+                    contentPadding: const EdgeInsets.all(20),
                     prefixIcon: Icon(
                       Icons.lock,
-                      color: Colors.black,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
                     ),
                     hintText: 'Password',
                     labelStyle: TextStyle(
                       fontSize: 15,
-                      color: Colors.black,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
                     ),
                   ),
                 ),
@@ -133,7 +147,13 @@ class _LoginPageState extends State<LoginPage> {
                         .loginColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25.0))),
-                child: const Text('Login'),
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textColor),
+                ),
               ),
             ),
           ],
