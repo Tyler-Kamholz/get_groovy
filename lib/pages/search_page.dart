@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/profile_page.dart';
 import 'package:getgroovy/dummy_data.dart';
+import 'package:getgroovy/widgets/qr_reader.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -38,7 +39,9 @@ class _SearchPageState extends State<SearchPage> {
                     right: 0,
                     bottom: 0,
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => const QRViewExample()));
+                        },
                         icon: const Icon(Icons.qr_code_scanner))),
               ],
             )),
