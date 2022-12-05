@@ -49,7 +49,9 @@ class _SearchPageState extends State<SearchPage> {
                         right: 0,
                         bottom: 0,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => QRViewExample()));
+                            },
                             icon: const Icon(Icons.qr_code_scanner))),
                   ],
                 )),
