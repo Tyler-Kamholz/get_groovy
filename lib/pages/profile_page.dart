@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/profile_picture.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -103,7 +104,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     .getCurrentTheme()
                     .iconColor,
                 icon: const Icon(Icons.edit),
-                onPressed: () {},
+                /// Pushes to Create Profile Picture Page
+                onPressed: () {
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ProfilePicture(title: '',))); 
+                },
               );
             } else {
               return const SizedBox(
