@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../helpers/helpers.dart';
 import '../pages/profile_page.dart';
+import '../themes/theme_provider.dart';
 
 /// Widget to display user profiles
 class UserListTile extends StatefulWidget {
@@ -49,6 +51,12 @@ class _UserListTileState extends State<UserListTile> {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => Scaffold(
                     appBar: AppBar(
+                      backgroundColor: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .navBarColor,
+                      foregroundColor: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
                       title: Text(name),
                     ),
                     body: ProfilePage(userID: widget.userID)),

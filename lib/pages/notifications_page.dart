@@ -23,8 +23,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
       appBar: AppBar(
           backgroundColor:
               Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
-          foregroundColor:
-              Provider.of<ThemeProvider>(context).getCurrentTheme().black,
+          foregroundColor: Provider.of<ThemeProvider>(context)
+              .getCurrentTheme()
+              .textBoxTextColor,
           title: const Text(
             'Notifications',
             style: TextStyle(fontWeight: FontWeight.bold),

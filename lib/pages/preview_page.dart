@@ -23,8 +23,9 @@ class _PreviewPageState extends State<PreviewPage> {
       appBar: AppBar(
         backgroundColor:
             Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
-        foregroundColor:
-            Provider.of<ThemeProvider>(context).getCurrentTheme().black,
+        foregroundColor: Provider.of<ThemeProvider>(context)
+            .getCurrentTheme()
+            .textBoxTextColor,
         title: const Text('Confirm Post'),
       ),
       body: Center(

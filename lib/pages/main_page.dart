@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
         backgroundColor:
             Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
         title: Image.asset(
-          'app_assets/Homepage-Trans.png',
+          Provider.of<ThemeProvider>(context).getCurrentTheme().homeLogo,
           width: size.height * .25,
         ),
         actions: [
@@ -94,8 +94,9 @@ class _MainPageState extends State<MainPage> {
       ),
       body: pages[pageIndex],
       bottomNavigationBar: GNav(
-        activeColor:
-            Provider.of<ThemeProvider>(context).getCurrentTheme().black,
+        activeColor: Provider.of<ThemeProvider>(context)
+            .getCurrentTheme()
+            .textBoxTextColor,
         color: Provider.of<ThemeProvider>(context).getCurrentTheme().iconColor,
         backgroundColor:
             Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,

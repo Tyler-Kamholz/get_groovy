@@ -23,10 +23,24 @@ class _WelcomePageState extends State<WelcomePage> {
         alignment: Alignment.center,
         children: [
           Positioned(
+              bottom: -size.height * .5,
+              left: -size.width * .8,
+              child: Transform.rotate(
+                angle: 0.2,
+                child: Image.asset(
+                  Provider.of<ThemeProvider>(context)
+                      .getCurrentTheme()
+                      .welcomeBackground,
+                  width: size.width * 3,
+                ),
+              )),
+          Positioned(
               top: 175,
               left: size.width * .25,
               child: Image.asset(
-                "app_assets/Login-Page-trans.png",
+                Provider.of<ThemeProvider>(context)
+                    .getCurrentTheme()
+                    .welcomeLogo,
                 width: size.width * .5,
               )),
           Positioned(
@@ -49,7 +63,13 @@ class _WelcomePageState extends State<WelcomePage> {
                       .loginColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0))),
-              child: const Text('Login'),
+              child: Text(
+                'Login',
+                style: TextStyle(
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .textColor),
+              ),
             ),
           ),
           Positioned(
@@ -72,7 +92,13 @@ class _WelcomePageState extends State<WelcomePage> {
                       .signupColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25.0))),
-              child: const Text('Sign up'),
+              child: Text(
+                'Sign up',
+                style: TextStyle(
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .textColor),
+              ),
             ),
           ),
         ],

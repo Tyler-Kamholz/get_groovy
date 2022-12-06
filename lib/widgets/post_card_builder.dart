@@ -121,6 +121,14 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Scaffold(
                                     appBar: AppBar(
+                                      backgroundColor:
+                                          Provider.of<ThemeProvider>(context)
+                                              .getCurrentTheme()
+                                              .navBarColor,
+                                      foregroundColor:
+                                          Provider.of<ThemeProvider>(context)
+                                              .getCurrentTheme()
+                                              .textBoxTextColor,
                                       title: const Text('name'),
                                     ),
                                     body: ProfilePage(
@@ -159,11 +167,11 @@ class _PostCardWidgetState extends State<PostCardWidget> {
 
   String getElapsedTimeString(Timestamp oldTime) {
     var duration = DateTime.now().difference(oldTime.toDate());
-    if(duration.inDays > 0) {
+    if (duration.inDays > 0) {
       return '${duration.inDays} days ago';
-    } else if(duration.inHours > 0) {
+    } else if (duration.inHours > 0) {
       return '${duration.inHours} hours ago';
-    } else if(duration.inMinutes > 0) {
+    } else if (duration.inMinutes > 0) {
       return '${duration.inMinutes} minutes ago';
     } else {
       return '${duration.inSeconds} seconds ago';

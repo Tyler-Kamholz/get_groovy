@@ -25,8 +25,9 @@ class _SettingsPageState extends State<SettingsPage> {
         appBar: AppBar(
           backgroundColor:
               Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
-          foregroundColor:
-              Provider.of<ThemeProvider>(context).getCurrentTheme().black,
+          foregroundColor: Provider.of<ThemeProvider>(context)
+              .getCurrentTheme()
+              .textBoxTextColor,
           title: const Text(
             "Settings",
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -98,8 +99,5 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _logoutButton(BuildContext context) {
     FirebaseAuth.instance.signOut();
-    //Navigator.pop(context);
-    //Navigator.pop(context);
-    //Navigator.pop(context);
   }
 }

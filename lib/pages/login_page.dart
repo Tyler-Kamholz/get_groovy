@@ -29,74 +29,136 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor:
           Provider.of<ThemeProvider>(context).getCurrentTheme().navBarColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding:
-                EdgeInsets.fromLTRB(size.width * .1, 0, size.width * .1, 0),
-            child: TextField(
-              controller: emailController,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.black,
+      body: Stack(children: [
+        Positioned(
+            top: -size.height * .1,
+            right: 0,
+            child: RotatedBox(
+              quarterTurns: 2,
+              child: Image.asset(
+                Provider.of<ThemeProvider>(context)
+                    .getCurrentTheme()
+                    .loginBackground,
+                scale: .75,
               ),
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(20),
-                prefixIcon: Icon(
-                  Icons.person,
-                  color: Colors.black,
-                ),
-                hintText: 'Email',
-                labelStyle: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
+            )),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding:
+                  EdgeInsets.fromLTRB(size.width * .1, 0, size.width * .1, 0),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .iconColor,
+                    ),
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .navBarColor,
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
+                child: TextField(
+                  controller: emailController,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .textBoxTextColor,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.all(20),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
+                    ),
+                    hintText: 'Email',
+                    labelStyle: TextStyle(
+                      fontSize: 15,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding:
-                EdgeInsets.fromLTRB(size.width * .1, 0, size.width * .1, 0),
-            child: TextField(
-              controller: passwordController,
-              obscureText: true,
-              style: const TextStyle(
-                fontSize: 15,
-                color: Colors.black,
-              ),
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(20),
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: Colors.black,
-                ),
-                hintText: 'Password',
-                labelStyle: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
+            Padding(
+              padding:
+                  EdgeInsets.fromLTRB(size.width * .1, 0, size.width * .1, 0),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .iconColor,
+                    ),
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .navBarColor,
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20))),
+                child: TextField(
+                  controller: passwordController,
+                  obscureText: true,
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .textBoxTextColor,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.all(20),
+                    prefixIcon: Icon(
+                      Icons.lock,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
+                    ),
+                    hintText: 'Password',
+                    labelStyle: TextStyle(
+                      fontSize: 15,
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textBoxTextColor,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, size.height * .05, 0, 0),
-            child: ElevatedButton(
-              onPressed: () {
-                _loginButton();
-              },
-              style: ElevatedButton.styleFrom(
-                  minimumSize: Size(size.width * .8, size.height * .05),
-                  backgroundColor: Provider.of<ThemeProvider>(context)
-                      .getCurrentTheme()
-                      .loginColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25.0))),
-              child: const Text('Login'),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, size.height * .05, 0, 0),
+              child: ElevatedButton(
+                onPressed: () {
+                  _loginButton();
+                },
+                style: ElevatedButton.styleFrom(
+                    minimumSize: Size(size.width * .8, size.height * .05),
+                    backgroundColor: Provider.of<ThemeProvider>(context)
+                        .getCurrentTheme()
+                        .loginColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0))),
+                child: Text(
+                  'Login',
+                  style: TextStyle(
+                      color: Provider.of<ThemeProvider>(context)
+                          .getCurrentTheme()
+                          .textColor),
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ]),
     );
   }
 
