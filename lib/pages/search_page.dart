@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../model/user.dart';
 import '../themes/theme_provider.dart';
 import '../widgets/user_list_tile.dart';
+import 'package:getgroovy/widgets/qr_reader.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -48,7 +49,9 @@ class _SearchPageState extends State<SearchPage> {
                         right: 0,
                         bottom: 0,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => QRViewExample()));
+                            },
                             icon: const Icon(Icons.qr_code_scanner))),
                   ],
                 )),

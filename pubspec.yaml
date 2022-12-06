@@ -49,6 +49,7 @@ dependencies:
   spotify_sdk: ^2.3.0
   http: ^0.13.5
   uni_links: ^0.5.1
+  qr_code_scanner: ^1.0.1
   flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
