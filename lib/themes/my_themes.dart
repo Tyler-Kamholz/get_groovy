@@ -23,7 +23,7 @@ List<Color> darkThemeColors = [
   const Color(0xFF4D5359),
   const Color(0xFF4A4238),
   const Color(0xFF313131),
-  Color.fromARGB(255, 136, 136, 136),
+  const Color.fromARGB(255, 136, 136, 136),
   const Color.fromARGB(255, 84, 84, 84),
 ];
 

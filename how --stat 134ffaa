@@ -1,0 +1,100 @@
+[33m134ffaa[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #50 from Tyler-Kamholz/daltonQrAttempt
+[33me319a5e[m Merge pull request #49 from Tyler-Kamholz/dark-mode
+[33mc587abf[m[33m ([m[1;31morigin/dark-mode[m[33m)[m finished the dark mode
+[33m2270077[m[33m ([m[1;31morigin/daltonQrAttempt[m[33m)[m Some version based qr specifications
+[33m5cfd1a7[m all the files added now
+[33mf96f78e[m started making the darkmode. the login and welcome pages are done, just working on the actual other pages
+[33m95035eb[m QrScanner Now runs on xCode
+[33m7e82794[m Merge branch 'main' into daltonQrAttempt
+[33m4c60163[m Qr implementation
+[33m49b989d[m almost forgot the register page
+[33mf2cad2c[m finished up with the light mode
+[33m4f6e19e[m[33m ([m[1;31morigin/daltonFixIOSSpotify[m[33m)[m forgot i was on the main branch, a really only added an images and IOS icons
+[33m13d737b[m Merge branch 'main' of https://github.com/Tyler-Kamholz/get_groovy into tyler
+[33md16dac6[m Merge pull request #48 from Tyler-Kamholz/app-icon
+[33m1c5a36d[m Merge pull request #47 from Tyler-Kamholz/20-display-name
+[33m7a64ec2[m[33m ([m[1;31morigin/20-display-name[m[33m)[m changed the display name on IOS
+[33m3e5eb85[m Merge branch 'main' of https://github.com/Tyler-Kamholz/get_groovy into tyler
+[33m1294bff[m implement basic search
+[33m8eb8043[m Merge pull request #46 from Tyler-Kamholz/26-post-page-upgrade
+[33m47b01f1[m[33m ([m[1;31morigin/26-post-page-upgrade[m[33m)[m Remove compiler warning
+[33m9cfde60[m Revamp post menu to hide options when they fail to load
+[33mb259ed6[m Merge pull request #44 from Tyler-Kamholz/loginRevamp
+[33mdb7558b[m[33m ([m[1;31morigin/loginRevamp[m[33m)[m Save login between app boots, Register automatically logs you in
+[33mfce98ee[m added some changes to the light theme
+[33meceeb94[m Merge pull request #43 from Tyler-Kamholz/36-post-time
+[33m19c08b8[m[33m ([m[1;31morigin/36-post-time[m[33m)[m Add time since post
+[33m0e7b998[m Fix compiler warnings
+[33m4cbe917[m Merge pull request #42 from Tyler-Kamholz/30-following-users
+[33m1a2b756[m[33m ([m[1;31morigin/30-following-users[m[33m)[m Resolve compiler warnings
+[33m0b444cc[m Bugfix
+[33m4d4cf42[m Code cleanup
+[33mb0c4cbf[m Fix post page showing follower's posts instead of posts from people you are following
+[33m4169ea0[m Fix getFollowers returning following
+[33m477eb62[m Add ability to follow and unfollow people Add accurate following/followers list in profiles Add accurate following/followers counts in profiles Make home page only show posts from users you are following
+[33mdd47f11[m Change display name to Get Groovy
+[33m444d709[m[33m ([m[1;31morigin/app-icon[m[33m)[m Add app icon using flutter_launcher_icons package
+[33m3aab3af[m Merge pull request #18 from Tyler-Kamholz/Tyler
+[33m55ece76[m[33m ([m[1;31morigin/Tyler[m[33m)[m a little more light theme updates
+[33mfd3928b[m I addded the light theme style to the app.
+[33mc725431[m[33m ([m[1;31morigin/tyler[m[33m, [m[1;31morigin/KaiaBranch[m[33m)[m fix merge conflict
+[33m463f14e[m Revamp themes
+[33md798618[m working on getting spotify to work on IOS
+[33m26373a1[m Add deep link for android for getGroovy://
+[33m0bf32c1[m Database integration
+[33m9d45b66[m[33m ([m[1;31morigin/DaltonPostPageChanges[m[33m)[m Remove all warnings
+[33m83173b4[m Merge Spotify integration
+[33m505ece4[m Fix merge issue
+[33mfd037b4[m Merge pull request #17 from Tyler-Kamholz/KaiaBranch
+[33m5552f47[m Merge branch 'main' into KaiaBranch
+[33m27d7ee5[m Make login on start, formatting
+[33m26a0892[m Comments for Login/Registration Authentication
+[33m9c56abe[m[33m ([m[1;31morigin/spotifyIntegration[m[33m)[m Fix crashing when spotify not installed
+[33m5d2b4b8[m some work
+[33m53355ff[m Added login/registration in Firebase
+[33m396cb5d[m Merge pull request #16 from Tyler-Kamholz/tyler
+[33m730754b[m I switched the settings and the notifications positions. Settings on the right, and notifications on the left.
+[33m72e5e5c[m re-sized the nav bar to feel good in hand, and also added the fonts to the assets folder. So just small small updates
+[33mb0dcd90[m fix overflow on post and preview page
+[33m41d0984[m Fix compiler error; Fix compiler warnings; Format code; Change settings page styling; Change login page layout
+[33m05df56c[m Merge branch 'KaiaBranch' into main
+[33m3a4197f[m[33m ([m[1;31morigin/DaltonPostPage[m[33m)[m Added preview and post... as well as macOS fix
+[33ma7b0d91[m Commenting in Login and Register Pages
+[33m4b5bda1[m Added Register Page
+[33m86844b5[m button formatting, add "add to playlist" button
+[33ma368725[m Added in Login Page
+[33maf0e268[m add qr code scan button, fix compiler warning
+[33mc4ead2b[m Merge pull request #15 from Tyler-Kamholz/tyler
+[33m3c2d613[m Remove compiler warnings
+[33m199625f[m I finished the notifications and the search pages, please someone check it over and see if i need to add anything or change anything else. these pages arent as exciting like all the other pages will be but thats because it has the most boring information. if you have any ideas lmk
+[33m20f4195[m Merge branch 'main' of https://github.com/Tyler-Kamholz/get_groovy into tyler
+[33mddd53be[m Add follow button
+[33mc1d5dfd[m Add reaction bar
+[33m6ecdf69[m Update image, add link to image source
+[33ma034377[m Merge branch 'main' of https://github.com/Tyler-Kamholz/get_groovy into tyler
+[33m084a39a[m System navbar theme fix; App nav bar styling; Add dummy names, profile pictures, and songs; rename files to snake_case
+[33m292841c[m Add QR code styling
+[33m1d07034[m update style of profile page
+[33m1c82e5b[m Merge pull request #11 from Tyler-Kamholz/6-settings-page
+[33m40814bf[m[33m ([m[1;31morigin/6-settings-page[m[33m)[m Make logout icon red
+[33m8b50b69[m Add "Settings" to title of scaffold
+[33m25f5dc5[m Create settings page
+[33m59140b6[m Worked on getting the look of the search page and notifications page together. Its not very pretty or to functional but itll get the job done for now
+[33m56c2011[m Add comments, change formatting, and remove dead code
+[33m8a95e10[m Fix warnings
+[33ma06dc9b[m Merge pull request #10
+[33m0df45fc[m Merge pull request #9 from Tyler-Kamholz/8-use-theme-for-styling-widgets
+[33m41cc4b4[m Add profile button taps link to new pages, add QR code
+[33m0c71630[m Rework profile page
+[33md2cdae4[m Use standard post card
+[33me9bad61[m Change import name
+[33m74d3adc[m Create helper class to assist with generating random colors
+[33m9923edd[m Create post card builder class and function to assist with creating a standard Card for displaying posts
+[33m24dca1b[m Remove hard coded colors, add themes and ThemeProvider
+[33m857687f[m added the buttons on the app bar, Settings and Notifications. They go to their respective pages in the app and goes back to the original page.
+[33mdc1eb13[m removing un used imports and adding consts
+[33mfcfe7ed[m I added changes to the navigation bar to look cooler than everyone elses, i also was working on the home page with the list of posts. I started doing the profile page aswell, but for some reason the list part of the profile is scrolling all the way to the top of the page even though its in its own container. Thats something that needs to get fix. Also the black square in the profile page is for user's profile picture with the username right under it.
+[33m20abc14[m I added the bottom navigation bar and the pages for it as well. I have not added anything to the pages yet besides text saying what page it is.
+[33maa3acee[m started the basic layout of the first page from what i remember from class
+[33m0fbde49[m read me file changed test
+[33m512c432[m first commit
