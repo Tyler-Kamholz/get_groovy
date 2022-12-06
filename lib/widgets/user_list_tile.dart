@@ -56,7 +56,7 @@ class _UserListTileState extends State<UserListTile> {
                           .navBarColor,
                       foregroundColor: Provider.of<ThemeProvider>(context)
                           .getCurrentTheme()
-                          .black,
+                          .textBoxTextColor,
                       title: Text(name),
                     ),
                     body: ProfilePage(userID: widget.userID)),

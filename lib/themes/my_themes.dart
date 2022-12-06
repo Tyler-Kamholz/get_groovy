@@ -23,7 +23,7 @@ List<Color> darkThemeColors = [
   const Color(0xFF4D5359),
   const Color(0xFF4A4238),
   const Color(0xFF313131),
-  const Color.fromARGB(255, 112, 112, 112),
+  Color.fromARGB(255, 136, 136, 136),
   const Color.fromARGB(255, 84, 84, 84),
 ];
 
@@ -59,7 +59,7 @@ class GroovyTheme {
       this.welcomeLogo = "app_assets/Login-Page-trans.png",
       this.welcomeBackground = "app_assets/light_background_menu.png",
       this.loginBackground = "app_assets/light_background_login.png",
-      this.homeLogo = "app_assets/Homepage-trans.png",
+      this.homeLogo = "app_assets/Homepage-Trans.png",
       this.textColor = Colors.white,
       this.textBoxTextColor = Colors.black});
 }
@@ -82,7 +82,7 @@ class MyThemes {
     welcomeLogo: "app_assets/Login-Page-trans.png",
     welcomeBackground: "app_assets/light_background_menu.png",
     loginBackground: "app_assets/light_background_login.png",
-    homeLogo: "app_assets/Homepage-trans.png",
+    homeLogo: "app_assets/Homepage-Trans.png",
     textColor: Colors.white,
     textBoxTextColor: Colors.black,
   );
@@ -90,8 +90,10 @@ class MyThemes {
   /// The customized dark theme
   static final darkTheme = GroovyTheme(
     global: ThemeData(brightness: Brightness.dark),
-    settingsTheme:
-        SettingsThemeData(settingsListBackground: lightThemeColors[0]),
+    settingsTheme: SettingsThemeData(
+      settingsListBackground: darkThemeColors[7],
+      titleTextColor: Colors.white,
+    ),
     welcomeLogo: "app_assets/login_page_dark_mode.png",
     welcomeBackground: "app_assets/dark_background_menu.png",
     loginBackground: "app_assets/dark_background_login.png",

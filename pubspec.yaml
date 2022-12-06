@@ -86,6 +86,7 @@ flutter:
     - app_assets/
     - app_assets/Login-Page-trans.png
     - app_assets/dark_background_login.png
+    - app_assets/Homepage-Trans.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
