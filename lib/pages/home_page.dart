@@ -19,21 +19,30 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = ScrollController();
 
-  late Future<QuerySnapshot<Post>> _future;
+  late Future<List<Post>> _future;
 
   @override
   void initState() {
     super.initState();
 
-    _future = DatabaseHelpers.getFollowing(FirebaseAuth.instance.currentUser!.uid).then((followingList) => 
-      FirebaseFirestore.instance
-      .collection('posts')
-      .where('user_id', whereIn: followingList)
-      .withConverter<Post>(
-        fromFirestore: Post.fromJson, 
-        toFirestore: Post.toJson)
-      .get()
-    );
+    _future =
+        DatabaseHelpers.getFollowing(FirebaseAuth.instance.currentUser!.uid)
+            .then((followingList) => FirebaseFirestore.instance
+                    .collection('posts')
+                    .withConverter<Post>(
+                        fromFirestore: Post.fromJson, toFirestore: Post.toJson)
+                    .get()
+                    .then((value) {
+                  List<Post> returnPosts = [];
+                  for (var element in value.docs) {
+                    if (followingList.contains(element.data().userID) ||
+                        element.data().userID ==
+                            FirebaseAuth.instance.currentUser!.uid) {
+                      returnPosts.add(element.data());
+                    }
+                  }
+                  return returnPosts;
+                }));
   }
 
   @override
@@ -46,10 +55,10 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
             return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return PostCardWidget(
-                  post: snapshot.data!.docs[index].data(),
+                  post: snapshot.data![index],
                   provider: Provider.of<SpotifyProvider>(context),
                 );
               },
