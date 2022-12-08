@@ -68,12 +68,21 @@ class _ReactionBarState extends State<ReactionBar> {
                         ),
                       );
                     } else {
+                      var selected = isUserIDInThisEmoji(
+                          snapshot.data!,
+                          snapshot.data![index].emoji,
+                          FirebaseAuth.instance.currentUser!.uid);
                       return TappableEmoji(
-                        highlighted: isUserIDInThisEmoji(snapshot.data!, snapshot.data![index].emoji, FirebaseAuth.instance.currentUser!.uid),
-                        highlightOnTap: true,
-                        emoji: snapshot.data![index].emoji,
-                        onTap: () {setReaction(snapshot.data![index].emoji);}
-                      );
+                          highlighted: selected,
+                          highlightOnTap: true,
+                          emoji: snapshot.data![index].emoji,
+                          onTap: () {
+                            if (selected) {
+                              deleteReaction();
+                            } else {
+                              setReaction(snapshot.data![index].emoji);
+                            }
+                          });
                     }
                   },
                 ),
@@ -88,7 +97,7 @@ class _ReactionBarState extends State<ReactionBar> {
   bool isUserIDInThisEmoji(
       List<PostReaction> reactions, String emoji, String userID) {
     for (var element in reactions) {
-      if(element.emoji == emoji && element.userID == userID) {
+      if (element.emoji == emoji && element.userID == userID) {
         return true;
       }
     }
@@ -119,14 +128,21 @@ class _ReactionBarState extends State<ReactionBar> {
 
   void setReaction(String emoji) {
     DatabaseHelpers.addReaction(
-                                    postID: widget.postID,
-                                    reaction: PostReaction(
-                                        emoji: emoji,
-                                        userID: FirebaseAuth
-                                            .instance.currentUser!.uid))
-                                .then((_) {
-                              reloadReactions();
-                            });
+            postID: widget.postID,
+            reaction: PostReaction(
+                emoji: emoji, userID: FirebaseAuth.instance.currentUser!.uid))
+        .then((_) {
+      reloadReactions();
+    });
+  }
+
+  void deleteReaction() {
+    DatabaseHelpers.deleteReaction(
+            postID: widget.postID,
+            userID: FirebaseAuth.instance.currentUser!.uid)
+        .then((_) {
+      reloadReactions();
+    });
   }
 
   void showReactions() {

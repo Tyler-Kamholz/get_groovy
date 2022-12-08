@@ -130,4 +130,13 @@ class DatabaseHelpers {
       .doc(reaction.userID)
       .set(PostReaction.toJson(reaction, null));
   }
+
+  static Future<void> deleteReaction({required String postID, required String userID}) {
+    return FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postID)
+      .collection('reactions')
+      .doc(userID)
+      .delete();
+  }
 }
