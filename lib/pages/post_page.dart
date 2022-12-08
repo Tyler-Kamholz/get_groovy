@@ -1,6 +1,6 @@
-import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/preview_page.dart';
+import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:spotify_sdk/models/track.dart';
 
@@ -34,8 +34,23 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _lastSongFuture = widget.provider.getLastSong();
-    _currentSongFuture = widget.provider.getCurrentSong();
+    setFutures(shouldSetState: false);
+  }
+
+  void setFutures({required bool shouldSetState}) {
+    if(shouldSetState) {
+      setState(() {
+        selectedTrack = null;
+        _selectedSongType = SelectedSongType.none;
+        _lastSongFuture = widget.provider.getLastSong();
+        _currentSongFuture = widget.provider.getCurrentSong();
+      });
+    } else {
+      selectedTrack = null;
+      _selectedSongType = SelectedSongType.none;
+      _lastSongFuture = widget.provider.getLastSong();
+      _currentSongFuture = widget.provider.getCurrentSong();
+    }
   }
 
   Widget buildSelectableSong(Future<Track?> future, SelectedSongType highlightOn) {
@@ -128,9 +143,8 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                      onPressed:
-                          _selectedSongType != SelectedSongType.none ? _addToPlaylist : null,
-                      child: const Text("Add To Playlist")),
+                      onPressed: () {setFutures(shouldSetState: true);},
+                      child: const Text("Refresh")),
                 ),
               ],
             )
@@ -150,7 +164,4 @@ class _PostPageState extends State<PostPage> with TickerProviderStateMixin {
       }
     }
   }
-
-  //add this song to a playlist
-  void _addToPlaylist() {}
 }
