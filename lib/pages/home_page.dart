@@ -41,6 +41,9 @@ class _HomePageState extends State<HomePage> {
                       returnPosts.add(element.data());
                     }
                   }
+                  returnPosts.sort(
+                    (a, b) => b.time.compareTo(a.time),
+                  );
                   return returnPosts;
                 }));
   }
