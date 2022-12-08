@@ -108,9 +108,8 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                                 ? snapshot.data!.artist.name!
                                 : '...'),
                             Text(getElapsedTimeString(widget.post.time)),
-                            //Text('${Random().nextInt(24)} hours ago'),
                             Expanded(child: Container()),
-                            const ReactionBar(),
+                            ReactionBar(postID: widget.post.postID,),
                           ],
                         ),
                       ),

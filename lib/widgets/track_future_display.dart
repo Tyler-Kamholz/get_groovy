@@ -7,30 +7,24 @@ import '../spotify/spotify_provider.dart';
 class TrackImage extends StatefulWidget {
   final Track track;
   final SpotifyProvider provider;
+  late final Future<ImageUri?> _future;
 
-  const TrackImage(
-      {super.key, required this.track, required this.provider});
+  TrackImage({super.key, required this.track, required this.provider}) {
+    _future = provider.getAlbumCover(track.album);
+  }
 
   @override
   State<TrackImage> createState() => _TrackImageState();
 }
 
 class _TrackImageState extends State<TrackImage> {
-  late Future<ImageUri?> _future;
-
-  @override
-  void initState() {
-    super.initState();
-    _future = widget.provider.getAlbumCover(widget.track.album);
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _future,
+      future: widget._future,
       builder: (context, snapshot) {
-        if(snapshot.hasData) {
-          if(snapshot.data != null) {
+        if (snapshot.hasData) {
+          if (snapshot.data != null) {
             return Image.network(snapshot.data!.raw);
           } else {
             return const Text("REPLACE WITH ERROR IMAGE");
