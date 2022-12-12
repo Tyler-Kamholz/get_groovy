@@ -76,6 +76,12 @@ flutter_icons:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
+flutter_native_splash :
+  image: "app_assets/Login-Page-trans.png"
+  color: "#f7ead6"
+  image_dark: "app_assets/login_page_dark_mode.png"
+  color_dark: "#313131"
+
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is
