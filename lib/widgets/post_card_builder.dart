@@ -108,13 +108,13 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                                 ? snapshot.data!.artist.name!
                                 : '...'),
                             Text(getElapsedTimeString(widget.post.time)),
-                            //Text('${Random().nextInt(24)} hours ago'),
                             Expanded(child: Container()),
-                            const ReactionBar(),
+                            ReactionBar(postID: widget.post.postID,),
                           ],
                         ),
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
                             onTap: () {
@@ -143,12 +143,26 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                                 minRadius: 15,
                                 maxRadius: 15),
                           ),
-                          Expanded(child: Container()),
                           IconButton(
                             padding: const EdgeInsets.all(0.0),
                             constraints: const BoxConstraints(),
                             iconSize: 28,
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.provider.playSong((widget.post.songID));
+                            },
+                            icon: const Icon(Icons.play_arrow),
+                            tooltip: 'Play song',
+                          ),
+                          IconButton(
+                            padding: const EdgeInsets.all(0.0),
+                            constraints: const BoxConstraints(),
+                            iconSize: 28,
+                            onPressed: () {
+                              widget.provider.addSongToLibrary((widget.post.songID));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Added song to liked songs!'),)
+                              );
+                            },
                             icon: const Icon(Icons.playlist_add),
                             tooltip: 'Add to playlist',
                           ),

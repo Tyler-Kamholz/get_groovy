@@ -117,3 +117,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+# To update, run:
+# flutter pub run flutter_native_splash:create
+flutter_native_splash:
+    color: "#F7EAD6"

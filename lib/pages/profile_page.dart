@@ -36,7 +36,12 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _updateUserDocument();
 
-    _postsFuture = DatabaseHelpers.getPosts(widget.userID);
+    _postsFuture = DatabaseHelpers.getPosts(widget.userID).then((value) {
+      value.sort(
+        (a, b) => b.time.compareTo(a.time),
+      );
+      return value;
+    });
     _followingFuture = DatabaseHelpers.getFollowing(widget.userID);
     _followersFuture = DatabaseHelpers.getFollowers(widget.userID);
   }

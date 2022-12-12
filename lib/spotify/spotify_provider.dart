@@ -175,16 +175,6 @@ class SpotifyProvider extends ChangeNotifier {
     return Future.wait(futures);
   }
 
-  void playSong(Track track) async {
-    var connected = await _ensureConnected();
-    if (!connected) {
-      return;
-    }
-    await SpotifySdk.play(spotifyUri: track.uri);
-  }
-
-  void addSongToLibrary(Track track) async {}
-
   Future<Track?> getCurrentSong() async {
     bool connected = await _ensureConnected();
     if (!connected) {
@@ -220,5 +210,24 @@ class SpotifyProvider extends ChangeNotifier {
     var json = jsonDecode(result.body);
 
     return _jsonToTrack({'track': json});
+  }
+
+  void addSongToLibrary(String songID) async {
+    var connected = await _ensureConnected();
+    if (!connected) {
+      return;
+    }
+
+    var spotifyUri = 'spotify:track:$songID';
+    SpotifySdk.addToLibrary(spotifyUri: spotifyUri);
+  }
+
+  void playSong(String songID) async {
+    var connected = await _ensureConnected();
+    if (!connected) {
+      return;
+    }
+    var spotifyUri = 'spotify:track:$songID';
+    SpotifySdk.play(spotifyUri: spotifyUri);
   }
 }

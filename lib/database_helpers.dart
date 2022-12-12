@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:getgroovy/model/post_reaction.dart';
 
 import 'model/post.dart';
 import 'model/user.dart';
@@ -90,5 +91,52 @@ class DatabaseHelpers {
         .get();
     return List.generate(
       result.docs.length, (index) => result.docs[index].data());
+  }
+
+  static Future<void> addPost({required String songID, required String userID}) {
+    return FirebaseFirestore.instance
+      .collection('posts')
+      .add({}) // First, add an empty object so we can get the ID of the object
+      .then((value) {
+        return FirebaseFirestore.instance
+          .collection('posts')
+          .doc(value.id) 
+          .set({ // Now, update that same object with the real post data.
+            'user_id': userID,
+            'song_id': songID,
+            'time': Timestamp.now(),
+            'post_id': value.id
+          });
+    },);
+  }
+
+  static Future<List<PostReaction>> getReactions({required String postID}) async {
+    var result = await FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postID)
+      .collection('reactions')
+      .withConverter<PostReaction>(
+              fromFirestore: PostReaction.fromJson, toFirestore: PostReaction.toJson)
+      .get();
+    return List.generate(
+      result.docs.length, (index) => result.docs[index].data());
+  }
+
+  static Future<void> addReaction({required String postID, required PostReaction reaction}) {
+    return FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postID)
+      .collection('reactions')
+      .doc(reaction.userID)
+      .set(PostReaction.toJson(reaction, null));
+  }
+
+  static Future<void> deleteReaction({required String postID, required String userID}) {
+    return FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postID)
+      .collection('reactions')
+      .doc(userID)
+      .delete();
   }
 }

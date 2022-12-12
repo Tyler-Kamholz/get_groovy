@@ -1,10 +1,13 @@
-import 'dart:math';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/database_helpers.dart';
+import 'package:getgroovy/model/post_reaction.dart';
 import 'package:getgroovy/widgets/tappable_emoji.dart';
 
 class ReactionBar extends StatefulWidget {
-  const ReactionBar({Key? key}) : super(key: key);
+  final String postID;
+
+  const ReactionBar({required this.postID, Key? key}) : super(key: key);
 
   @override
   State<ReactionBar> createState() => _ReactionBarState();
@@ -12,55 +15,93 @@ class ReactionBar extends StatefulWidget {
 
 class _ReactionBarState extends State<ReactionBar> {
   static const _availableEmojis = ['👍', '😍', '🤨', '😯', '👎'];
-  late Map<String, int> _reactions;
+  late Future<List<PostReaction>> _reactionFuture;
+  Map<String, int> counts = {};
 
-  _ReactionBarState() {
-    var random = Random();
-    int numReactions = random.nextInt(_availableEmojis.length);
-    _reactions = {};
-    var curAvailableEmojis = List.from(_availableEmojis);
-    for (int i = 0; i < numReactions; i++) {
-      int chosenIndex = random.nextInt(curAvailableEmojis.length);
-      var chosenEmoji = curAvailableEmojis[chosenIndex];
-      _reactions[chosenEmoji] = random.nextInt(50);
-      curAvailableEmojis.removeAt(chosenIndex);
-    }
+  @override
+  void initState() {
+    super.initState();
+    _reactionFuture =
+        DatabaseHelpers.getReactions(postID: widget.postID).then((value) {
+      counts = PostReaction.organizeEmojiCounts(value);
+      value.sort((a, b) => ((counts[a] ?? 0) - (counts[b] ?? 0)));
+      return value;
+    });
+  }
+
+  void reloadReactions() {
+    setState(() {
+      _reactionFuture =
+          DatabaseHelpers.getReactions(postID: widget.postID).then((value) {
+        counts = PostReaction.organizeEmojiCounts(value);
+        value.sort((a, b) => ((counts[a] ?? 0) - (counts[b] ?? 0)));
+        return value;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 30,
-      child: InkWell(
-        onLongPress: showReactions,
-        child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: _reactions.length + 1,
-            itemBuilder: ((context, index) {
-              if (index == _reactions.length) {
-                return InkWell(
-                  onTap: addReaction,
-                  customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    child: const Icon(Icons.add_reaction),
-                  ),
-                );
-              } else {
-                return TappableEmoji(
-                  initialHighlighted: false,
-                  highlightOnTap: true,
-                  emoji: _reactions.keys.elementAt(index),
-                  onTap: (emoji) {},
-                );
-              }
-            })),
-      ),
+      child: FutureBuilder(
+          future: _reactionFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return InkWell(
+                onLongPress: showReactions,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: counts.length + 1,
+                  itemBuilder: (context, index) {
+                    if (index == counts.length) {
+                      return InkWell(
+                        onTap: addReaction,
+                        customBorder: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32)),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          child: const Icon(Icons.add_reaction),
+                        ),
+                      );
+                    } else {
+                      var selected = isUserIDInThisEmoji(
+                          snapshot.data!,
+                          snapshot.data![index].emoji,
+                          FirebaseAuth.instance.currentUser!.uid);
+                      return TappableEmoji(
+                          highlighted: selected,
+                          highlightOnTap: true,
+                          emoji: snapshot.data![index].emoji,
+                          onTap: () {
+                            if (selected) {
+                              deleteReaction();
+                            } else {
+                              setReaction(snapshot.data![index].emoji);
+                            }
+                          });
+                    }
+                  },
+                ),
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
+  }
+
+  bool isUserIDInThisEmoji(
+      List<PostReaction> reactions, String emoji, String userID) {
+    for (var element in reactions) {
+      if (element.emoji == emoji && element.userID == userID) {
+        return true;
+      }
+    }
+    return false;
   }
 
   void addReaction() {
@@ -76,15 +117,32 @@ class _ReactionBarState extends State<ReactionBar> {
                     (index) => TappableEmoji(
                           emoji: _availableEmojis[index],
                           highlightOnTap: false,
-                          onTap: (emoji) {
-                            setState(() {
-                              _reactions[emoji] = (_reactions[emoji] ?? 0) + 1;
-                            });
+                          onTap: () {
+                            setReaction(_availableEmojis[index]);
                             Navigator.of(context).pop();
                           },
                         )),
               )),
             ));
+  }
+
+  void setReaction(String emoji) {
+    DatabaseHelpers.addReaction(
+            postID: widget.postID,
+            reaction: PostReaction(
+                emoji: emoji, userID: FirebaseAuth.instance.currentUser!.uid))
+        .then((_) {
+      reloadReactions();
+    });
+  }
+
+  void deleteReaction() {
+    DatabaseHelpers.deleteReaction(
+            postID: widget.postID,
+            userID: FirebaseAuth.instance.currentUser!.uid)
+        .then((_) {
+      reloadReactions();
+    });
   }
 
   void showReactions() {
@@ -96,10 +154,10 @@ class _ReactionBarState extends State<ReactionBar> {
               height: 200,
               width: 100,
               child: ListView.builder(
-                itemCount: _reactions.length,
+                itemCount: counts.length,
                 itemBuilder: (context, index) {
-                  var emoji = _reactions.keys.elementAt(index);
-                  var count = _reactions[emoji];
+                  var emoji = counts.keys.elementAt(index);
+                  var count = counts[emoji];
                   return ListTile(
                     title: Text(
                       '$emoji $count',
