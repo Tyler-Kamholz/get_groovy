@@ -4,7 +4,6 @@
 /// Reflection: N/A
 
 import 'package:flutter/material.dart';
-import 'package:getgroovy/dummy_data.dart';
 
 class NotificationsBuilder {
   // Returns the post card

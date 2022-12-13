@@ -5,9 +5,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:getgroovy/model/post_reaction.dart';
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
 
 import 'model/post.dart';
-import 'model/user.dart';
+import 'model/user.dart' as model_user;
+import 'package:path/path.dart';
 
 class DatabaseHelpers {
   
@@ -100,14 +106,47 @@ class DatabaseHelpers {
   }
 
   // Gets a list of all users
-  static Future<List<User>> getAllUsers() async {
+  static Future<List<model_user.User>> getAllUsers() async {
     var result = await FirebaseFirestore.instance
         .collection('users')
-        .withConverter<User>(
-            fromFirestore: User.fromJson, toFirestore: User.toJson)
+        .withConverter<model_user.User>(
+            fromFirestore: model_user.User.fromJson,
+            toFirestore: model_user.User.toJson)
         .get();
     return List.generate(
-      result.docs.length, (index) => result.docs[index].data());
+        result.docs.length, (index) => result.docs[index].data());
+  }
+
+  static Future<void> updateProfilePicture(File file) async {
+    String userID = FirebaseAuth.instance.currentUser!.uid;
+    String fileName = basename(file.path);
+
+    await FirebaseStorage.instance
+        .ref()
+        .child("$userID/$fileName")
+        .putFile(file);
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .set({'image_id': fileName}, SetOptions(merge: true));
+  }
+
+  static Future<String?> getProfilePictureURL(String userID) async {
+    var userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .withConverter<model_user.User>(
+            fromFirestore: model_user.User.fromJson,
+            toFirestore: model_user.User.toJson)
+        .get();
+    if (userSnapshot.data() == null || userSnapshot.data()!.imageID == null) {
+      return null;
+    }
+    var child = FirebaseStorage.instance
+        .ref()
+        .child("$userID/${userSnapshot.data()!.imageID}");
+    return child.getDownloadURL();
   }
 
   // Adds a post to the database
@@ -162,11 +201,11 @@ class DatabaseHelpers {
   }
 
   // Gets a user by their ID
-  static Future<User?> getUserByID({required String userID}) async {
+  static Future<model_user.User?> getUserByID({required String userID}) async {
       var result = await FirebaseFirestore.instance
         .collection('users')
-        .withConverter<User>(
-            fromFirestore: User.fromJson, toFirestore: User.toJson)
+        .withConverter<model_user.User>(
+            fromFirestore: model_user.User.fromJson, toFirestore: model_user.User.toJson)
         .doc(userID)
         .get();
       return result.data();

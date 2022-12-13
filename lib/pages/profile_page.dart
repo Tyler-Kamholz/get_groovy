@@ -2,10 +2,13 @@
 /// Date: January 13, 2022
 /// Bugs: N/A
 /// Reflection: N/A
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/profile_picture.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -96,13 +99,31 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Constructs the avatar , which currently is a random color
+  Future<Image?>? _imageFuture;
   Widget buildAvatar() {
     return Stack(children: [
-      const Padding(
-        padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
-        child: CircleAvatar(
-            backgroundColor: Colors.red, minRadius: 100, maxRadius: 100),
-      ),
+      Padding(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+          child: SizedBox(
+            height: 200,
+            width: 200,
+            child: FutureBuilder(
+              future: _imageFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CircleAvatar(
+                    minRadius: 100,
+                    maxRadius: 100,
+                    backgroundImage:
+                        snapshot.data != null ? snapshot.data!.image : null,
+                    backgroundColor: Colors.red,
+                  );
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+          )),
       Positioned(
           bottom: 0,
           right: 0,
@@ -113,7 +134,18 @@ class _ProfilePageState extends State<ProfilePage> {
                     .getCurrentTheme()
                     .iconColor,
                 icon: const Icon(Icons.edit),
-                onPressed: () {},
+
+                /// Pushes to Create Profile Picture Page
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePicture(
+                                title: '',
+                              ))).then((value) {
+                    _updateUserDocument();
+                  });
+                },
               );
             } else {
               return const SizedBox(
@@ -123,6 +155,14 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           }())
     ]);
+  }
+
+  Future downloadPic(String filename) async {
+    Reference reference = FirebaseStorage.instance.ref().child('filename');
+    String downloadAddress = await reference.getDownloadURL();
+    setState(() {
+      Image.network(downloadAddress);
+    });
   }
 
   /// Constructs the user's name and button to activate a QR code
@@ -414,15 +454,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 Center(
                     child: ElevatedButton(
                         onPressed: () {
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(widget.userID)
-                              .set({
-                            'display_name': updateNameController.text,
-                          }, SetOptions(merge: true)).then((value) {
-                            _updateUserDocument();
-                          });
-                          Navigator.of(context).pop();
+                          if (updateNameController.text.isNotEmpty) {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.userID)
+                                .set({
+                              'display_name': updateNameController.text,
+                            }, SetOptions(merge: true)).then((value) {
+                              _updateUserDocument();
+                            });
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: const Text(
                           'Done',
@@ -438,6 +480,10 @@ class _ProfilePageState extends State<ProfilePage> {
           .collection('users')
           .doc(widget.userID)
           .get();
+      _imageFuture =
+          DatabaseHelpers.getProfilePictureURL(widget.userID).then((value) {
+        return value != null ? Image.network(value) : null;
+      });
     });
   }
 }

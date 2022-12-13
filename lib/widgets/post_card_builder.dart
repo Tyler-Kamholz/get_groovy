@@ -38,6 +38,7 @@ class PostCardWidget extends StatefulWidget {
 class _PostCardWidgetState extends State<PostCardWidget> {
   Future<ImageUri?>? imageFuture;
   Future<Track?>? trackFuture;
+  Future<Image?>? _imageFuture;
 
   @override
   void initState() {
@@ -50,6 +51,10 @@ class _PostCardWidgetState extends State<PostCardWidget> {
         return value;
       },
     );
+    _imageFuture =
+        DatabaseHelpers.getProfilePictureURL(widget.post.userID).then((value) {
+      return value != null ? Image.network(value) : null;
+    });
   }
 
   @override
@@ -124,32 +129,30 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                    appBar: AppBar(
-                                      backgroundColor:
-                                          Provider.of<ThemeProvider>(context)
-                                              .getCurrentTheme()
-                                              .navBarColor,
-                                      foregroundColor:
-                                          Provider.of<ThemeProvider>(context)
-                                              .getCurrentTheme()
-                                              .textBoxTextColor,
-                                      title: const Text('name'),
-                                    ),
-                                    body: ProfilePage(
-                                      userID: widget.post.userID,
-                                    )),
-                                fullscreenDialog: true,
-                              ));
-                            },
-                            child: CircleAvatar(
-                                //foregroundImage: image.image,
-                                backgroundColor: ColorHelper.random(),
-                                minRadius: 15,
-                                maxRadius: 15),
-                          ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Scaffold(
+                                      appBar: AppBar(
+                                        title: const Text('name'),
+                                      ),
+                                      body: ProfilePage(
+                                        userID: widget.post.userID,
+                                      )),
+                                  fullscreenDialog: true,
+                                ));
+                              },
+                              child: FutureBuilder(
+                                  future: _imageFuture,
+                                  builder: (context, snapshot) {
+                                    return CircleAvatar(
+                                        backgroundImage: snapshot.data != null
+                                            ? snapshot.data!.image
+                                            : null,
+                                        backgroundColor: Colors.red,
+                                        minRadius: 15,
+                                        maxRadius: 15);
+                                  })),
+                          Expanded(child: Container()),
                           IconButton(
                             padding: const EdgeInsets.all(0.0),
                             constraints: const BoxConstraints(),

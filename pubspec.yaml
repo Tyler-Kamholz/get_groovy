@@ -52,6 +52,10 @@ dependencies:
   qr_code_scanner: ^1.0.1
   flutter_launcher_icons: ^0.11.0
   flutter_native_splash: ^2.2.16
+  image_picker: ^0.8.6
+  firebase_storage: ^11.0.7
+  path: ^1.8.3
+  
 
 dev_dependencies:
   flutter_test:
@@ -114,7 +118,7 @@ flutter:
 
 # To update, run:
 # flutter pub run flutter_native_splash:create
-flutter_native_splash :
+flutter_native_splash:
   image: "app_assets/Login-Page-trans.png"
   color: "#f7ead6"
   image_dark: "app_assets/login_page_dark_mode.png"
