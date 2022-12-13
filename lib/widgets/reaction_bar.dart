@@ -127,6 +127,16 @@ class _ReactionBarState extends State<ReactionBar> {
   }
 
   void setReaction(String emoji) {
+    DatabaseHelpers.getPostByID(postID: widget.postID).then((post) {
+      if(post == null) { return; }
+      DatabaseHelpers.getUserByID(userID: FirebaseAuth.instance.currentUser!.uid).then((user) {
+        if(user == null) {return ;}
+        DatabaseHelpers.addActivity(
+          userID: post.userID, 
+          message: '${user.displayName} gave you a $emoji');
+      });
+    });
+
     DatabaseHelpers.addReaction(
             postID: widget.postID,
             reaction: PostReaction(

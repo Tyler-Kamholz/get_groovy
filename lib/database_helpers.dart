@@ -34,6 +34,10 @@ class DatabaseHelpers {
         .collection('followers')
         .doc(follower)
         .set({}, SetOptions(merge: true));
+    var user = await DatabaseHelpers.getUserByID(userID: follower);
+    if(user != null) {
+      DatabaseHelpers.addActivity(userID: following, message: '${user.displayName} is now following you!');
+    }
   }
 
   static Future<void> unfollow(
@@ -138,5 +142,46 @@ class DatabaseHelpers {
       .collection('reactions')
       .doc(userID)
       .delete();
+  }
+
+  static Future<User?> getUserByID({required String userID}) async {
+      var result = await FirebaseFirestore.instance
+        .collection('users')
+        .withConverter<User>(
+            fromFirestore: User.fromJson, toFirestore: User.toJson)
+        .doc(userID)
+        .get();
+      return result.data();
+  }
+
+  static Future<Post?> getPostByID({required String postID}) async {
+      var result = await FirebaseFirestore.instance
+        .collection('posts')
+        .withConverter<Post>(
+            fromFirestore: Post.fromJson, toFirestore: Post.toJson)
+        .doc(postID)
+        .get();
+      return result.data();
+  }
+
+  static void addActivity({required String userID, required String message}) {
+    FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('activity')
+      .add({
+        'message': message,      
+      });
+  }
+
+  static Future<List<String>> getActivities({required String userID}) async {
+    var result = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(userID)
+      .collection('activity')
+      .get();
+    return List.generate(
+      result.docs.length, 
+      (index) => result.docs[index].data()['message']);
   }
 }

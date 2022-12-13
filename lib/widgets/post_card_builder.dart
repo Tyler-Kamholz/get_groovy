@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:getgroovy/database_helpers.dart';
 import 'package:getgroovy/spotify/spotify_provider.dart';
 import 'package:getgroovy/widgets/reaction_bar.dart';
 import 'package:provider/provider.dart';
@@ -158,6 +160,15 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                             constraints: const BoxConstraints(),
                             iconSize: 28,
                             onPressed: () {
+                              DatabaseHelpers.getUserByID(userID: FirebaseAuth.instance.currentUser!.uid).then((user) {
+                                if(user != null) {
+                                  widget.provider.getTrackFromID(widget.post.songID).then((song) {
+                                    if(song != null) {
+                                      DatabaseHelpers.addActivity(userID: widget.post.userID, message: '${user.displayName} added your song "${song.name}"');
+                                    }
+                                  });
+                                }
+                              });
                               widget.provider.addSongToLibrary((widget.post.songID));
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('Added song to liked songs!'),)

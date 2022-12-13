@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:getgroovy/dummy_data.dart';
 
 class NotificationsBuilder {
-  static Widget buildPostCard() {
+  static Widget buildPostCard(String message) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
         child: Text(
-          DummyData.getRandomNotifications(),
+          message,
           style: const TextStyle(fontSize: 18),
         ),
       ),

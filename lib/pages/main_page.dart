@@ -133,6 +133,6 @@ class _MainPageState extends State<MainPage> {
   void notifications(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         fullscreenDialog: false,
-        builder: (context) => const NotificationsPage()));
+        builder: (context) => NotificationsPage()));
   }
 }
