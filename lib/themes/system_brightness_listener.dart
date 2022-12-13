@@ -1,3 +1,8 @@
+/// Name: Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: A hacky solution to changing the os-theme while the app is running
+
 import 'package:flutter/cupertino.dart';
 import 'package:getgroovy/themes/theme_provider.dart';
 

@@ -1,3 +1,8 @@
+/// Name: Tyler, Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/home_page.dart';
@@ -125,11 +130,13 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  // Go to settings
   void settings(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         fullscreenDialog: false, builder: (context) => const SettingsPage()));
   }
 
+  // Go to notifications
   void notifications(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
         fullscreenDialog: false,

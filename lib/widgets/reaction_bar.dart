@@ -1,3 +1,8 @@
+/// Name: Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/database_helpers.dart';
@@ -29,6 +34,7 @@ class _ReactionBarState extends State<ReactionBar> {
     });
   }
 
+  // Reloads reactions from the database
   void reloadReactions() {
     setState(() {
       _reactionFuture =
@@ -94,6 +100,7 @@ class _ReactionBarState extends State<ReactionBar> {
     );
   }
 
+  // Checks if the user set their reaction to this emoji
   bool isUserIDInThisEmoji(
       List<PostReaction> reactions, String emoji, String userID) {
     for (var element in reactions) {
@@ -104,6 +111,7 @@ class _ReactionBarState extends State<ReactionBar> {
     return false;
   }
 
+  // Shows a dialog box to post a reaction
   void addReaction() {
     showDialog(
         context: context,
@@ -126,6 +134,7 @@ class _ReactionBarState extends State<ReactionBar> {
             ));
   }
 
+  // Sets the reaction without a dialog box
   void setReaction(String emoji) {
     DatabaseHelpers.getPostByID(postID: widget.postID).then((post) {
       if(post == null) { return; }
@@ -146,6 +155,7 @@ class _ReactionBarState extends State<ReactionBar> {
     });
   }
 
+  // Removes your reaction
   void deleteReaction() {
     DatabaseHelpers.deleteReaction(
             postID: widget.postID,
@@ -155,6 +165,7 @@ class _ReactionBarState extends State<ReactionBar> {
     });
   }
 
+  // Shows a list of reactions and their counts
   void showReactions() {
     showDialog(
         context: context,

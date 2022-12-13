@@ -1,3 +1,8 @@
+/// Name: Tyler, Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +26,10 @@ class _HomePageState extends State<HomePage> {
 
   late Future<List<Post>> _future;
 
+  // Sets up initial variables. Namely, a future for the list of posts
   @override
   void initState() {
     super.initState();
-
     _future =
         DatabaseHelpers.getFollowing(FirebaseAuth.instance.currentUser!.uid)
             .then((followingList) => FirebaseFirestore.instance
@@ -48,6 +53,7 @@ class _HomePageState extends State<HomePage> {
                 }));
   }
 
+  // Builds the list of posts
   @override
   Widget build(BuildContext context) {
     return Scaffold(

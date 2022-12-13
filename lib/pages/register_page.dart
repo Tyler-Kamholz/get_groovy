@@ -1,3 +1,8 @@
+/// Name: Kaia, Matthew, Tyler
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

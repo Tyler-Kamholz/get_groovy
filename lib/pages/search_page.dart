@@ -1,3 +1,8 @@
+/// Name: Tyler, Dalton, Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:flutter/material.dart';
 import 'package:getgroovy/database_helpers.dart';
 import 'package:provider/provider.dart';

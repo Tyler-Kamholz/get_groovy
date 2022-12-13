@@ -1,3 +1,8 @@
+/// Name: Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:getgroovy/themes/my_themes.dart';
@@ -18,6 +23,7 @@ class ThemeProvider extends ChangeNotifier {
   /// Gets the current theme
   ThemeMode get getThemeMode => _themeMode;
 
+  // Returns the current thee
   GroovyTheme getCurrentTheme() {
     if (_themeMode == ThemeMode.light) {
       return MyThemes.lightTheme;
@@ -54,6 +60,7 @@ class ThemeProvider extends ChangeNotifier {
     }
   }
 
+  // Updates the system navigation bar (android) to correspond with the theme
   void updateSystemNavBar() {
     // These futures are a hacky fix
     if (_themeMode == ThemeMode.light) {

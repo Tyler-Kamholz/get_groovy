@@ -1,3 +1,8 @@
+/// Name: Matthew, Tyler, Dalton
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/preview_page.dart';
 import 'package:getgroovy/spotify/spotify_provider.dart';

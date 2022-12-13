@@ -1,3 +1,8 @@
+/// Name: Matthew, Tyler
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -37,6 +42,7 @@ class DummyData {
             'https://i.scdn.co/image/ab67616d00001e020360a10c5c2f853192819e92'),
   ];
 
+  // Gets a random song
   static Song getRandomSong() {
     return songs[Random().nextInt(songs.length)];
   }
@@ -70,14 +76,17 @@ class DummyData {
     '${getRandomName()} added ${getRandomSong().name} to their playlist! Groovy Song!'
   ];
 
+  // Gets a random name
   static String getRandomName() {
     return names[Random().nextInt(names.length)];
   }
 
+  // Gets a random image
   static Image getRandomImage() {
     return Image.asset('images/image${Random().nextInt(7) + 1}.jpg');
   }
 
+  // Get a random notification
   static String getRandomNotifications() {
     return notifications[Random().nextInt(notifications.length)];
   }

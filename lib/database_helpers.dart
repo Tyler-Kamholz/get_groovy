@@ -1,3 +1,8 @@
+/// Name: Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:getgroovy/model/post_reaction.dart';
 
@@ -5,6 +10,8 @@ import 'model/post.dart';
 import 'model/user.dart';
 
 class DatabaseHelpers {
+  
+  // Checks if user X is following user Y
   static Future<bool> isXFollowingY(String userIdX, String userIdY) async {
     var followingCollection = await FirebaseFirestore.instance
         .collection('users')
@@ -20,6 +27,7 @@ class DatabaseHelpers {
     return false;
   }
 
+  // Makes <follower> follow the <following> account
   static Future<void> follow(
       {required String follower, required String following}) async {
     await FirebaseFirestore.instance
@@ -40,6 +48,7 @@ class DatabaseHelpers {
     }
   }
 
+  // Makes <follower> unfollow <following> account
   static Future<void> unfollow(
       {required String follower, required String following}) async {
     await FirebaseFirestore.instance
@@ -56,6 +65,7 @@ class DatabaseHelpers {
         .delete();
   }
 
+  // Gets all the followers for the user
   static Future<List<String>> getFollowers(String userID) async {
     var snapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -66,6 +76,7 @@ class DatabaseHelpers {
         snapshot.docs.length, (index) => snapshot.docs[index].id);
   }
 
+  // Gets all the people who this user is following
   static Future<List<String>> getFollowing(String userID) async {
     var snapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -76,6 +87,7 @@ class DatabaseHelpers {
         snapshot.docs.length, (index) => snapshot.docs[index].id);
   }
 
+  // Gets all the posts of this user
   static Future<List<Post>> getPosts(String userID) async {
     var result = await FirebaseFirestore.instance
         .collection('posts')
@@ -87,6 +99,7 @@ class DatabaseHelpers {
         result.docs.length, (index) => result.docs[index].data());
   }
 
+  // Gets a list of all users
   static Future<List<User>> getAllUsers() async {
     var result = await FirebaseFirestore.instance
         .collection('users')
@@ -97,6 +110,7 @@ class DatabaseHelpers {
       result.docs.length, (index) => result.docs[index].data());
   }
 
+  // Adds a post to the database
   static Future<void> addPost({required String songID, required String userID}) {
     return FirebaseFirestore.instance
       .collection('posts')
@@ -114,6 +128,7 @@ class DatabaseHelpers {
     },);
   }
 
+  // Gets reactions from a post
   static Future<List<PostReaction>> getReactions({required String postID}) async {
     var result = await FirebaseFirestore.instance
       .collection('posts')
@@ -126,6 +141,7 @@ class DatabaseHelpers {
       result.docs.length, (index) => result.docs[index].data());
   }
 
+  // Adds a reaction to a post
   static Future<void> addReaction({required String postID, required PostReaction reaction}) {
     return FirebaseFirestore.instance
       .collection('posts')
@@ -135,6 +151,7 @@ class DatabaseHelpers {
       .set(PostReaction.toJson(reaction, null));
   }
 
+  // Deletes a reaction from a post
   static Future<void> deleteReaction({required String postID, required String userID}) {
     return FirebaseFirestore.instance
       .collection('posts')
@@ -144,6 +161,7 @@ class DatabaseHelpers {
       .delete();
   }
 
+  // Gets a user by their ID
   static Future<User?> getUserByID({required String userID}) async {
       var result = await FirebaseFirestore.instance
         .collection('users')
@@ -154,6 +172,7 @@ class DatabaseHelpers {
       return result.data();
   }
 
+  // Gets a post by it's ID
   static Future<Post?> getPostByID({required String postID}) async {
       var result = await FirebaseFirestore.instance
         .collection('posts')
@@ -164,6 +183,7 @@ class DatabaseHelpers {
       return result.data();
   }
 
+  // Adds an activity
   static void addActivity({required String userID, required String message}) {
     FirebaseFirestore.instance
       .collection('users')
@@ -174,6 +194,7 @@ class DatabaseHelpers {
       });
   }
 
+  // Gets all of the activity associated with a user from the database.
   static Future<List<String>> getActivities({required String userID}) async {
     var result = await FirebaseFirestore.instance
       .collection('users')

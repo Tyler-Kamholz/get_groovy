@@ -1,3 +1,8 @@
+/// Name: Matthew, Tyler
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: A set of tools to abstract spotify integration
+
 import 'dart:convert';
 import 'dart:core';
 
@@ -23,6 +28,7 @@ class SpotifyProvider extends ChangeNotifier {
     });
   }
 
+  // Gets the users access token
   Future<String?> _getAccessToken() {
     return Future(() {
       try {
@@ -153,6 +159,7 @@ class SpotifyProvider extends ChangeNotifier {
     return null;
   }
 
+  // Asks the spotify API for your 5 most recent songs
   Future<List<Track>> _getRecentTracks() async {
     var recentSongsUri = Uri(
         scheme: 'https',
@@ -175,6 +182,7 @@ class SpotifyProvider extends ChangeNotifier {
     return Future.wait(futures);
   }
 
+  // Asks the spotify API for the currently playing song
   Future<Track?> getCurrentSong() async {
     bool connected = await _ensureConnected();
     if (!connected) {
@@ -183,6 +191,7 @@ class SpotifyProvider extends ChangeNotifier {
     return (await SpotifySdk.getPlayerState())?.track;
   }
 
+  // Asks the spoify API to get the last song played
   Future<Track?> getLastSong() async {
     bool connected = await _ensureConnected();
     if (!connected) {
@@ -195,6 +204,7 @@ class SpotifyProvider extends ChangeNotifier {
     return tracks[0];
   }
 
+  // Gets a Track object associated with an ID from the spotify API
   Future<Track?> getTrackFromID(String songID) async {
     var connected = await _ensureConnected();
     if (!connected) {
@@ -212,6 +222,7 @@ class SpotifyProvider extends ChangeNotifier {
     return _jsonToTrack({'track': json});
   }
 
+  // Adds a song ID to your spotify library (likes the song)
   void addSongToLibrary(String songID) async {
     var connected = await _ensureConnected();
     if (!connected) {
@@ -222,6 +233,7 @@ class SpotifyProvider extends ChangeNotifier {
     SpotifySdk.addToLibrary(spotifyUri: spotifyUri);
   }
 
+  // Uses spotify remote SDK to play a song.
   void playSong(String songID) async {
     var connected = await _ensureConnected();
     if (!connected) {

@@ -1,3 +1,8 @@
+/// Name: Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: Basic model for reactions
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostReaction {
@@ -6,6 +11,7 @@ class PostReaction {
 
   PostReaction({required this.emoji, required this.userID});
 
+  /// Converts json to a PostReaction
   static PostReaction fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions? options) {
     var data = snapshot.data();
@@ -15,6 +21,7 @@ class PostReaction {
     );
   }
 
+  /// Converts a PostReaction to json
   static Map<String, Object?> toJson(
       PostReaction reaction, SetOptions? options) {
     return {

@@ -1,3 +1,8 @@
+/// Name: Matthew, Tyler
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -190,6 +195,7 @@ class _PostCardWidgetState extends State<PostCardWidget> {
     );
   }
 
+  // Converts a timestamp into a neatly formatted string
   String getElapsedTimeString(Timestamp oldTime) {
     var duration = DateTime.now().difference(oldTime.toDate());
     if (duration.inDays > 0) {

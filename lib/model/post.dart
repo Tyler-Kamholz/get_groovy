@@ -1,3 +1,8 @@
+/// Name: Matthew
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: Basic model for posts
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
@@ -8,6 +13,7 @@ class Post {
 
   Post({required this.songID, required this.userID, required this.time, required this.postID});
 
+  /// Converts json to a PostReaction
   static Post fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot, SnapshotOptions? options) {
     var data = snapshot.data();
     return Post(
@@ -18,6 +24,7 @@ class Post {
     );
   }
 
+  /// Converts a PostReaction to json
   static Map<String, Object?> toJson(Post post, SetOptions? options) {
     return {
       'time': post.time,

@@ -1,3 +1,8 @@
+/// Name: Matthew, Tyler, Dalton
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/database_helpers.dart';

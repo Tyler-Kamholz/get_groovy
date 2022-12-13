@@ -1,3 +1,8 @@
+/// Name: Tyler
+/// Date: January 13, 2022
+/// Bugs: N/A
+/// Reflection: N/A
+
 import 'package:flutter/material.dart';
 import 'package:getgroovy/pages/login_page.dart';
 import 'package:getgroovy/pages/register_page.dart';
