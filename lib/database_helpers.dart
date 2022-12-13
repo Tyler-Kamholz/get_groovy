@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import 'model/post.dart';
-import 'model/user.dart';
+import 'model/user.dart' as modelUser;
+
+import 'package:path/path.dart';
 
 class DatabaseHelpers {
   static Future<bool> isXFollowingY(String userIdX, String userIdY) async {
@@ -82,13 +88,29 @@ class DatabaseHelpers {
         result.docs.length, (index) => result.docs[index].data());
   }
 
-  static Future<List<User>> getAllUsers() async {
+  static Future<List<modelUser.User>> getAllUsers() async {
     var result = await FirebaseFirestore.instance
         .collection('users')
-        .withConverter<User>(
-            fromFirestore: User.fromJson, toFirestore: User.toJson)
+        .withConverter<modelUser.User>(
+            fromFirestore: modelUser.User.fromJson,
+            toFirestore: modelUser.User.toJson)
         .get();
     return List.generate(
-      result.docs.length, (index) => result.docs[index].data());
+        result.docs.length, (index) => result.docs[index].data());
+  }
+
+  static Future<void> updateProfilePicture(File file) async {
+    String userID = FirebaseAuth.instance.currentUser!.uid;
+    String fileName = basename(file.path);
+
+    await FirebaseStorage.instance
+        .ref()
+        .child("$userID/$fileName") 
+        .putFile(file);
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .set({'image_id': fileName}, SetOptions(merge: true));
   }
 }

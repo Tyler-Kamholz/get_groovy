@@ -15,7 +15,6 @@ import '../themes/theme_provider.dart';
 import '../widgets/post_card_builder.dart';
 import '../widgets/user_list_tile.dart';
 
-
 /// Widget to display user profiles
 class ProfilePage extends StatefulWidget {
   final String userID;
@@ -91,19 +90,31 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Constructs the avatar , which currently is a random color
-  Image? image;
+  Future<Image>? _imageFuture;
   Widget buildAvatar() {
     return Stack(children: [
       Padding(
-        padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-        child: image != null ? CircleAvatar(
-          minRadius: 100,
-          maxRadius: 100,
-          backgroundImage: image!.image,
-          //ImageProvider.file(image!, wigth: 100, height: 100),
-          //backgroundColor: Colors.red, minRadius: 100, maxRadius: 100,
-        ): const CircleAvatar (backgroundColor:  Colors.red, minRadius: 100, maxRadius: 100),
-      ),
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+          child: SizedBox(
+            height: 200,
+            width: 200,
+            child: FutureBuilder(
+              future: _imageFuture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return CircleAvatar(
+                    minRadius: 100,
+                    maxRadius: 100,
+                    backgroundImage:
+                        snapshot.data != null ? snapshot.data!.image : null,
+                    backgroundColor: Colors.red,
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+          )),
       Positioned(
           bottom: 0,
           right: 0,
@@ -114,10 +125,17 @@ class _ProfilePageState extends State<ProfilePage> {
                     .getCurrentTheme()
                     .iconColor,
                 icon: const Icon(Icons.edit),
+
                 /// Pushes to Create Profile Picture Page
                 onPressed: () {
-                  Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePicture(title: '',))); 
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePicture(
+                                title: '',
+                              ))).then((value) {
+                    _updateUserDocument();
+                  });
                 },
               );
             } else {
@@ -130,9 +148,9 @@ class _ProfilePageState extends State<ProfilePage> {
     ]);
   }
 
-  Future downloadPic(String filename) async{
-    Reference reference = FirebaseStorage.instance.ref().child('filename'); 
-    String downloadAddress = await reference.getDownloadURL(); 
+  Future downloadPic(String filename) async {
+    Reference reference = FirebaseStorage.instance.ref().child('filename');
+    String downloadAddress = await reference.getDownloadURL();
     setState(() {
       Image.network(downloadAddress);
     });
@@ -427,15 +445,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 Center(
                     child: ElevatedButton(
                         onPressed: () {
-                          FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(widget.userID)
-                              .set({
-                            'display_name': updateNameController.text,
-                          }, SetOptions(merge: true)).then((value) {
-                            _updateUserDocument();
-                          });
-                          Navigator.of(context).pop();
+                          if (updateNameController.text.isNotEmpty) {
+                            FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.userID)
+                                .set({
+                              'display_name': updateNameController.text,
+                            }, SetOptions(merge: true)).then((value) {
+                              _updateUserDocument();
+                            });
+                            Navigator.of(context).pop();
+                          }
                         },
                         child: const Text(
                           'Done',
@@ -450,7 +470,17 @@ class _ProfilePageState extends State<ProfilePage> {
       _userDocument = FirebaseFirestore.instance
           .collection('users')
           .doc(widget.userID)
-          .get();
+          .get()
+          .then((value) {
+        _imageFuture = FirebaseStorage.instance
+            .ref()
+            .child("${value.data()!['user_id']}/${value.data()!['image_id']}")
+            .getDownloadURL()
+            .then((value) {
+          return Image.network(value);
+        });
+        return value;
+      });
     });
   }
 }
