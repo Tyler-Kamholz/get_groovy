@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:spotify_sdk/models/image_uri.dart';
 import 'package:spotify_sdk/models/track.dart';
 
+import '../database_helpers.dart';
 import '../helpers/helpers.dart';
 import '../model/post.dart';
 import '../pages/profile_page.dart';
@@ -31,6 +32,7 @@ class PostCardWidget extends StatefulWidget {
 class _PostCardWidgetState extends State<PostCardWidget> {
   Future<ImageUri?>? imageFuture;
   Future<Track?>? trackFuture;
+  Future<Image?>? _imageFuture;
 
   @override
   void initState() {
@@ -43,6 +45,10 @@ class _PostCardWidgetState extends State<PostCardWidget> {
         return value;
       },
     );
+    _imageFuture =
+        DatabaseHelpers.getProfilePictureURL(widget.post.userID).then((value) {
+      return value != null ? Image.network(value) : null;
+    });
   }
 
   @override
@@ -117,24 +123,29 @@ class _PostCardWidgetState extends State<PostCardWidget> {
                       Column(
                         children: [
                           InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Scaffold(
-                                    appBar: AppBar(
-                                      title: const Text('name'),
-                                    ),
-                                    body: ProfilePage(
-                                      userID: widget.post.userID,
-                                    )),
-                                fullscreenDialog: true,
-                              ));
-                            },
-                            child: CircleAvatar(
-                                //foregroundImage: image.image,
-                                backgroundColor: ColorHelper.random(),
-                                minRadius: 15,
-                                maxRadius: 15),
-                          ),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Scaffold(
+                                      appBar: AppBar(
+                                        title: const Text('name'),
+                                      ),
+                                      body: ProfilePage(
+                                        userID: widget.post.userID,
+                                      )),
+                                  fullscreenDialog: true,
+                                ));
+                              },
+                              child: FutureBuilder(
+                                  future: _imageFuture,
+                                  builder: (context, snapshot) {
+                                    return CircleAvatar(
+                                        backgroundImage: snapshot.data != null
+                                            ? snapshot.data!.image
+                                            : null,
+                                        backgroundColor: Colors.red,
+                                        minRadius: 15,
+                                        maxRadius: 15);
+                                  })),
                           Expanded(child: Container()),
                           IconButton(
                             padding: const EdgeInsets.all(0.0),
@@ -159,11 +170,11 @@ class _PostCardWidgetState extends State<PostCardWidget> {
 
   String getElapsedTimeString(Timestamp oldTime) {
     var duration = DateTime.now().difference(oldTime.toDate());
-    if(duration.inDays > 0) {
+    if (duration.inDays > 0) {
       return '${duration.inDays} days ago';
-    } else if(duration.inHours > 0) {
+    } else if (duration.inHours > 0) {
       return '${duration.inHours} hours ago';
-    } else if(duration.inMinutes > 0) {
+    } else if (duration.inMinutes > 0) {
       return '${duration.inMinutes} minutes ago';
     } else {
       return '${duration.inSeconds} seconds ago';

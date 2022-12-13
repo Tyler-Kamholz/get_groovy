@@ -4,9 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+import 'package:flutter/material.dart';
+
 import 'model/post.dart';
 import 'model/user.dart' as modelUser;
-
 import 'package:path/path.dart';
 
 class DatabaseHelpers {
@@ -105,12 +106,29 @@ class DatabaseHelpers {
 
     await FirebaseStorage.instance
         .ref()
-        .child("$userID/$fileName") 
+        .child("$userID/$fileName")
         .putFile(file);
 
     await FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
         .set({'image_id': fileName}, SetOptions(merge: true));
+  }
+
+  static Future<String?> getProfilePictureURL(String userID) async {
+    var userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userID)
+        .withConverter<modelUser.User>(
+            fromFirestore: modelUser.User.fromJson,
+            toFirestore: modelUser.User.toJson)
+        .get();
+    if (userSnapshot.data() == null || userSnapshot.data()!.imageID == null) {
+      return null;
+    }
+    var child = FirebaseStorage.instance
+        .ref()
+        .child("$userID/${userSnapshot.data()!.imageID}");
+    return child.getDownloadURL();
   }
 }

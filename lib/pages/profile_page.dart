@@ -90,7 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Constructs the avatar , which currently is a random color
-  Future<Image>? _imageFuture;
+  Future<Image?>? _imageFuture;
   Widget buildAvatar() {
     return Stack(children: [
       Padding(
@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     backgroundColor: Colors.red,
                   );
                 } else {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
               },
             ),
@@ -470,16 +470,10 @@ class _ProfilePageState extends State<ProfilePage> {
       _userDocument = FirebaseFirestore.instance
           .collection('users')
           .doc(widget.userID)
-          .get()
-          .then((value) {
-        _imageFuture = FirebaseStorage.instance
-            .ref()
-            .child("${value.data()!['user_id']}/${value.data()!['image_id']}")
-            .getDownloadURL()
-            .then((value) {
-          return Image.network(value);
-        });
-        return value;
+          .get();
+      _imageFuture =
+          DatabaseHelpers.getProfilePictureURL(widget.userID).then((value) {
+        return value != null ? Image.network(value) : null;
       });
     });
   }
