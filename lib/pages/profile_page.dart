@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:getgroovy/profile_picture.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +14,7 @@ import '../spotify/spotify_provider.dart';
 import '../themes/theme_provider.dart';
 import '../widgets/post_card_builder.dart';
 import '../widgets/user_list_tile.dart';
+
 
 /// Widget to display user profiles
 class ProfilePage extends StatefulWidget {
@@ -87,12 +91,18 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   /// Constructs the avatar , which currently is a random color
+  Image? image;
   Widget buildAvatar() {
     return Stack(children: [
-      const Padding(
-        padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
-        child: CircleAvatar(
-            backgroundColor: Colors.red, minRadius: 100, maxRadius: 100),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+        child: image != null ? CircleAvatar(
+          minRadius: 100,
+          maxRadius: 100,
+          backgroundImage: image!.image,
+          //ImageProvider.file(image!, wigth: 100, height: 100),
+          //backgroundColor: Colors.red, minRadius: 100, maxRadius: 100,
+        ): const CircleAvatar (backgroundColor:  Colors.red, minRadius: 100, maxRadius: 100),
       ),
       Positioned(
           bottom: 0,
@@ -118,6 +128,14 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           }())
     ]);
+  }
+
+  Future downloadPic(String filename) async{
+    Reference reference = FirebaseStorage.instance.ref().child('filename'); 
+    String downloadAddress = await reference.getDownloadURL(); 
+    setState(() {
+      Image.network(downloadAddress);
+    });
   }
 
   /// Constructs the user's name and button to activate a QR code

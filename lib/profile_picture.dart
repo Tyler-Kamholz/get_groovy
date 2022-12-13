@@ -1,7 +1,12 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+
+
+
 
 class ProfilePicture extends StatefulWidget {
   const ProfilePicture ({super.key, required this.title});
@@ -77,13 +82,30 @@ class _ProfilePictureState extends State<ProfilePicture> {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return; 
-
       final imageTemporary = File(image.path); 
-      setState(() =>this.image = imageTemporary); 
+      setState(() =>this.image = imageTemporary);
+      uploadPic(); 
     } on PlatformException catch(e) {
       print('Failed to pick image$e');
     }
 
   }
 
+  Future uploadPic() async{
+    String fileName = basename(image!.path);
+    Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(fileName);
+    UploadTask uploadTask = firebaseStorageRef.putFile(image!); 
+    TaskSnapshot taskSnapshot = await uploadTask; 
+    setState(() {
+      print('Profile Picture Uploaded');
+      //ScaffoldMessenger.showSnackBar( const SnackBar(content: Text('Profile Picture Uploaded')));
+    });
+  }
+
+  /*Future downloadPic(String filename) async{
+    Reference reference = FirebaseStorage.instance.ref().child('filename'); 
+    String downloadAddress = await reference.getDownloadURL(); 
+   setState(() {
+     downloadUrl = downloadAddress; 
+   });*/
 }
