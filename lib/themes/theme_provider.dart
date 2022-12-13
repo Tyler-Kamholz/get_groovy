@@ -41,7 +41,7 @@ class ThemeProvider extends ChangeNotifier {
         Future(() {
           SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
               systemNavigationBarIconBrightness: Brightness.dark,
-              systemNavigationBarColor: Colors.white));
+              systemNavigationBarColor: Color(0xFFf7ead6)));
         });
         return;
       case Brightness.dark:
