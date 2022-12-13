@@ -2,7 +2,6 @@
 /// Date: January 13, 2022
 /// Bugs: N/A
 /// Reflection: N/A
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
