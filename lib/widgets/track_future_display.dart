@@ -1,7 +1,10 @@
-/// Name: Matthew
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
+/*
+ *Name: Matthew
+ *Date: 12/14/2022
+ *Description: In track_future_display.dart,..
+ *Bugs: N/A
+ *Reflection: N/A
+*/
 
 import 'package:flutter/material.dart';
 import 'package:spotify_sdk/models/image_uri.dart';

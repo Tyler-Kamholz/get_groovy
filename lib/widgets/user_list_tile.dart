@@ -1,7 +1,10 @@
-/// Name: Matthew, Tyler
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
+/*
+ *Name: Matthew, Tyler
+ *Date: 12/14/2022
+ *Description: In user_list_tile.dart,..
+ *Bugs: N/A
+ *Reflection: N/A
+*/
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

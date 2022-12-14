@@ -1,7 +1,10 @@
-/// Name: Dalton, Matthew
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
+ /*
+ *Name: Dalton, Matthew
+ *Date: 12/14/2022
+ *Description: In qr_reader.dart,..
+ *Bugs: N/A
+ *Reflection: N/A
+*/
 
 import 'dart:io';
 

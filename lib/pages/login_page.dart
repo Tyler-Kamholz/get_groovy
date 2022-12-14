@@ -1,7 +1,16 @@
-/// Name: Kaia, Matthew, Tyler
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
+/*
+ *Name: Kaia, Matthew, Tyler
+ *Date: 12/14/2022
+ *Description: In login_page.dart, the Login UI is built 
+               which uses the Firebase Authentication
+               to sign in each user. 
+ *Bugs: N/A
+ *Reflection: Tyler's 70's theme background artwork nicely greets 
+              the user. Matthew ensured Firebase Authentication 
+              connection to each user. Kaia created 1st draft of
+              UI that was later redone by Tyler. 
+
+*/
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +26,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+//Email and Password Login Page's textfields
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -28,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
     passwordController.text = 'qweqwe';
   }
 
+  //Builds Login UI
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -167,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // Logs the user in
+  ///Logs the user into Firebase Authentication 
   void _loginButton() async {
     bool success = await signIn(emailController.text, passwordController.text);
     if (success) {
@@ -191,11 +202,6 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       });
-
-      // todo This should hook into a streamController to detect logged in state
-      // ignore: use_build_context_synchronously
-      //Navigator.of(context).push(MaterialPageRoute(
-      //    fullscreenDialog: false, builder: (context) => const MainPage()));
     }
   }
 }

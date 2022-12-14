@@ -1,10 +1,14 @@
-/// Name: Matthew
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: Basic model for reactions
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/*
+ *Name: Matthew
+ *Date: 12/14/2022
+ *Description: In post_reaction.dart, it handles the emoji
+               badge reactions associated with each post.  
+
+ *Bugs: N/A
+ *Reflection: The emoji provides an outlet for interctions between users.
+*/
 class PostReaction {
   String emoji;
   String userID;

@@ -1,7 +1,10 @@
-/// Name: Tyler, Matthew
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
+/*
+ *Name: Tyler, Matthew
+ *Date: 12/14/2022
+ *Description: In notification.dart,..
+ *Bugs: N/A
+ *Reflection: N/A
+*/
 
 import 'package:flutter/material.dart';
 

@@ -3,6 +3,20 @@
 /// Bugs: N/A
 /// Reflection: N/A
 
+/*
+ *Name: Kaia, Matthew
+ *Date: 12/14/2022
+ *Description: In profile.dart, it provides the
+               user an option between the camera
+               gallery or camera to choose a user 
+               profile picture. 
+ *Bugs: N/A
+ *Reflection: Kaia created the UI and funtionality.
+              Matthew assisted in intergrating profile
+              picture to appear in the profile picture 
+              avatar.
+*/
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

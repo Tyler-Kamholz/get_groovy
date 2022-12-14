@@ -1,7 +1,12 @@
-/// Name: Kaia, Matthew
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
+/*
+ *Name: Kaia, Matthew
+ *Date: 12/14/2022
+ *Description: In authentication.dart,..
+ *Bugs: N/A
+ *Reflection: Kaia create 1st attempt Futures signIn and register. 
+              Matthew helped make it more precise and correctly 
+              save into Firebase Authentication. 
+*/
 
 import 'package:firebase_auth/firebase_auth.dart';
 

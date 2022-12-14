@@ -4,6 +4,14 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+/*
+ *Name:
+ *Date: 12/14/2022
+ *Description: In firebase_options.dart,...
+ *Bugs: N/A
+ *Reflection: N/A
+*/
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
