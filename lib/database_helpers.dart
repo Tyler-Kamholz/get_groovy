@@ -1,5 +1,6 @@
 /// Name: Matthew
-/// Date: January 13, 2022
+/// Date: December 14, 2022
+/// Description: Provides tools for accessing the database in a more native way.
 /// Bugs: N/A
 /// Reflection: N/A
 

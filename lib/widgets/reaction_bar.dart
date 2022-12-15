@@ -1,7 +1,8 @@
 /*
  *Name:Matthew
- *Date: 12/14/2022
- *Description: In .dart,..
+ *Date: December 14, 2022
+ *Description: Builds a bar of emoji reactions, hold to view counts, 
+ tap to change emoji, button for new emoji
  *Bugs: N/A
  *Reflection: N/A
 */
@@ -140,12 +141,18 @@ class _ReactionBarState extends State<ReactionBar> {
   // Sets the reaction without a dialog box
   void setReaction(String emoji) {
     DatabaseHelpers.getPostByID(postID: widget.postID).then((post) {
-      if(post == null) { return; }
-      DatabaseHelpers.getUserByID(userID: FirebaseAuth.instance.currentUser!.uid).then((user) {
-        if(user == null) {return ;}
+      if (post == null) {
+        return;
+      }
+      DatabaseHelpers.getUserByID(
+              userID: FirebaseAuth.instance.currentUser!.uid)
+          .then((user) {
+        if (user == null) {
+          return;
+        }
         DatabaseHelpers.addActivity(
-          userID: post.userID, 
-          message: '${user.displayName} gave you a $emoji');
+            userID: post.userID,
+            message: '${user.displayName} gave you a $emoji');
       });
     });
 

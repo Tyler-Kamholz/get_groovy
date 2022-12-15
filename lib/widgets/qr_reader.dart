@@ -1,9 +1,16 @@
  /*
  *Name: Dalton, Matthew
  *Date: 12/14/2022
- *Description: In qr_reader.dart,..
- *Bugs: N/A
- *Reflection: N/A
+ *Description: In qrReader we create a widget that utilizes the camera of the device. 
+     using the camera we can read qr codes. We get the info from the qr("userid") and send the user to the matching profile page
+ *Bugs: If someone wants to use this for scanning some other way and scan a random qr code not from the app,
+   its likely to still send to a blank profile or crash. But at that point they weren't trying to use the app for its
+   intended purpose anyways.
+ *Reflection: 
+    Time was spent on this trying to make sure that the qr wasn't scanning multiple times.
+    or that it wasnt scanning in the background. There were times it wouldn't open at all.
+    This is a great feature to add to mainline the process of finding friends who are near you, or
+    even some you just met that might also have the app. 
 */
 
 import 'dart:io';
@@ -27,6 +34,8 @@ class _QRViewExampleState extends State<QRViewExample> {
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
+  // Makes sure we know which device we are running on 
+
   @override
   void reassemble() {
     super.reassemble();
@@ -60,10 +69,12 @@ class _QRViewExampleState extends State<QRViewExample> {
     setState(() {
       this.controller = controller;
     });
+    //always watching to see if we scan a qe
     controller.scannedDataStream.listen((scanData) {
       setState(() async {
         result = scanData;
         String userid = result!.code ?? '';
+        //make sure the scan acually gives a value and the thing scanned is a qr
         if(userid != '' && validQr == false){
           validQr = true;
           Future clickBack = Navigator.of(context).push<bool>(MaterialPageRoute(builder: (BuildContext context) => Scaffold(appBar: AppBar(),body: ProfilePage(userID: userid))));
@@ -74,6 +85,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     });
   }
 
+  //pretty self explanatory
   @override
   void dispose() {
     controller?.dispose();

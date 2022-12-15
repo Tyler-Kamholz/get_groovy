@@ -1,7 +1,7 @@
 /*
  *Name: Kaia, Matthew
- *Date: 12/14/2022
- *Description: In authentication.dart,..
+ *Date: December 14, 2022
+ *Description: Provides tools for authentication
  *Bugs: N/A
  *Reflection: Kaia create 1st attempt Futures signIn and register. 
               Matthew helped make it more precise and correctly 

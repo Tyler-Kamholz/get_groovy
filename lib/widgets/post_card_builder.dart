@@ -1,7 +1,7 @@
 /*
  *Name: Matthew, Tyler
- *Date: 12/14/2022
- *Description: In post_card.dart,..
+ *Date: December 14, 2022
+ *Description: Widget for building posts seen in the main menu and elsewhere.
  *Bugs: N/A
  *Reflection: N/A
 */

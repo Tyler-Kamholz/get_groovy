@@ -1,7 +1,8 @@
 /*
  *Name: Matthew
- *Date: 12/14/2022
- *Description: In reaction.dart,..
+ *Date: December 14, 2022
+ *Description: A widget that shows an emoji, and has an ontap
+  As well as automatically highlighting. 
  *Bugs: N/A
  *Reflection: N/A
 */

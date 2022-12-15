@@ -1,7 +1,7 @@
 /*
  *Name: Tyler, Matthew
- *Date: 12/14/2022
- *Description: In notification.dart,..
+ *Date: December 14, 2022
+ *Description: Has a function that builds a notification
  *Bugs: N/A
  *Reflection: N/A
 */

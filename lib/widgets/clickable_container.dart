@@ -1,7 +1,7 @@
 /*
  *Name:
- *Date: 12/14/2022
- *Description: In clickable.dart,...
+ *Date: December 14, 2022
+ *Description: Creates a container that has an ontap and child widget.
  *Bugs: N/A
  *Reflection: N/A
 */

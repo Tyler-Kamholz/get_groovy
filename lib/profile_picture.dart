@@ -1,11 +1,6 @@
-/// Name: Kaia, matthew
-/// Date: January 13, 2022
-/// Bugs: N/A
-/// Reflection: N/A
-
 /*
  *Name: Kaia, Matthew
- *Date: 12/14/2022
+ *Date: December 14, 2022
  *Description: In profile.dart, it provides the
                user an option between the camera
                gallery or camera to choose a user 

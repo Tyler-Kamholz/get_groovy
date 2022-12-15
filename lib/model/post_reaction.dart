@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 /*
  *Name: Matthew
- *Date: 12/14/2022
+ *Date: December 14, 2022
  *Description: In post_reaction.dart, it handles the emoji
                badge reactions associated with each post.  
-
  *Bugs: N/A
  *Reflection: The emoji provides an outlet for interctions between users.
 */

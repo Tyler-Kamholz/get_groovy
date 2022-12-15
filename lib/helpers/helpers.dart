@@ -1,6 +1,7 @@
 /// Name: Matthew
-/// Date: January 13, 2022
+/// Date: December 14, 2022
 /// Bugs: N/A
+/// Description: Simple class to provide random colors
 /// Reflection: Simple random color helper function
 
 import 'dart:math';

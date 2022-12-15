@@ -1,7 +1,8 @@
 /// Name: Matthew, Tyler
-/// Date: January 13, 2022
+/// Date: December 14, 2022
 /// Bugs: N/A
-/// Reflection: A set of tools to abstract spotify integration
+/// Description: A set of tools to abstract spotify integration
+/// Reflection: N/A
 
 import 'dart:convert';
 import 'dart:core';

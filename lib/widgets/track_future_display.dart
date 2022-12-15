@@ -1,7 +1,7 @@
 /*
  *Name: Matthew
- *Date: 12/14/2022
- *Description: In track_future_display.dart,..
+ *Date: December 14, 2022
+ *Description: Given a track, displays an album cover.
  *Bugs: N/A
  *Reflection: N/A
 */

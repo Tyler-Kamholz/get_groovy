@@ -1,6 +1,6 @@
 /*
  *Name: Kaia, Matthew, Tyler
- *Date: 12/14/2022
+ *Date: December 14, 2022
  *Description: In login_page.dart, the Login UI is built 
                which uses the Firebase Authentication
                to sign in each user. 
@@ -174,6 +174,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ),
+        Positioned(
+          left: 20,
+          bottom: 20,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_outlined),
+            onPressed: () { Navigator.of(context).pop(); },
+          )),
       ]),
     );
   }

@@ -1,7 +1,8 @@
 /// Name: Matthew
-/// Date: January 13, 2022
+/// Date: December 14, 2022
 /// Bugs: N/A
-/// Reflection: Basic model for users
+/// Description: Basic model for users
+/// Reflection: N/A
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 

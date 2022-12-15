@@ -1,6 +1,7 @@
 /// Name: Tyler
-/// Date: January 13, 2022
+/// December 14, 2022
 /// Bugs: N/A
+/// Description: The welcome page, links to login and register
 /// Reflection: N/A
 
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 /*
  *Name: Matthew, Tyler
- *Date: 12/14/2022
- *Description: In user_list_tile.dart,..
+ *Date: December 14, 2022
+ *Description: Shows a user, good for lists
  *Bugs: N/A
  *Reflection: N/A
 */

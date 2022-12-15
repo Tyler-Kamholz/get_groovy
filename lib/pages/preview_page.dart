@@ -1,7 +1,10 @@
 /// Name: Matthew, Tyler, Dalton
-/// Date: January 13, 2022
+/// Date: December 14, 2022
+/// Description: This is a page that allows users to confirm that this is the track that they want to post. It 
+/// includes a button they must click in order to confirm, and also shows the track they are going to post.
 /// Bugs: N/A
-/// Reflection: N/A
+/// Reflection: This is great for if the user does not know they have clicked the wrong track to the postPage. This
+/// way the user knows exactly what they're posting.
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,9 @@ class _PreviewPageState extends State<PreviewPage> {
   Future<void>? _postFuture;
 
   double imageSize = 250;
+
+  //matching the theme of the application this method creates the track and post button in order to confirm 
+  //that this is what the user wants to post
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +99,7 @@ class _PreviewPageState extends State<PreviewPage> {
     );
   }
 
+  //This method uses the database helpers in order to put the post into the database so others can access it
   //confirm the post
   void _post() {
     // Grab ID data

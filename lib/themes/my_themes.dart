@@ -1,7 +1,8 @@
 /// Name: Tyler, Matthew
-/// Date: January 13, 2022
+/// Date: December 14, 2022
 /// Bugs: N/A
-/// Reflection: Just a bunch of constants to theme the app
+/// Description: Just a bunch of constants to theme the app
+/// Reflection: N/A
 
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
